@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+   
+    commands:
+        # install npm
+        - npm install
+  
+  pre_build:
+    commands:
+      # run test script
+      - echo 'Tests were started'
+      - npm run test
+      - echo 'Tests were finished'
+
+  build:
+    commands:
+        # run build script
+        - echo 'Build was started'
+        - npm run build
+        - echo 'Build was finished'     
+artifacts:
+  # include all files required to run application
+  # notably excluded is node_modules, as this will cause overwrite error on deploy
+  files:
+    - public/**/*
+    - src/**/*
+    - package.json
