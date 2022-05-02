@@ -2,9 +2,9 @@
   "name": "project-managment-app",
   "version": "0.1.0",
   "private": true,
-    "engines" : { 
-    "npm" : ">=7.0.0",
-    "node" : ">=16.0.0"
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=16.0.0"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.0",
@@ -63,6 +63,7 @@
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "mock-local-storage": "^1.1.20",
+    "netlify-cli": "^10.1.0",
     "prettier": "^2.6.2",
     "react-dnd": "^16.0.1",
     "react-i18next": "^11.16.7",
