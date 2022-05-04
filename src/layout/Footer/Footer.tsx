@@ -76,7 +76,7 @@ function Footer() {
           </div>
           <div className="flex justify-center md:center">
             <div>
-              <a href="https://rs.school" className="text-gray-600">
+              <a href="https://rs.school/react" className="text-gray-600">
                 <svg
                   width="128"
                   height="47"
