@@ -34,6 +34,7 @@ const LocalizationToggle = (): JSX.Element => {
     languages.find(
       (item: LanguageDropdownItem) => item.language !== event.currentTarget.textContent
     )!.current = false;
+    setIsOpen(() => !isOpen);
   };
 
   return (
