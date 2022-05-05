@@ -1,15 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.scss';
-import Footer from './layout/Footer/Footer';
-import Header from './layout/Header/Header';
+import { Route, Routes } from 'react-router';
+import Layout from './layout/Layout/Layout';
 
-function App() {
+import './App.scss';
+
+const App = (): JSX.Element => {
   return (
-    <div className="App">
-      <Header />
-      <Footer />
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+      </Route>
+    </Routes>
   );
 }
 
