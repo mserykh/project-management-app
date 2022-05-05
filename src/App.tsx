@@ -1,28 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.scss';
-import Footer from './layout/Footer/Footer';
+import { Route, Routes } from 'react-router';
+import Layout from './layout/Layout/Layout';
 
-function App() {
+import './App.scss';
+
+const App = (): JSX.Element => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Successfully Deployed <code>A React application</code> to Netlify with CircleCI
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      <Footer />
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}></Route>
+    </Routes>
   );
-}
+};
 
 export default App;
