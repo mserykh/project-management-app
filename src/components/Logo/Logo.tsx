@@ -8,7 +8,7 @@ const Logo = ({ isScrolling }: LogoProps): JSX.Element => {
   return (
     <div>
       <img src={logo} alt="Application logo" />
-      {!isScrolling && <span>ALLDONE</span>}
+      {!isScrolling && <span className="transition-all">ALLDONE</span>}
     </div>
   );
 };

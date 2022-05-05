@@ -1,22 +1,13 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useScroll } from '../../hooks/useScroll';
 import Button from '../../components/Button/Button';
 import LanguageToggle from '../../components/LanguageToggle/LanguageToggle';
 import Logo from '../../components/Logo/Logo';
 import UserAvatar from '../../components/UserAvatar/UserAvatar';
 
 const Header = (): JSX.Element => {
-  const [isScrolling, setIsScrolling] = useState<boolean>(false);
-
-  const collapseHeader = (): void => {
-    if (window.scrollY > 25) {
-      setIsScrolling(true);
-    } else {
-      setIsScrolling(false);
-    }
-  };
-
-  window.addEventListener('scroll', collapseHeader);
+  const isScrolling = useScroll();
 
   const isAuthorised = true; //state.user.isAutorised
   const AuthorisedButtons = (): JSX.Element => {
@@ -61,7 +52,11 @@ const Header = (): JSX.Element => {
   };
 
   return (
-    <header className="sticky top-0 text-left bg-white text-gray-600 z-999">
+    <header
+      className={`sticky top-0 text-left bg-white text-gray-600 z-999 transition-all${
+        isScrolling ? ' shadow' : 'shadow-none'
+      }`}
+    >
       <div className="flex justify-between container mx-auto py-10">
         <NavLink to="/">
           <Logo isScrolling={isScrolling} />
