@@ -42,9 +42,10 @@ const LocalizationToggle = (): JSX.Element => {
         <button className="cursor-pointer">{currentLanguageState}</button>
         <ChevronDownIcon
           onClick={handleClickBtn}
+          data-testid="toggle" 
           className="-mr-1 ml-2 h-5 w-5 cursor-pointer"
           aria-hidden="true"
-        />
+          />
       </div>
       {isOpen && (
         <div className="dropdownContent">
