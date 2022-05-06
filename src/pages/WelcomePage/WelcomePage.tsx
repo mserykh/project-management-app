@@ -7,9 +7,9 @@ function WelcomePage(): JSX.Element {
     return <Navigate to="main" replace />;
   }
   return (
-    <div>
-      <h3>WelcomePage</h3>
-    </div>
+    <main className="bg-cyan-200 h-screen">
+      <h1>Welcome Page</h1>
+    </main>
   );
 }
 
