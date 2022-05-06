@@ -18,6 +18,10 @@ export const globalStateSlice = createSlice({
     updateToken(state: globalStateInterface, action: PayloadAction<string>) {
       state.token = action.payload;
     },
+    logout(state: globalStateInterface) {
+      state.userId = '';
+      state.token = '';
+    },
     updateLanguage(state: globalStateInterface, action: PayloadAction<string>) {
       state.language = action.payload;
       i18n.changeLanguage(action.payload);
