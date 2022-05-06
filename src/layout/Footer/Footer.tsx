@@ -1,4 +1,4 @@
-function Footer() {
+function Footer(): JSX.Element {
   return (
     <footer className="text-center lg:text-left bg-gray-100 text-gray-600">
       <div className="mx-6 py-10 text-center md:text-left">

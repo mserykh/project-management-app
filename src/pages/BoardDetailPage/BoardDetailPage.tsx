@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-function BoardDetailPage() {
+function BoardDetailPage(): JSX.Element {
   const urlParams = useParams();
   const id = urlParams.id;
   return (

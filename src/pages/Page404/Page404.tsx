@@ -1,4 +1,4 @@
-function Page404() {
+function Page404(): JSX.Element {
   return (
     <div>
       <h3>404 Page</h3>

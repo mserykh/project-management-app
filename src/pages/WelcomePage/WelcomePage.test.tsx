@@ -5,7 +5,7 @@ import WelcomePage from './WelcomePage';
 import { Provider } from 'react-redux';
 import { setupStore } from '../../redux/store';
 
-test('About Page rendering', () => {
+test('Welcome Page rendering', () => {
   const store = setupStore();
   const { getByText } = render(
     <Provider store={store}>

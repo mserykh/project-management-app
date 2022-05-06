@@ -1,4 +1,4 @@
-function MainPage() {
+function MainPage(): JSX.Element {
   return (
     <div className="App">
       <p>
