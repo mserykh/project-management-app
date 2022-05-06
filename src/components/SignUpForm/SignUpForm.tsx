@@ -2,11 +2,11 @@ import React from 'react';
 import FormElement from '../FormElements/FormElement';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
-interface LoginFormProps {
+interface SignUpFormProps {
   labelColor: string;
 }
 
-const LoginForm = ({ labelColor }: LoginFormProps) => {
+const SignUpForm = ({ labelColor }: SignUpFormProps) => {
   const {
     register,
     formState: { errors, isDirty },
@@ -26,6 +26,21 @@ const LoginForm = ({ labelColor }: LoginFormProps) => {
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)}>
       <FormElement
+        type="email"
+        label="Email"
+        labelColor={labelColor}
+        placeholder="mail@simmmple.com"
+        hasError={errors?.email}
+        inputData={register('email', {
+          required: 'Enter your e-mail',
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+            message: 'Enter a valid e-mail address',
+          },
+        })}
+        errorText={'Enter a valid e-mail address'}
+      />
+      <FormElement
         type="text"
         label="Username"
         labelColor={labelColor}
@@ -38,7 +53,7 @@ const LoginForm = ({ labelColor }: LoginFormProps) => {
         })}
       />
       <FormElement
-        type="text"
+        type="password"
         label="Password"
         labelColor={labelColor}
         placeholder="Min. 8 characters"
@@ -50,7 +65,7 @@ const LoginForm = ({ labelColor }: LoginFormProps) => {
         })}
       />
       <button
-        className="px-[172px] py-[12px] bg-[#832BC1] text-white text-xl rounded-3xl rounded-tr-none font-semibold mb-[24px]"
+        className="px-[172px] py-[12px] bg-[#096CFE] text-white text-xl rounded-3xl rounded-tr-none font-semibold mb-[24px]"
         type="submit"
         disabled={isSubmitDisabled}
       >
@@ -60,4 +75,4 @@ const LoginForm = ({ labelColor }: LoginFormProps) => {
   );
 };
 
-export default LoginForm;
+export default SignUpForm;

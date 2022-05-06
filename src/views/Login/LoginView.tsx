@@ -13,7 +13,7 @@ const LoginView = () => {
               Enter your username and password to sign in!
             </span>
           </div>
-          <LoginForm />
+          <LoginForm labelColor="#832BC1" />
           <span className="block text-left text-large">
             Not registered yet?
             <a href="" className="text-[#832BC1] font-semibold">

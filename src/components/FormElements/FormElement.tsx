@@ -5,6 +5,7 @@ import ErrorMessageLabel from './ErrorMessageLabel';
 interface FormElementProps {
   type: string;
   label: string;
+  labelColor: string;
   placeholder: string;
   errorText: string;
   hasError: boolean;
@@ -14,14 +15,17 @@ interface FormElementProps {
 const FormElement = ({
   type,
   label,
+  labelColor,
   placeholder,
   hasError,
   inputData,
   errorText,
 }: FormElementProps) => {
   return (
-    <div className="w-full m-0 float-left  mb-[20px]">
-      <label className="inline-block text-base text-[#832BC1] float-left mb-[12px] font-semibold">
+    <div className="w-full m-0 float-left  mb-[25px]">
+      <label
+        className={`inline-block text-base text-[${labelColor}] float-left mb-[12px] font-semibold`}
+      >
         {label}
       </label>
       <input
