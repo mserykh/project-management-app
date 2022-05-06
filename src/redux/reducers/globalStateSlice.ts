@@ -11,13 +11,13 @@ export const globalStateSlice = createSlice({
   name: 'globalState',
   initialState,
   reducers: {
-    updateUserId(state, action: PayloadAction<string>) {
+    updateUserId(state: globalStateInterface, action: PayloadAction<string>) {
       state.userId = action.payload;
     },
-    updateToken(state, action: PayloadAction<string>) {
+    updateToken(state: globalStateInterface, action: PayloadAction<string>) {
       state.token = action.payload;
     },
-    updateLanguage(state, action: PayloadAction<string>) {
+    updateLanguage(state: globalStateInterface, action: PayloadAction<string>) {
       state.language = action.payload;
     },
   },
