@@ -1,10 +1,10 @@
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useScroll } from '../../hooks/useScroll';
 import Button from '../../components/Button/Button';
 import LanguageToggle from '../../components/LanguageToggle/LanguageToggle';
 import Logo from '../../components/Logo/Logo';
 import UserAvatar from '../../components/UserAvatar/UserAvatar';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import globalStateSlice from '../../redux/reducers/globalStateSlice';
@@ -22,7 +22,6 @@ const Header = (): JSX.Element => {
   useEffect(() => {
     localStorage.setItem('userId', userId);
     localStorage.setItem('token', token);
-    navigate('/');
   }, [userId, token]);
 
   const AuthorisedButtons = (): JSX.Element => {
@@ -43,6 +42,7 @@ const Header = (): JSX.Element => {
           <Button
             onClick={() => {
               dispatch(logout());
+              navigate('/');
             }}
             type="button"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
