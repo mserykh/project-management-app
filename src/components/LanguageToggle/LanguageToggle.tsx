@@ -3,10 +3,11 @@ import { ChevronDownIcon } from '@heroicons/react/solid';
 import { useAppSelector } from '../../redux/hooks';
 import { useDispatch } from 'react-redux';
 import globalStateSlice from '../../redux/reducers/globalStateSlice';
+import i18n from '../../n18i';
 
 enum LanguageDropdownItem {
-  EN = 'EN',
-  RU = 'RU',
+  EN = 'en',
+  RU = 'ru',
 }
 
 const languages = [LanguageDropdownItem.EN, LanguageDropdownItem.RU];
@@ -16,7 +17,6 @@ const LanguageToggle = (): JSX.Element => {
   const dispatch = useDispatch();
   const { updateLanguage } = globalStateSlice.actions;
 
-  const dropdownItemLanguage = languages.find((item: LanguageDropdownItem) => item !== language);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const LanguageToggle = (): JSX.Element => {
 
   const handleClickDropdown = (event: React.MouseEvent): void => {
     if (event.currentTarget.textContent) {
-      dispatch(updateLanguage(event.currentTarget.textContent));
+      dispatch(updateLanguage(event.currentTarget.textContent.toLowerCase()));
     }
     setIsOpen(() => !isOpen);
   };
@@ -39,7 +39,7 @@ const LanguageToggle = (): JSX.Element => {
     .map((item: LanguageDropdownItem) => (
       <li key={item}>
         <button className="dropdownItem cursor-pointer" onClick={handleClickDropdown}>
-          {item}
+          {item.toUpperCase()}
         </button>
       </li>
     ));
@@ -48,7 +48,7 @@ const LanguageToggle = (): JSX.Element => {
     <div className="dropdown">
       <div className="dropdownBtn flex items-center">
         <button onClick={handleClickBtn} className="cursor-pointer">
-          {language}
+          {language.toUpperCase()}
         </button>
         <ChevronDownIcon
           onClick={handleClickBtn}

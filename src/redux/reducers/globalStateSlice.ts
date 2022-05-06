@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import i18n from '../../n18i';
 import { globalStateInterface } from './types';
 
 const initialState: globalStateInterface = {
@@ -19,6 +20,7 @@ export const globalStateSlice = createSlice({
     },
     updateLanguage(state: globalStateInterface, action: PayloadAction<string>) {
       state.language = action.payload;
+      i18n.changeLanguage(action.payload);
     },
   },
 });

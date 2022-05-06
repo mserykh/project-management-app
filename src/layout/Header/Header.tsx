@@ -5,12 +5,14 @@ import LanguageToggle from '../../components/LanguageToggle/LanguageToggle';
 import Logo from '../../components/Logo/Logo';
 import UserAvatar from '../../components/UserAvatar/UserAvatar';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const userState = {
   isAuthorised: true,
 }; //state.user.isAutorised
 
 const Header = (): JSX.Element => {
+  const { t } = useTranslation();
   const isScrolling = useScroll();
 
   const [isAuthorised, setIsAuthorised] = useState<boolean>(userState.isAuthorised);
@@ -27,7 +29,7 @@ const Header = (): JSX.Element => {
             type="button"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           >
-            Add Board
+            {t('add_board_btn')}
           </Button>
           <UserAvatar />
           <Button
@@ -39,7 +41,7 @@ const Header = (): JSX.Element => {
             type="button"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           >
-            Log Out
+            {t('log_out_btn')}
           </Button>
           <Button
             onClick={() => {
@@ -49,7 +51,7 @@ const Header = (): JSX.Element => {
             type="button"
             className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full"
           >
-            Edit profile
+            {t('edit_profile_btn')}
           </Button>
         </>
       );
