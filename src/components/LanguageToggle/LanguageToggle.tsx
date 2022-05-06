@@ -3,7 +3,6 @@ import { ChevronDownIcon } from '@heroicons/react/solid';
 import { useAppSelector } from '../../redux/hooks';
 import { useDispatch } from 'react-redux';
 import globalStateSlice from '../../redux/reducers/globalStateSlice';
-import i18n from '../../n18i';
 
 enum LanguageDropdownItem {
   EN = 'en',
