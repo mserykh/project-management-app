@@ -8,7 +8,7 @@ function WelcomePage(): JSX.Element {
   }
   return (
     <main className="bg-cyan-200 h-screen">
-      <h1>WelcomePage</h1>
+      <h1>Welcome Page</h1>
     </main>
   );
 }
