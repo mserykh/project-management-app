@@ -1,24 +1,31 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useScroll } from '../../hooks/useScroll';
 import Button from '../../components/Button/Button';
 import LanguageToggle from '../../components/LanguageToggle/LanguageToggle';
 import Logo from '../../components/Logo/Logo';
 import UserAvatar from '../../components/UserAvatar/UserAvatar';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-
-export const userState = {
-  isAuthorised: true,
-}; //state.user.isAutorised
+import { useDispatch } from 'react-redux';
+import globalStateSlice from '../../redux/reducers/globalStateSlice';
+import { useAppSelector } from '../../redux/hooks';
 
 const Header = (): JSX.Element => {
   const { t } = useTranslation();
   const isScrolling = useScroll();
 
-  const [isAuthorised, setIsAuthorised] = useState<boolean>(userState.isAuthorised);
+  const { userId, token } = useAppSelector((state) => state.stateReducer);
+  const dispatch = useDispatch();
+  const { logout } = globalStateSlice.actions;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('token', token);
+  }, [userId, token]);
 
   const AuthorisedButtons = (): JSX.Element => {
-    if (isAuthorised) {
+    if (userId && token) {
       return (
         <>
           <Button
@@ -34,9 +41,8 @@ const Header = (): JSX.Element => {
           <UserAvatar />
           <Button
             onClick={() => {
-              // dispatch({type: LOGOUT});
-              userState.isAuthorised = false;
-              setIsAuthorised(userState.isAuthorised);
+              dispatch(logout());
+              navigate('/');
             }}
             type="button"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
