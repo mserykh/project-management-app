@@ -5,12 +5,18 @@ type ButtonProps = {
   type: 'button' | 'submit' | 'reset';
   onClick?: () => void;
   className: string;
-  disabled?: boolean;
+  isDisabled?: boolean;
 };
 
-const Button = ({ children, type, onClick, className: className }: ButtonProps): JSX.Element => {
+const Button = ({
+  children,
+  type,
+  onClick,
+  className: className,
+  isDisabled,
+}: ButtonProps): JSX.Element => {
   return (
-    <button className={`btn ${className}`} onClick={onClick} type={type}>
+    <button className={`btn ${className}`} onClick={onClick} type={type} disabled={isDisabled}>
       {children}
     </button>
   );
