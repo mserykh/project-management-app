@@ -3,8 +3,9 @@ import { ReactNode } from 'react';
 type ButtonProps = {
   children: ReactNode;
   type: 'button' | 'submit' | 'reset';
-  onClick: () => void;
+  onClick?: () => void;
   className: string;
+  disabled?: boolean;
 };
 
 const Button = ({ children, type, onClick, className: className }: ButtonProps): JSX.Element => {
