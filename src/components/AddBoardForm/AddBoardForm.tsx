@@ -37,7 +37,7 @@ const AddBoardForm = ({ onClose }: AddBoardFormProps) => {
         label="Add board title"
         labelColor={'black'}
         placeholder="Please enter the board title"
-        errorText={'The title should contain at lease 1 character'}
+        errorText={'The title should contain at least 1 character'}
         hasError={!!errors?.boardTitle}
         inputData={register('boardTitle', {
           required: true,
