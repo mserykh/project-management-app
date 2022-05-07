@@ -1,9 +1,9 @@
 import axios from 'axios';
 import BASE_URL from './constants';
 
-const createBoard = async (title: string) => {
+const createBoard = async (title: string): Promise<void> => {
   try {
-    const response = await axios.post(
+    await axios.post(
       `${BASE_URL}/boards`,
       {
         title,
