@@ -5,15 +5,21 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import './n18i';
+import { Provider } from 'react-redux';
+import { setupStore } from './redux/store';
+
+const store = setupStore();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <Suspense fallback="Loading...">
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Suspense>
+    <Provider store={store}>
+      <Suspense fallback="Loading...">
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Suspense>
+    </Provider>
   </React.StrictMode>
 );
 

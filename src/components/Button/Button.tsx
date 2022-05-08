@@ -3,13 +3,20 @@ import { ReactNode } from 'react';
 type ButtonProps = {
   children: ReactNode;
   type: 'button' | 'submit' | 'reset';
-  onClick: () => void;
+  onClick?: () => void;
   className: string;
+  isDisabled?: boolean;
 };
 
-const Button = ({ children, type, onClick, className: className }: ButtonProps): JSX.Element => {
+const Button = ({
+  children,
+  type,
+  onClick,
+  className: className,
+  isDisabled,
+}: ButtonProps): JSX.Element => {
   return (
-    <button className={`btn ${className}`} onClick={onClick} type={type}>
+    <button className={`btn ${className}`} onClick={onClick} type={type} disabled={isDisabled}>
       {children}
     </button>
   );

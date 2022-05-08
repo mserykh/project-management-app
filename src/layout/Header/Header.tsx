@@ -4,11 +4,13 @@ import Button from '../../components/Button/Button';
 import LanguageToggle from '../../components/LanguageToggle/LanguageToggle';
 import Logo from '../../components/Logo/Logo';
 import UserAvatar from '../../components/UserAvatar/UserAvatar';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import globalStateSlice from '../../redux/reducers/globalStateSlice';
 import { useAppSelector } from '../../redux/hooks';
+import Modal from '../../components/Modal/Modal';
+import AddBoardForm from '../../components/AddBoardForm/AddBoardForm';
 
 const Header = (): JSX.Element => {
   const { t } = useTranslation();
@@ -24,20 +26,26 @@ const Header = (): JSX.Element => {
     localStorage.setItem('token', token);
   }, [userId, token]);
 
+  const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
+
+  const handleOnClose = (): void => {
+    setIsModalOpened(false);
+  };
+
   const AuthorisedButtons = (): JSX.Element => {
     if (userId && token) {
       return (
         <>
           <Button
-            onClick={() => {
-              console.log('clicked add board');
-              // dispatch({type: BOARD.ADD});
-            }}
+            onClick={() => setIsModalOpened(true)}
             type="button"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           >
             {t('add_board_btn')}
           </Button>
+          <Modal isOpened={isModalOpened} onClose={handleOnClose}>
+            <AddBoardForm onClose={handleOnClose} />
+          </Modal>
           <UserAvatar />
           <Button
             onClick={() => {
