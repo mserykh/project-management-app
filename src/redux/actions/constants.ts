@@ -1,3 +1,3 @@
-const BASE_URL: string = `http://localhost:4000`;
+const BASE_URL = `https://pacific-badlands-18958.herokuapp.com/`;
 
 export default BASE_URL;
