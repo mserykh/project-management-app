@@ -7,6 +7,7 @@ import BoardsPage from './pages/BoardsPage/BoardsPage';
 import BoardDetailPage from './pages/BoardDetailPage/BoardDetailPage';
 import Page404 from './pages/Page404/Page404';
 import WelcomePage from './pages/WelcomePage/WelcomePage';
+import ProfileEditPage from './pages/ProfileEditPage/ProfileEditPage';
 
 const App = (): JSX.Element => {
   return (
@@ -21,6 +22,7 @@ const App = (): JSX.Element => {
           <Route path="main" element={<MainPage />} />
           <Route path="boards" element={<BoardsPage />} />
           <Route path="board/:id" element={<BoardDetailPage />} />
+          <Route path="profile-edit" element={<ProfileEditPage />} />
         </Route>
         <Route path="*" element={<Page404 />} />
       </Route>
