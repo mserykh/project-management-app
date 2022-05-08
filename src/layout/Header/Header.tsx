@@ -59,8 +59,7 @@ const Header = (): JSX.Element => {
           </Button>
           <Button
             onClick={() => {
-              console.log('clicked edit');
-              // dispatch({type: PROFILE.EDIT});
+              navigate('/profile-edit');
             }}
             type="button"
             className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full"
