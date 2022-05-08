@@ -1,22 +1,7 @@
-import axios from 'axios';
+import { postHttp } from '../../api/api';
 import BASE_URL from './constants';
 
-const createBoard = async (title: string): Promise<void> => {
-  try {
-    await axios.post(
-      `${BASE_URL}/boards`,
-      {
-        title,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    );
-  } catch (e) {
-    console.log(e);
-  }
-};
+const createBoard = async (title: string): Promise<void> =>
+  await postHttp(`${BASE_URL}/boards`, { title });
 
 export default createBoard;
