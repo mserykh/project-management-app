@@ -15,9 +15,11 @@ import LoginView from './pages/Login/LoginView';
 
 const App = (): JSX.Element => {
   const dispatch = useAppDispatch();
+
   useEffect(() => {
-    dispatch(auth);
-  });
+    dispatch(auth());
+  }, [dispatch]);
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
