@@ -10,8 +10,8 @@ import Page404 from './pages/Page404/Page404';
 import WelcomePage from './pages/WelcomePage/WelcomePage';
 import SignUpPage from './pages/SignUp/SignUpPage';
 import LoginPage from './pages/Login/LoginPage';
-import { auth } from './redux/user/actions';
 import { useAppDispatch } from './redux/hooks';
+import { auth } from './redux/user/actions';
 
 const App = (): JSX.Element => {
   const dispatch = useAppDispatch();

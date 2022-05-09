@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FormElement from '../FormElements/FormElement';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { registerUser } from '../../redux/user/actions';
+import ErrorMessageLabel from '../FormElements/ErrorMessageLabel';
 
 interface SignUpFormProps {
   labelColor: string;
@@ -18,11 +19,18 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
     reValidateMode: 'onBlur',
   });
   const isSubmitDisabled = !isDirty || Object.keys(errors).length > 0;
+  const [hasError, setError] = useState(false);
 
-  const formSubmitHandler: SubmitHandler<FieldValues> = (values) => {
+  const formSubmitHandler: SubmitHandler<FieldValues> = async (values) => {
     const userData = { name: values.name, login: values.username, password: values.password };
-    registerUser(userData);
-    reset();
+    const res = await registerUser(userData);
+    console.log(res);
+    if (res.status === 201) {
+      reset();
+      setError(false);
+    } else {
+      setError(true);
+    }
   };
 
   return (
@@ -63,6 +71,7 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
           minLength: 8,
         })}
       />
+      {hasError && <ErrorMessageLabel>The user already exist</ErrorMessageLabel>}
       <button
         className="px-[172px] py-[12px] bg-[#096CFE] text-white text-xl rounded-3xl rounded-tr-none font-semibold mb-[24px]"
         type="submit"
