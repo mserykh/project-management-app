@@ -1,6 +1,9 @@
 import React from 'react';
 import FormElement from '../FormElements/FormElement';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useAppDispatch } from '../../redux/hooks';
+import { signIn } from '../../redux/user/actions';
+import { useNavigate } from 'react-router';
 
 interface LoginFormProps {
   labelColor: string;
@@ -16,10 +19,15 @@ const LoginForm = ({ labelColor }: LoginFormProps) => {
     mode: 'onSubmit',
     reValidateMode: 'onBlur',
   });
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const isSubmitDisabled = !isDirty || Object.keys(errors).length > 0;
 
-  const formSubmitHandler: SubmitHandler<FieldValues> = () => {
+  const formSubmitHandler: SubmitHandler<FieldValues> = (values) => {
+    const userData = { login: values.username, password: values.password };
+    dispatch(signIn(userData));
+    navigate('');
     reset();
   };
 
@@ -27,26 +35,24 @@ const LoginForm = ({ labelColor }: LoginFormProps) => {
     <form onSubmit={handleSubmit(formSubmitHandler)}>
       <FormElement
         type="text"
-        label="Username"
+        label="username"
         labelColor={labelColor}
         placeholder="John-Doe"
-        errorText={'The length of full name should be more than three characters!'}
+        errorText={'The length of full name should be more than five characters!'}
         hasError={errors?.username}
         inputData={register('username', {
           required: true,
-          minLength: 8,
         })}
       />
       <FormElement
-        type="text"
-        label="Password"
+        type="password"
+        label="password"
         labelColor={labelColor}
-        placeholder="Min. 8 characters"
-        errorText={'The length of full name should be more than three characters!'}
+        placeholder="Min. 5 characters"
+        errorText={'The length of password should be more than eight characters!'}
         hasError={errors?.password}
         inputData={register('password', {
           required: true,
-          minLength: 8,
         })}
       />
       <button

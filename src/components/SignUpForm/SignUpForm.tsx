@@ -1,6 +1,7 @@
 import React from 'react';
 import FormElement from '../FormElements/FormElement';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { registerUser } from '../../redux/user/actions';
 
 interface SignUpFormProps {
   labelColor: string;
@@ -16,40 +17,38 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
     mode: 'onSubmit',
     reValidateMode: 'onBlur',
   });
-
   const isSubmitDisabled = !isDirty || Object.keys(errors).length > 0;
 
-  const formSubmitHandler: SubmitHandler<FieldValues> = () => {
+  const formSubmitHandler: SubmitHandler<FieldValues> = (values) => {
+    const userData = { name: values.name, login: values.username, password: values.password };
+    registerUser(userData);
     reset();
   };
 
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)}>
       <FormElement
-        type="email"
-        label="Email"
+        type="text"
+        label="name"
         labelColor={labelColor}
-        placeholder="mail@simmmple.com"
+        placeholder="John doe"
         hasError={errors?.email}
-        inputData={register('email', {
-          required: 'Enter your e-mail',
-          pattern: {
-            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-            message: 'Enter a valid e-mail address',
-          },
+        inputData={register('name', {
+          required: 'Enter your name',
+          minLength: 5,
         })}
-        errorText={'Enter a valid e-mail address'}
+        errorText={'The number of characters must be more than five'}
       />
       <FormElement
         type="text"
         label="Username"
         labelColor={labelColor}
-        placeholder="John-Doe"
-        errorText={'The length of full name should be more than three characters!'}
+        placeholder="John-Doe_01"
+        errorText={'The length of username should be more than five characters!'}
         hasError={errors?.username}
         inputData={register('username', {
           required: true,
-          minLength: 8,
+          minLength: 5,
         })}
       />
       <FormElement
