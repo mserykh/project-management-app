@@ -2,7 +2,7 @@ import React from 'react';
 
 import SignUpForm from '../../components/SignUpForm/SignUpForm';
 
-const SignUpView = () => {
+const SignUpPage = () => {
   return (
     <div className="grid md:grid-cols-2 h-[70vh]">
       <div className="flex flex-col content-center justify-center">
@@ -25,4 +25,4 @@ const SignUpView = () => {
   );
 };
 
-export default SignUpView;
+export default SignUpPage;

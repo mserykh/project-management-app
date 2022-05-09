@@ -8,10 +8,10 @@ import BoardsPage from './pages/BoardsPage/BoardsPage';
 import BoardDetailPage from './pages/BoardDetailPage/BoardDetailPage';
 import Page404 from './pages/Page404/Page404';
 import WelcomePage from './pages/WelcomePage/WelcomePage';
-import SignUpView from './pages/SignUp/SignUpView';
+import SignUpPage from './pages/SignUp/SignUpPage';
+import LoginPage from './pages/Login/LoginPage';
 import { auth } from './redux/user/actions';
 import { useAppDispatch } from './redux/hooks';
-import LoginView from './pages/Login/LoginView';
 
 const App = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -32,8 +32,8 @@ const App = (): JSX.Element => {
           <Route path="main" element={<MainPage />} />
           <Route path="boards" element={<BoardsPage />} />
           <Route path="board/:id" element={<BoardDetailPage />} />
-          <Route path="signup" element={<SignUpView />} />
-          <Route path="login" element={<LoginView />} />
+          <Route path="signup" element={<SignUpPage />} />
+          <Route path="login" element={<LoginPage />} />
         </Route>
         <Route path="*" element={<Page404 />} />
       </Route>
