@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import FormElement from '../FormElements/FormElement';
+import { ToastContext } from '../../contexts/ToastContext';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { registerUser } from '../../redux/user/actions';
-import ErrorMessageLabel from '../FormElements/ErrorMessageLabel';
+import { useNavigate } from 'react-router';
 
 interface SignUpFormProps {
   labelColor: string;
@@ -11,25 +12,31 @@ interface SignUpFormProps {
 const SignUpForm = ({ labelColor }: SignUpFormProps) => {
   const {
     register,
-    formState: { errors, isDirty },
+    formState: { errors },
     handleSubmit,
     reset,
   } = useForm({
     mode: 'onSubmit',
     reValidateMode: 'onBlur',
   });
-  const isSubmitDisabled = !isDirty || Object.keys(errors).length > 0;
-  const [hasError, setError] = useState(false);
+  const { dispatch: toastDispatch } = useContext(ToastContext);
+  const navigate = useNavigate();
 
   const formSubmitHandler: SubmitHandler<FieldValues> = async (values) => {
     const userData = { name: values.name, login: values.username, password: values.password };
     const res = await registerUser(userData);
-    console.log(res);
     if (res.status === 201) {
+      toastDispatch({
+        type: 'SUCCESS',
+        payload: 'User has been successfully created',
+      });
       reset();
-      setError(false);
+      navigate('/login');
     } else {
-      setError(true);
+      toastDispatch({
+        type: 'ERROR',
+        payload: 'User already exist',
+      });
     }
   };
 
@@ -40,19 +47,19 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
         label="name"
         labelColor={labelColor}
         placeholder="John doe"
-        hasError={errors?.email}
+        hasError={errors?.name}
         inputData={register('name', {
           required: 'Enter your name',
           minLength: 5,
         })}
-        errorText={'The number of characters must be more than five'}
+        errorText={'The number of characters must be more than five!'}
       />
       <FormElement
         type="text"
         label="Username"
         labelColor={labelColor}
         placeholder="John-Doe_01"
-        errorText={'The length of username should be more than five characters!'}
+        errorText={'The number of characters must be more than five!'}
         hasError={errors?.username}
         inputData={register('username', {
           required: true,
@@ -64,18 +71,16 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
         label="Password"
         labelColor={labelColor}
         placeholder="Min. 8 characters"
-        errorText={'The length of full name should be more than three characters!'}
+        errorText={'The number of characters must be more than eight!'}
         hasError={errors?.password}
         inputData={register('password', {
           required: true,
           minLength: 8,
         })}
       />
-      {hasError && <ErrorMessageLabel>The user already exist</ErrorMessageLabel>}
       <button
         className="px-[172px] py-[12px] bg-[#096CFE] text-white text-xl rounded-3xl rounded-tr-none font-semibold mb-[24px]"
         type="submit"
-        disabled={isSubmitDisabled}
       >
         Sign In
       </button>
