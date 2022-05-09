@@ -24,41 +24,43 @@ function BoardCard(props: BoardCardProps): JSX.Element {
     }
   };
   return (
-    <NavLink to={`/board/${props.id}`} onClick={handleOnClick}>
-      <div className="w-[308px] h-[252px] bg-[#f4f2ff] rounded-[24px] my-6">
-        <h3 className="w-[260px] h-[80px] font-['Inter'] not-italic text-[32px] leading-[125%] my-6 mx-6">
-          {props.title}
-        </h3>
-        <div className="w-[44px] flex justify-between my-6">
-          <img
-            className="inline-block mx-6"
-            src={card_edit}
-            onClick={() => {
-              setIsUpdateModalOpened(true);
-            }}
-          ></img>
-          <Modal isOpened={isUpdateModalOpened} onClose={handleUpdateModalOnClose}>
-            <AddBoardForm onClose={handleUpdateModalOnClose} title={props.title} id={props.id} />
-          </Modal>
-          <img
-            className="inline-block mx-6 "
-            src={card_delete}
-            onClick={() => {
-              setIsDeleteModalOpened(true);
-            }}
-          ></img>
-          <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
-            <ConfirmDeleteModalWindow title={props.title} type="board" id={props.id} />
-          </Modal>
+    <>
+      <NavLink to={`/board/${props.id}`} onClick={handleOnClick}>
+        <div className="w-[308px] h-[252px] bg-[#f4f2ff] rounded-[24px] my-6">
+          <h3 className="w-[260px] h-[80px] font-['Inter'] not-italic text-[32px] leading-[125%] my-6 mx-6">
+            {props.title}
+          </h3>
+          <div className="w-[44px] flex justify-between my-6">
+            <img
+              className="inline-block mx-6"
+              src={card_edit}
+              onClick={() => {
+                setIsUpdateModalOpened(true);
+              }}
+            ></img>
+            <img
+              className="inline-block mx-6 "
+              src={card_delete}
+              onClick={() => {
+                setIsDeleteModalOpened(true);
+              }}
+            ></img>
+          </div>
+          <div className="uppercase text-[#aa9bff] text-[16px] leading-5 mx-6 my-6">{`${
+            props.columnsCount ? props.columnsCount : '0'
+          } columns`}</div>
+          <div className="uppercase text-[#aa9bff] text-[16px] leading-5 mx-6">{`${
+            props.tasksCount ? props.tasksCount : '0'
+          } tasks`}</div>
         </div>
-        <div className="uppercase text-[#aa9bff] text-[16px] leading-5 mx-6 my-6">{`${
-          props.columnsCount ? props.columnsCount : '0'
-        } columns`}</div>
-        <div className="uppercase text-[#aa9bff] text-[16px] leading-5 mx-6">{`${
-          props.tasksCount ? props.tasksCount : '0'
-        } tasks`}</div>
-      </div>
-    </NavLink>
+      </NavLink>
+      <Modal isOpened={isUpdateModalOpened} onClose={handleUpdateModalOnClose}>
+        <AddBoardForm onClose={handleUpdateModalOnClose} title={props.title} id={props.id} />
+      </Modal>
+      <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
+        <ConfirmDeleteModalWindow title={props.title} type="board" id={props.id} />
+      </Modal>
+    </>
   );
 }
 

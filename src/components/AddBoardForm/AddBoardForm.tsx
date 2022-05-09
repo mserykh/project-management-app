@@ -5,6 +5,7 @@ import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import boardsStateSlice from '../../redux/reducers/boards/boardsStateSlice';
+import { cloneDeep } from 'lodash';
 
 type AddBoardFormData = {
   boardTitle: string;
@@ -32,10 +33,11 @@ const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
 
   const formSubmitHandler = (data: AddBoardFormData): void => {
     if (title && id) {
-      updateBoard(title, id);
-      const boards: BoardInterface[] = boardsData.map((board) => {
+      updateBoard(data.boardTitle, id);
+      const newBoards = cloneDeep(boardsData);
+      const boards: BoardInterface[] = newBoards.map((board) => {
         if (board.id === id) {
-          board.title = title;
+          board['title'] = data.boardTitle;
         }
         return board;
       });
