@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import './App.scss';
 import { Routes, Route } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 import Layout from './layout/Layout/Layout';
 import MainPage from './pages/MainPage/MainPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
@@ -32,10 +33,10 @@ const App = (): JSX.Element => {
           <Route path="main" element={<MainPage />} />
           <Route path="boards" element={<BoardsPage />} />
           <Route path="board/:id" element={<BoardDetailPage />} />
-          <Route path="signup" element={<SignUpPage />} />
-          <Route path="login" element={<LoginPage />} />
         </Route>
         <Route path="*" element={<Page404 />} />
+        <Route path="signup" element={<SignUpPage />} />
+        <Route path="login" element={<LoginPage />} />
       </Route>
     </Routes>
   );

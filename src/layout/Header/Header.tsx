@@ -51,6 +51,8 @@ const Header = (): JSX.Element => {
           >
             Edit profile
           </Button>
+          <NavLink to={'/login'}>Login</NavLink>
+          <NavLink to={'/signup'}>Registration</NavLink>
         </>
       );
     }
