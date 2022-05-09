@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from '../store';
 const BASE_URL = 'https://pacific-badlands-18958.herokuapp.com';
 
 function checkIsTokenExpired(expDate: number) {
-  return Date.now() < expDate * 1000;
+  return Date.now() > expDate * 1000;
 }
 
 export async function registerUser(userData: RegisterUserState) {
@@ -34,25 +34,28 @@ export const signIn =
         },
       });
       const token = res.data.token;
+      console.log(token);
       const decoded = jwt_decode(token) as DecodedJWT;
       dispatch(setUserData(decoded, token));
       localStorage.setItem('token', token);
     } catch (err) {
-      console.log(err);
+      dispatch(logoutUser());
     }
   };
 
 export const auth = () => async (dispatch: AppDispatch, getState: () => RootState) => {
   const token = getState().globalStateReducer.token;
-  const decoded = jwt_decode(token) as DecodedJWT;
-  const isExpired = checkIsTokenExpired(decoded.exp);
-  if (isExpired) {
-    dispatch(setToken(''));
-    dispatch(setUser(null, false));
-  } else {
-    dispatch(setUserData(decoded, token));
+  try {
+    const decoded = jwt_decode(token) as DecodedJWT;
+    const isExpired = checkIsTokenExpired(decoded.exp);
+    if (isExpired) {
+      dispatch(logoutUser());
+    } else {
+      dispatch(setUserData(decoded, token));
+    }
+  } catch (err) {
+    dispatch(logoutUser());
   }
-  console.log('decoded');
 };
 
 export const setUserData = (decoded: DecodedJWT, token: string) => (dispatch: AppDispatch) => {
@@ -60,8 +63,14 @@ export const setUserData = (decoded: DecodedJWT, token: string) => (dispatch: Ap
     id: decoded.userId,
     login: decoded.login,
   };
-  dispatch(setUser(userData, true));
   dispatch(setToken(token));
+  dispatch(setUser(userData, true));
+};
+
+export const logoutUser = () => (dispatch: AppDispatch) => {
+  dispatch(setToken(''));
+  dispatch(setUser(null, false));
+  localStorage.setItem('token', '');
 };
 
 type DecodedJWT = {
