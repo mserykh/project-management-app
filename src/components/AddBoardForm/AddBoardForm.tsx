@@ -1,17 +1,25 @@
 import { useForm } from 'react-hook-form';
-import createBoard from '../../redux/actions/board';
+import { createBoard, updateBoard } from '../../redux/actions/board';
+import { BoardInterface } from '../../types';
 import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import boardsStateSlice from '../../redux/reducers/boards/boardsStateSlice';
 
 type AddBoardFormData = {
   boardTitle: string;
 };
 
 interface AddBoardFormProps {
+  title?: string;
+  id?: string;
   onClose: () => void;
 }
 
-const AddBoardForm = ({ onClose }: AddBoardFormProps) => {
+const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
+  const { boardsData } = useAppSelector((state) => state.boardsReducer);
+  const { updateBoardsData } = boardsStateSlice.actions;
+  const dispatch = useAppDispatch();
   const {
     register,
     reset,
@@ -23,18 +31,32 @@ const AddBoardForm = ({ onClose }: AddBoardFormProps) => {
   });
 
   const formSubmitHandler = (data: AddBoardFormData): void => {
+    if (title && id) {
+      updateBoard(title, id);
+      const boards: BoardInterface[] = boardsData.map((board) => {
+        if (board.id === id) {
+          board.title = title;
+        }
+        return board;
+      });
+      dispatch(updateBoardsData(boards));
+      reset();
+      onClose();
+      return;
+    }
     createBoard(data.boardTitle);
     reset();
     onClose();
   };
 
-  const isSubmitDisabled = !isDirty || Object.keys(errors).length > 0;
-
+  const isSubmitDisabled = (!isDirty && !title) || Object.keys(errors).length > 0;
+  const fieldLabel = title ? 'Update board title' : 'Add board title';
+  const buttonName = title ? 'Update board' : 'Create board';
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)}>
       <FormElement
         type="text"
-        label="Add board title"
+        label={fieldLabel}
         labelColor={'black'}
         placeholder="Please enter the board title"
         errorText={'The title should contain at least 1 character'}
@@ -42,6 +64,7 @@ const AddBoardForm = ({ onClose }: AddBoardFormProps) => {
         inputData={register('boardTitle', {
           required: true,
           minLength: 1,
+          value: title ? title : '',
         })}
       />
       <Button
@@ -51,7 +74,7 @@ const AddBoardForm = ({ onClose }: AddBoardFormProps) => {
         type="submit"
         isDisabled={isSubmitDisabled}
       >
-        Create board
+        {buttonName}
       </Button>
     </form>
   );

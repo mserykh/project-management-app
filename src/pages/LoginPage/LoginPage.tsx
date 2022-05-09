@@ -2,7 +2,7 @@ import React from 'react';
 
 import LoginForm from '../../components/LoginForm/LoginForm';
 
-const LoginView = () => {
+const LoginPage = () => {
   return (
     <div className="grid md:grid-cols-2 h-[70vh]">
       <div className="flex flex-col content-center justify-center">
@@ -27,4 +27,4 @@ const LoginView = () => {
   );
 };
 
-export default LoginView;
+export default LoginPage;
