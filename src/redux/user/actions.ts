@@ -48,7 +48,7 @@ export const auth = () => async (dispatch: AppDispatch) => {
   const token = useAppSelector((state) => state.globalStateReducer.token);
   const decoded = jwt_decode(token) as DecodedJWT;
   const isExpired = checkIsTokenExpired(decoded.exp);
-  if (!isExpired) {
+  if (isExpired) {
     dispatch(setToken(''));
     dispatch(setUser(null, false));
   } else {
