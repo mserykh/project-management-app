@@ -19,7 +19,7 @@ function MainPage(): JSX.Element {
           </h2>
           <input className="inline-block" type="text" placeholder="Enter text here"></input>
         </div>
-        <div className="container mx-auto grid grid-1 md:grid-cols-2 lg:grid-cols-4">
+        <div className="container mx-auto grid grid-1 md:grid-cols-2 lg:grid-cols-4 gap-20">
           {boardsData.map((el: BoardCardProps): JSX.Element => {
             return <BoardCard id={el.id} key={el.id} title={el.title} />;
           })}

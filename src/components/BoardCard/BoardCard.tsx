@@ -26,7 +26,7 @@ function BoardCard(props: BoardCardProps): JSX.Element {
   return (
     <>
       <NavLink to={`/board/${props.id}`} onClick={handleOnClick}>
-        <div className="w-[308px] h-[252px] bg-[#f4f2ff] rounded-[24px] my-6">
+        <div className="h-[252px] bg-[#f4f2ff] rounded-[24px] my-6">
           <h3 className="w-[260px] h-[80px] font-['Inter'] not-italic text-[32px] leading-[125%] my-6 mx-6">
             {props.title}
           </h3>
