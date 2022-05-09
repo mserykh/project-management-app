@@ -27,7 +27,7 @@ const LoginForm = ({ labelColor }: LoginFormProps) => {
   const formSubmitHandler: SubmitHandler<FieldValues> = (values) => {
     const userData = { login: values.username, password: values.password };
     dispatch(signIn(userData));
-    navigate('');
+    navigate('/main');
     reset();
   };
 
