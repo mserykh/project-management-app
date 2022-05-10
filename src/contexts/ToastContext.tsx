@@ -23,7 +23,7 @@ interface ProviderProps {
 
 const initialState: ToastContextState = {
   message: '',
-  dispatch: (action: Action) => {},
+  dispatch: () => {},
 };
 
 function reducer(state: { message: string }, action: Action) {
