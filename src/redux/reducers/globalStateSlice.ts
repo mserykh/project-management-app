@@ -21,4 +21,5 @@ export const globalStateSlice = createSlice({
   },
 });
 
-export default globalStateSlice;
+export const { setToken, updateLanguage } = globalStateSlice.actions;
+export default globalStateSlice.reducer;

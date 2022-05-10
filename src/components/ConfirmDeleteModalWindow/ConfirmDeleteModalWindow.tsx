@@ -1,11 +1,10 @@
 import { ConfirmDeleteModalWindowProps } from './types';
 import { deleteBoard } from '../../redux/actions/board';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import boardsStateSlice from '../../redux/reducers/boards/boardsStateSlice';
+import { updateBoardsData } from '../../redux/reducers/boards/boardsStateSlice';
 import { BoardInterface } from '../../types';
 function ConfirmDeleteModalWindow(props: ConfirmDeleteModalWindowProps): JSX.Element {
-  const { boardsData } = useAppSelector((state) => state.boardsReducer);
-  const { updateBoardsData } = boardsStateSlice.actions;
+  const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
   const dispatch = useAppDispatch();
   const submitDeleteHandler = (): void => {
     deleteBoard(props.id);
