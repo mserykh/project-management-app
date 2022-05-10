@@ -4,27 +4,23 @@ import Button from '../../components/Button/Button';
 import LanguageToggle from '../../components/LanguageToggle/LanguageToggle';
 import Logo from '../../components/Logo/Logo';
 import UserAvatar from '../../components/UserAvatar/UserAvatar';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import globalStateSlice from '../../redux/reducers/globalStateSlice';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import Modal from '../../components/Modal/Modal';
 import AddBoardForm from '../../components/AddBoardForm/AddBoardForm';
+import { logoutUser } from '../../redux/user/actions';
 
 const Header = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { t } = useTranslation();
   const isScrolling = useScroll();
 
-  const { userId, token } = useAppSelector((state) => state.stateReducer);
-  const dispatch = useDispatch();
-  const { logout } = globalStateSlice.actions;
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    localStorage.setItem('userId', userId);
-    localStorage.setItem('token', token);
-  }, [userId, token]);
+  const token = useAppSelector((state) => state.globalStateReducer.token);
+  const userId = useAppSelector((state) => state.userReducer.user?.id);
+  const isAuthenticated = useAppSelector((state) => state.userReducer.isAuthenticated);
 
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
 
@@ -49,7 +45,7 @@ const Header = (): JSX.Element => {
           <UserAvatar />
           <Button
             onClick={() => {
-              dispatch(logout());
+              dispatch(logoutUser());
               navigate('/');
             }}
             type="button"
@@ -66,8 +62,8 @@ const Header = (): JSX.Element => {
           >
             {t('edit_profile_btn')}
           </Button>
-          <NavLink to={'/login'}>Login</NavLink>
-          <NavLink to={'/signup'}>Registration</NavLink>
+          {!isAuthenticated && <NavLink to={'/login'}>Login</NavLink>}
+          {!isAuthenticated && <NavLink to={'/signup'}>Registration</NavLink>}
         </>
       );
     }
