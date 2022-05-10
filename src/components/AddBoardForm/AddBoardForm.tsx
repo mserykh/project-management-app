@@ -4,7 +4,7 @@ import { BoardInterface } from '../../types';
 import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import boardsStateSlice from '../../redux/reducers/boards/boardsStateSlice';
+import { updateBoardsData } from '../../redux/reducers/boards/boardsStateSlice';
 import { cloneDeep } from 'lodash';
 
 type AddBoardFormData = {
@@ -18,8 +18,7 @@ interface AddBoardFormProps {
 }
 
 const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
-  const { boardsData } = useAppSelector((state) => state.boardsReducer);
-  const { updateBoardsData } = boardsStateSlice.actions;
+  const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
   const dispatch = useAppDispatch();
   const {
     register,

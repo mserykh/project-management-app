@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import { useAppSelector } from '../../redux/hooks';
 import { useDispatch } from 'react-redux';
-import globalStateSlice from '../../redux/reducers/globalStateSlice';
+import { updateLanguage } from '../../redux/reducers/globalStateSlice';
 
 enum LanguageDropdownItem {
   EN = 'en',
@@ -12,9 +12,8 @@ enum LanguageDropdownItem {
 const languages = [LanguageDropdownItem.EN, LanguageDropdownItem.RU];
 
 const LanguageToggle = (): JSX.Element => {
-  const { language } = useAppSelector((state) => state.stateReducer);
+  const language = useAppSelector((state) => state.globalStateReducer.language);
   const dispatch = useDispatch();
-  const { updateLanguage } = globalStateSlice.actions;
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

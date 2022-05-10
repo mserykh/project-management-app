@@ -1,20 +1,17 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { globalStateSlice } from './reducers/globalStateSlice';
-import boardsStateSlice from './reducers/boards/boardsStateSlice';
-const stateReducer = globalStateSlice.reducer;
-const boardsReducer = boardsStateSlice.reducer;
+import { configureStore } from '@reduxjs/toolkit';
+import globalStateReducer from './reducers/globalStateSlice';
+import userReducer from './user/userSlice';
+import boardsReducer from './reducers/boards/boardsStateSlice';
 
-const rootReducer = combineReducers({
-  stateReducer,
-  boardsReducer,
+export const store = configureStore({
+  reducer: {
+    globalStateReducer,
+    userReducer,
+    boardsReducer,
+  },
 });
 
-export const setupStore = () => {
-  return configureStore({
-    reducer: rootReducer,
-  });
-};
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
-export type RootState = ReturnType<typeof rootReducer>;
-export type AppStore = ReturnType<typeof setupStore>;
-export type AppDispatch = AppStore['dispatch'];
+export default store;

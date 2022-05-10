@@ -46,4 +46,7 @@ export const boardsStateSlice = createSlice({
   },
 });
 
-export default boardsStateSlice;
+export const { updateLoading, updateDeleteModalOpen, updateUpdateModalOpen, updateBoardsData } =
+  boardsStateSlice.actions;
+
+export default boardsStateSlice.reducer;
