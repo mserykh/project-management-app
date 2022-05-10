@@ -5,10 +5,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import Layout from './layout/Layout/Layout';
 import MainPage from './pages/MainPage/MainPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
-import BoardsPage from './pages/BoardsPage/BoardsPage';
 import BoardDetailPage from './pages/BoardDetailPage/BoardDetailPage';
 import Page404 from './pages/Page404/Page404';
 import WelcomePage from './pages/WelcomePage/WelcomePage';
+import ProfileEditPage from './pages/ProfileEditPage/ProfileEditPage';
 import SignUpPage from './pages/SignUp/SignUpPage';
 import LoginPage from './pages/Login/LoginPage';
 import { useAppDispatch } from './redux/hooks';
@@ -31,13 +31,14 @@ const App = (): JSX.Element => {
           }
         >
           <Route path="main" element={<MainPage />} />
-          <Route path="boards" element={<BoardsPage />} />
           <Route path="board/:id" element={<BoardDetailPage />} />
+          <Route path="profile-edit" element={<ProfileEditPage />} />
         </Route>
         <Route path="*" element={<Page404 />} />
-        <Route path="signup" element={<SignUpPage />} />
-        <Route path="login" element={<LoginPage />} />
       </Route>
+      <Route path="*" element={<Page404 />} />
+      <Route path="signup" element={<SignUpPage />} />
+      <Route path="login" element={<LoginPage />} />
     </Routes>
   );
 };

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import i18n from '../../n18i';
 import { globalStateInterface } from './types';
 
 const initialState: globalStateInterface = {
@@ -10,14 +11,14 @@ export const globalStateSlice = createSlice({
   name: 'globalState',
   initialState,
   reducers: {
-    setToken(state, action: PayloadAction<string>) {
+    setToken(state: globalStateInterface, action: PayloadAction<string>) {
       state.token = action.payload;
     },
-    updateLanguage(state, action: PayloadAction<string>) {
+    updateLanguage(state: globalStateInterface, action: PayloadAction<string>) {
       state.language = action.payload;
+      i18n.changeLanguage(action.payload);
     },
   },
 });
 
-export const { setToken } = globalStateSlice.actions;
-export default globalStateSlice.reducer;
+export default globalStateSlice;

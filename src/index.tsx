@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import './n18i';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   // <React.StrictMode>
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>
+    <Provider store={store}>
+      <Suspense fallback="Loading...">
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Suspense>
+    </Provider>
   // </React.StrictMode>
 );
 

@@ -4,6 +4,6 @@ import App from './App';
 
 test('renders logo title', () => {
   render(<App />, { wrapper: BrowserRouter });
-  const logoElement = screen.getByText(/alldone/i);
+  const logoElement = screen.getAllByText(/alldone/i)[0];
   expect(logoElement).toBeInTheDocument();
 });
