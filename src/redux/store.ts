@@ -7,7 +7,7 @@ export const store = configureStore({
   reducer: {
     globalStateReducer,
     userReducer,
-    boardsReducer
+    boardsReducer,
   },
 });
 
