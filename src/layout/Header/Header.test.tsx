@@ -22,6 +22,7 @@ test('Language change', () => {
 
 test('Header for unautorised user', () => {
   const { getByText } = render(<Header />, { wrapper: BrowserRouter });
+  console.log(render(<Header />, { wrapper: BrowserRouter }));
   const editButton = getByText(/edit/i);
   userEvent.click(getLogOutButton());
   expect(editButton).not.toBeInTheDocument();
@@ -34,19 +35,18 @@ test('Collapsed header', () => {
   expect(logoTitle).not.toBeInTheDocument();
 });
 
-
 function getToggle() {
   return screen.getByTestId('toggle');
 }
 
 function getRuOption() {
   return screen.getByRole('button', {
-    name: /ru/i
+    name: /ru/i,
   });
 }
 
 function getLogOutButton() {
   return screen.getByRole('button', {
-    name: /log/i
+    name: /log/i,
   });
 }

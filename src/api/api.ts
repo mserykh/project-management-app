@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 interface Payload {
   title: string;
@@ -30,5 +30,27 @@ export const postHttp = async (url: string, payload: Payload): Promise<void> => 
     await axios.post(url, body, config);
   } catch (e) {
     console.log(e);
+  }
+};
+
+export const putHttp = async (
+  url: string,
+  payload: Record<string, unknown>
+): Promise<void | string> => {
+  const body = {
+    ...payload,
+  };
+  try {
+    await axios.put(url, body, config);
+  } catch (e) {
+    return (e as AxiosError).message;
+  }
+};
+
+export const deleteHttp = async (url: string): Promise<void | string> => {
+  try {
+    await axios.delete(url, config);
+  } catch (e) {
+    return (e as AxiosError).message;
   }
 };
