@@ -4,15 +4,14 @@ import jwt_decode from 'jwt-decode';
 import { setUser } from './userSlice';
 import { setToken } from '../reducers/globalStateSlice';
 import { AppDispatch, RootState } from '../store';
-
-const BASE_URL = 'https://pacific-badlands-18958.herokuapp.com';
+import { BACKEND_URL } from '../constants';
 
 function checkIsTokenExpired(expDate: number) {
   return Date.now() > expDate * 1000;
 }
 
 export async function registerUser(userData: RegisterUserState) {
-  const res = await axios(`${BASE_URL}/signup`, {
+  const res = await axios(`${BACKEND_URL}/signup`, {
     method: 'POST',
     data: JSON.stringify(userData),
     headers: {
@@ -26,7 +25,7 @@ export async function registerUser(userData: RegisterUserState) {
 export const signIn =
   (signData: { login: string; password: string }) => async (dispatch: AppDispatch) => {
     try {
-      const res = await axios(`${BASE_URL}/signin`, {
+      const res = await axios(`${BACKEND_URL}/signin`, {
         method: 'POST',
         data: JSON.stringify(signData),
         headers: {
