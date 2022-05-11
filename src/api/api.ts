@@ -1,6 +1,19 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
 
 interface Payload {
+  title: string;
+  order?: number;
+}
+
+interface Column {
+  id: string;
+  title: string;
+  order: number;
+}
+
+interface Board {
+  id: string;
   title: string;
 }
 
@@ -22,28 +35,29 @@ export const getHttp = async (
 };
 const config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
 
-export const postHttp = async (url: string, payload: Payload): Promise<void> => {
-  const body = {
-    ...payload,
-  };
+export const postHttp = async (
+  url: string,
+  payload: Payload
+): Promise<AxiosResponse<unknown, unknown> | void> => {
+  const body = { ...payload };
   try {
     await axios.post(url, body, config);
   } catch (e) {
-    console.log(e);
+    toast.error('An error ${e}');
   }
 };
 
 export const putHttp = async (
   url: string,
   payload: Record<string, unknown>
-): Promise<void | string> => {
+): Promise<AxiosResponse<string, unknown> | void | string> => {
   const body = {
     ...payload,
   };
   try {
     await axios.put(url, body, config);
   } catch (e) {
-    return (e as AxiosError).message;
+    (e as AxiosError).message;
   }
 };
 

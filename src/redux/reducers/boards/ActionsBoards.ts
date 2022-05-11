@@ -5,10 +5,6 @@ import { BACKEND_URL, BOARDS_ENDPOINT } from '../../constants';
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
 export const fetchAllBoards = createAsyncThunk('boardsState/fetchAll', async () => {
-  localStorage.setItem(
-    'token',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ZDk0YTdkMS0yMDI0LTQ3NTgtYWQ0Mi1jNTNmZjM3NWJkZTkiLCJsb2dpbiI6InVzZXIwMDEiLCJpYXQiOjE2NTE5OTAxOTl9.VnQbc5XzzUATAU6uvF_Zp_alPS_yqnwvW90GQHCqPys'
-  );
   const token = localStorage.getItem('token') || '';
   try {
     let boardsPromises: Promise<AxiosResponse<unknown, unknown>>[] = [];
