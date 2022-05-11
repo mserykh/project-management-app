@@ -1,4 +1,4 @@
-export const BACKEND_URL = 'https://pacific-badlands-18958.herokuapp.com';
+export const BACKEND_URL = 'https://radiant-falls-50591.herokuapp.com';
 
 export const USERS_ENDPOINT = 'users';
 

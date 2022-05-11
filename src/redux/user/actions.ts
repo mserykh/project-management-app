@@ -4,7 +4,6 @@ import jwt_decode from 'jwt-decode';
 import { setUser } from './userSlice';
 import { setToken } from '../reducers/globalStateSlice';
 import { AppDispatch, RootState } from '../store';
-
 import { BACKEND_URL } from '../constants';
 
 function checkIsTokenExpired(expDate: number) {
