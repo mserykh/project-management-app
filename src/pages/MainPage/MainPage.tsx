@@ -21,7 +21,15 @@ function MainPage(): JSX.Element {
         </div>
         <div className="container mx-auto grid grid-1 md:grid-cols-2 lg:grid-cols-4 gap-20">
           {boardsData.map((el: BoardCardProps): JSX.Element => {
-            return <BoardCard id={el.id} key={el.id} title={el.title} />;
+            return (
+              <BoardCard
+                id={el.id}
+                key={el.id}
+                title={el.title}
+                columnsCount={el.columnsCount}
+                tasksCount={el.tasksCount}
+              />
+            );
           })}
         </div>
       </div>
