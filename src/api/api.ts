@@ -41,9 +41,10 @@ export const postHttp = async (
 ): Promise<AxiosResponse<unknown, unknown> | void> => {
   const body = { ...payload };
   try {
-    await axios.post(url, body, config);
+    const res = await axios.post(url, body, config);
+    return res;
   } catch (e) {
-    toast.error('An error ${e}');
+    toast.error(`An error ${e}`);
   }
 };
 
