@@ -37,7 +37,6 @@ const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
         navigate: navigate,
       })
     );
-    dispatch(fetchBoard(id));
     reset();
     onClose();
   };
