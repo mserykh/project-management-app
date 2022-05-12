@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { useNavigate } from 'react-router';
 import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
-import { createColumn, fetchBoard } from '../../redux/reducers/board/ActionsBoard';
+import { createColumn } from '../../redux/reducers/board/ActionsBoard';
 
 type AddColumnFormData = {
   columnTitle: string;
@@ -37,7 +37,6 @@ const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
         navigate: navigate,
       })
     );
-    dispatch(fetchBoard(id));
     reset();
     onClose();
   };

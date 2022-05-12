@@ -10,15 +10,17 @@ import { useNavigate } from 'react-router';
 
 type AddBoardFormData = {
   boardTitle: string;
+  boardDescription: string;
 };
 
 interface AddBoardFormProps {
   title?: string;
+  description?: string;
   id?: string;
   onClose: () => void;
 }
 
-const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
+const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) => {
   const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -34,7 +36,7 @@ const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
 
   const formSubmitHandler = (data: AddBoardFormData): void => {
     if (title && id) {
-      updateBoard(data.boardTitle, id);
+      updateBoard(data.boardTitle, data.boardDescription, id);
       const newBoards = cloneDeep(boardsData);
       const boards: BoardInterface[] = newBoards.map((board) => {
         if (board.id === id) {
@@ -52,7 +54,7 @@ const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
     onClose();
   };
 
-  const isSubmitDisabled = (!isDirty && !title) || Object.keys(errors).length > 0;
+  const isSubmitDisabled = (!isDirty && !title && !description) || Object.keys(errors).length > 0;
   const fieldLabel = title ? 'Update board title' : 'Add board title';
   const buttonName = title ? 'Update board' : 'Create board';
   return (
@@ -68,6 +70,19 @@ const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
           required: true,
           minLength: 1,
           value: title ? title : '',
+        })}
+      />
+      <FormElement
+        type="textarea"
+        label={fieldLabel}
+        labelColor={'black'}
+        placeholder="Please enter the board description"
+        errorText={'The description should contain at least 1 character'}
+        hasError={!!errors?.boardDescription}
+        inputData={register('boardDescription', {
+          required: true,
+          minLength: 1,
+          value: description ? description : '',
         })}
       />
       <Button

@@ -40,14 +40,17 @@ function BoardDetailPage(): JSX.Element {
   return (
     <section className="max-w-[1440px] mx-auto mb-auto">
       <header>
-        <h2>{boardData.title} board</h2>
+        <h2>{boardData.title}</h2>
+        <p>{boardData.description}</p>
       </header>
       <section className="flex gap-6 w-full overflow-x-auto">
         <ul className="grid grid-flow-col gap-6 content-start">{columnsRender}</ul>
         <Button
           className="whitespace-nowrap justify-self-start w-max h-max bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full rounded-tr"
           type="button"
-          onClick={() => setIsModalOpened(true)}
+          onClick={() => {
+            setIsModalOpened(true);
+          }}
           isDisabled={false}
         >
           Add column

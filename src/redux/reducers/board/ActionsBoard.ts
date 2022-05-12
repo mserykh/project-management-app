@@ -39,7 +39,7 @@ const getNewOrderNumber = (elementsArray: ColumnInterface[] | TaskInterface[]): 
 
 export const createColumn = createAsyncThunk(
   'createColumn/createColumn',
-  async (columnPayload: ColumnPayload) => {
+  async (columnPayload: ColumnPayload, thunkAPI) => {
     try {
       const response = await postHttp(
         `${BOARDS_URL}/${columnPayload.boardID}/${COLUMNS_ENDPOINT}`,
@@ -51,6 +51,7 @@ export const createColumn = createAsyncThunk(
       );
       if ((response as AxiosResponse).status === 201) {
         toast.success('A new column has been added');
+        thunkAPI.dispatch(fetchBoard(columnPayload.boardID));
       }
     } catch (e) {
       // columnPayload.navigate('/login');

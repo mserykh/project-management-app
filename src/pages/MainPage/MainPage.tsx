@@ -26,6 +26,7 @@ function MainPage(): JSX.Element {
                 id={el.id}
                 key={el.id}
                 title={el.title}
+                description={el.description}
                 columnsCount={el.columnsCount}
                 tasksCount={el.tasksCount}
               />

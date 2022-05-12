@@ -23,14 +23,14 @@ const FormElement = ({
 }: FormElementProps) => {
   const textArea = (
     <textarea
-      className="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
+      className="border w-full text-base border-solid border-[#AFB0B9] rounded-3xl pl-23 focus:outline-0 pl-[24px] py-[11px]"
       placeholder={placeholder}
       {...inputData}
     ></textarea>
   );
   const input = (
     <input
-      className="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
+      className="border w-full text-base border-solid border-[#AFB0B9] rounded-full pl-23 focus:outline-0 pl-[24px] py-[11px]"
       type={type}
       placeholder={placeholder}
       {...inputData}
