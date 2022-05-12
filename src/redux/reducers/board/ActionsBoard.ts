@@ -29,7 +29,7 @@ type ColumnPayload = {
   navigate: (url: string) => void;
 };
 
-const getOrder = (elementsArray: ColumnInterface[] | TaskInterface[]): number => {
+const getNewOrderNumber = (elementsArray: ColumnInterface[] | TaskInterface[]): number => {
   if (elementsArray.length > 0) {
     const maxOrderNumber = Math.max(...elementsArray.map((element) => element.order));
     return maxOrderNumber + 1;
@@ -45,7 +45,7 @@ export const createColumn = createAsyncThunk(
         `${BOARDS_URL}/${columnPayload.boardID}/${COLUMNS_ENDPOINT}`,
         {
           title: columnPayload.title,
-          order: getOrder(columnPayload.columns),
+          order: getNewOrderNumber(columnPayload.columns),
         },
         columnPayload.navigate
       );

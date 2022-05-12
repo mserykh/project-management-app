@@ -6,8 +6,7 @@ import Button from '../../components/Button/Button';
 import ColumnCard from '../../components/ColumnCard/ColumnCard';
 import Modal from '../../components/Modal/Modal';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { createColumn, fetchBoard } from '../../redux/reducers/board/ActionsBoard';
-import { updateBoardData } from '../../redux/reducers/board/boardStateSlice';
+import { fetchBoard } from '../../redux/reducers/board/ActionsBoard';
 import { ColumnInterface } from '../../types';
 
 function BoardDetailPage(): JSX.Element {

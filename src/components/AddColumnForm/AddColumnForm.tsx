@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { useNavigate } from 'react-router';
 import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
-import { createColumn } from '../../redux/reducers/board/ActionsBoard';
+import { createColumn, fetchBoard } from '../../redux/reducers/board/ActionsBoard';
 import { updateBoardData } from '../../redux/reducers/board/boardStateSlice';
 
 type AddColumnFormData = {
@@ -38,7 +38,7 @@ const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
         navigate: navigate,
       })
     );
-    dispatch(updateBoardData(boardData));
+    dispatch(fetchBoard(id));
     reset();
     onClose();
   };
@@ -59,7 +59,7 @@ const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
         })}
       />
       <Button
-        className={`whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr${
+        className={`ml-auto whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr${
           isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
         }`}
         type="submit"
