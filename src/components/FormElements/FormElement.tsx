@@ -43,7 +43,7 @@ const FormElement = ({
       >
         {label}
       </label>
-      {type==='textarea' ? textArea : input}
+      {type === 'textarea' ? textArea : input}
       {hasError && <ErrorMessageLabel>{errorText}</ErrorMessageLabel>}
     </div>
   );
