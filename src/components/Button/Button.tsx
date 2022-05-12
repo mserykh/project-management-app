@@ -16,7 +16,12 @@ const Button = ({
   isDisabled,
 }: ButtonProps): JSX.Element => {
   return (
-    <button className={`btn ${className}`} onClick={onClick} type={type} disabled={isDisabled}>
+    <button
+      className={`btn block ${className}`}
+      onClick={onClick}
+      type={type}
+      disabled={isDisabled}
+    >
       {children}
     </button>
   );
