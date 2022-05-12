@@ -1,24 +1,24 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import ColumnCard from '../../components/ColumnCard/ColumnCard';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { fetchBoard } from '../../redux/reducers/board/ActionsBoard';
-import { createColumn } from '../../redux/reducers/column/ActionsColumn';
+import { createColumn, fetchBoard } from '../../redux/reducers/board/ActionsBoard';
+import { updateBoardData } from '../../redux/reducers/board/boardStateSlice';
 import { ColumnInterface } from '../../types';
 
 function BoardDetailPage(): JSX.Element {
   const urlParams = useParams();
   const id = urlParams.id || '';
-  // check if there is any columns => render
-  // check if there is any tasks => render
+
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
   const { boardData } = useAppSelector((state) => state.boardReducer);
 
   useEffect(() => {
     dispatch(fetchBoard(id));
-  }, [dispatch, boardData.columns]);
+  }, [dispatch, id]);
 
   const columns = boardData.columns as ColumnInterface[];
   const columnsRender = columns.map((el: ColumnInterface) => (
@@ -36,7 +36,15 @@ function BoardDetailPage(): JSX.Element {
           className="whitespace-nowrap justify-self-start w-max h-max bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full rounded-tr"
           type="button"
           onClick={() => {
-            dispatch(createColumn({ id: id, title: '18 column', order: 18 }));
+            dispatch(
+              createColumn({
+                boardID: id,
+                title: '19 column',
+                columns: boardData.columns,
+                navigate: navigate,
+              })
+            );
+            dispatch(updateBoardData(boardData));
           }}
           isDisabled={false}
         >

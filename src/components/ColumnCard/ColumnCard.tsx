@@ -3,7 +3,6 @@ import card_edit from '../../assets/images/card_edit.svg';
 import AddBoardForm from '../AddBoardForm/AddBoardForm';
 import Modal from '../Modal/Modal';
 import ColumnCardProps from './types';
-import { SyntheticEvent } from 'react';
 import { useState } from 'react';
 import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteModalWindow';
 
@@ -16,12 +15,7 @@ function ColumnCard({ id, title }: ColumnCardProps): JSX.Element {
   const handleDeleteModalOnClose = (): void => {
     setIsDeleteModalOpened(false);
   };
-  const handleOnClick = (event: SyntheticEvent): void => {
-    if ((event.target as Node).nodeName === 'IMG') {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  };
+
   return (
     <>
       <li key={id} className="w-96 bg-purple-100 rounded-3xl p-6 h-96">

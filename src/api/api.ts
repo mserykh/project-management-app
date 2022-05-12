@@ -1,21 +1,24 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 
-interface Payload {
+type BoardPayload = {
   title: string;
-  order?: number;
-}
+  description: string;
+};
 
-interface Column {
-  id: string;
+type ColumnPayload = {
   title: string;
   order: number;
-}
+};
 
-interface Board {
-  id: string;
+type TaskPayload = {
   title: string;
-}
+  description: string;
+  order: number;
+  userId: string;
+};
+
+export type Payload = BoardPayload | ColumnPayload | TaskPayload;
 
 export const getHttp = async (
   url: string,
@@ -33,18 +36,24 @@ export const getHttp = async (
     console.log(e);
   }
 };
+
 const config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
 
 export const postHttp = async (
   url: string,
-  payload: Payload
-): Promise<AxiosResponse<unknown, unknown> | void> => {
+  payload: Payload,
+  navigate: (url: string) => void
+): Promise<AxiosResponse<unknown> | void> => {
   const body = { ...payload };
   try {
-    const res = await axios.post(url, body, config);
+    const res = await axios.post<Payload, AxiosResponse<unknown, AxiosError>>(url, body, config);
     return res;
   } catch (e) {
-    toast.error(`An error ${e}`);
+    if ((e as AxiosError).response?.status === 401) {
+      navigate('/login');
+      toast.error(`Your session has been expired. Please log in`);
+    }
+    toast.error(`An error ${(e as AxiosError).message}!`);
   }
 };
 
