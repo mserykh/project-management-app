@@ -15,7 +15,7 @@ type TaskPayload = {
   title: string;
   description: string;
   order: number;
-  userId: string;
+  userId?: string;
 };
 
 export type Payload = BoardPayload | ColumnPayload | TaskPayload;

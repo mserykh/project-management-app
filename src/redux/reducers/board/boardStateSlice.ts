@@ -8,6 +8,7 @@ const initialState: boardStateInterface = {
   boardData: {
     id: '',
     title: '',
+    description: '',
     columns: [] as ColumnInterface[],
   },
   loading: false,

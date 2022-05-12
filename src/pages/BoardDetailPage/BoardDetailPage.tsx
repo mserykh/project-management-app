@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Button from '../../components/Button/Button';
 import ColumnCard from '../../components/ColumnCard/ColumnCard';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -9,9 +10,13 @@ import { ColumnInterface } from '../../types';
 
 function BoardDetailPage(): JSX.Element {
   const urlParams = useParams();
-  const id = urlParams.id || '';
-
   const navigate = useNavigate();
+
+  if (!urlParams.id) {
+    toast.error(`This board does not exist or something went wrong`);
+    navigate('/404');
+  }
+  const id = urlParams.id as string;
 
   const dispatch = useAppDispatch();
   const { boardData } = useAppSelector((state) => state.boardReducer);

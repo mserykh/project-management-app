@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { BACKEND_URL, BOARDS_ENDPOINT, COLUMNS_ENDPOINT } from '../../constants';
 import { postHttp } from '../../../api/api';
 import { toast } from 'react-toastify';
-import { ColumnInterface } from '../../../types';
+import { ColumnInterface, TaskInterface } from '../../../types';
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
@@ -29,13 +29,9 @@ type ColumnPayload = {
   navigate: (url: string) => void;
 };
 
-const addOrder = (columns: ColumnInterface[]): number => {
-  if (columns.length > 0) {
-    const orderNumbers = [] as number[];
-    columns.map((column: ColumnInterface) => {
-      orderNumbers.push(column.order);
-    });
-    const maxOrderNumber = Math.max(...orderNumbers);
+const getOrder = (elementsArray: ColumnInterface[] | TaskInterface[]): number => {
+  if (elementsArray.length > 0) {
+    const maxOrderNumber = Math.max(...elementsArray.map((element) => element.order));
     return maxOrderNumber + 1;
   }
   return 1;
@@ -49,7 +45,7 @@ export const createColumn = createAsyncThunk(
         `${BOARDS_URL}/${columnPayload.boardID}/${COLUMNS_ENDPOINT}`,
         {
           title: columnPayload.title,
-          order: addOrder(columnPayload.columns),
+          order: getOrder(columnPayload.columns),
         },
         columnPayload.navigate
       );
