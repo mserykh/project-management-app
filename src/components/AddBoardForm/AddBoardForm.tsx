@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router';
 
 type AddBoardFormData = {
   boardTitle: string;
+  boardDescription: string;
 };
 
 interface AddBoardFormProps {
@@ -68,6 +69,18 @@ const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
           required: true,
           minLength: 1,
           value: title ? title : '',
+        })}
+      />
+      <FormElement
+        type="textarea"
+        label={fieldLabel}
+        labelColor={'black'}
+        placeholder="Please enter the board description"
+        errorText={'The description should contain at least 1 character'}
+        hasError={!!errors?.boardDescription}
+        inputData={register('boardDescription', {
+          required: true,
+          minLength: 1,
         })}
       />
       <Button
