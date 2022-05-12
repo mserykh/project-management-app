@@ -24,9 +24,10 @@ export const createBoard = async (title: string, navigate: (url: string) => void
 
 export const updateBoard = async (
   title: string,
+  description: string,
   id: string
 ): Promise<AxiosResponse<string, unknown> | void | string> =>
-  await putHttp(`${BACKEND_URL}/${BOARDS_ENDPOINT}/${id}`, { title });
+  await putHttp(`${BACKEND_URL}/${BOARDS_ENDPOINT}/${id}`, { title, description });
 
 export const deleteBoard = async (id: string): Promise<void | string> =>
   await deleteHttp(`${BACKEND_URL}/${BOARDS_ENDPOINT}/${id}`);
