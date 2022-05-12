@@ -1,11 +1,32 @@
-import { postHttp, putHttp, deleteHttp } from '../../api/api';
+import { AxiosResponse } from 'axios';
+import { getHttp, postHttp, putHttp, deleteHttp } from '../../api/api';
+import { ColumnInterface } from '../../types';
+import { BOARDS_ENDPOINT } from '../constants';
 import { BACKEND_URL } from '../constants';
 
-export const createBoard = async (title: string): Promise<void> =>
-  await postHttp(`${BACKEND_URL}/boards`, { title });
+export type BoardResponse = {
+  data: ColumnInterface;
+};
 
-export const updateBoard = async (title: string, id: string): Promise<void | string> =>
-  await putHttp(`${BACKEND_URL}/boards/${id}`, { title });
+export const getBoard = async (title: string): Promise<AxiosResponse<unknown, unknown> | void> =>
+  await getHttp(`${BACKEND_URL}/${BOARDS_ENDPOINT}`, { title });
+
+export const createBoard = async (title: string, navigate: (url: string) => void) => {
+  const res = await postHttp(
+    `${BACKEND_URL}/${BOARDS_ENDPOINT}`,
+    { title, description: 'empty description' },
+    navigate
+  );
+  if (res?.status === 200) {
+  }
+  return res;
+};
+
+export const updateBoard = async (
+  title: string,
+  id: string
+): Promise<AxiosResponse<string, unknown> | void | string> =>
+  await putHttp(`${BACKEND_URL}/${BOARDS_ENDPOINT}/${id}`, { title });
 
 export const deleteBoard = async (id: string): Promise<void | string> =>
-  await deleteHttp(`${BACKEND_URL}/boards/${id}`);
+  await deleteHttp(`${BACKEND_URL}/${BOARDS_ENDPOINT}/${id}`);

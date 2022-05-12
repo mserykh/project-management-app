@@ -6,6 +6,7 @@ import FormElement from '../FormElements/FormElement';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { updateBoardsData } from '../../redux/reducers/boards/boardsStateSlice';
 import { cloneDeep } from 'lodash';
+import { useNavigate } from 'react-router';
 
 type AddBoardFormData = {
   boardTitle: string;
@@ -20,6 +21,7 @@ interface AddBoardFormProps {
 const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
   const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const {
     register,
     reset,
@@ -45,7 +47,7 @@ const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
       onClose();
       return;
     }
-    createBoard(data.boardTitle);
+    createBoard(data.boardTitle, navigate);
     reset();
     onClose();
   };

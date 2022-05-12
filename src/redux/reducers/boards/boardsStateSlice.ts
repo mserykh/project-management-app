@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchAllBoards } from './ActionsBoards';
+import { createBoard, fetchAllBoards } from './ActionsBoards';
 
 import { boardsStateInterface } from './types';
 import { BoardInterface } from '../../../types';
@@ -42,6 +42,19 @@ export const boardsStateSlice = createSlice({
     });
     builder.addCase(fetchAllBoards.pending, (state) => {
       state.loading = true;
+    });
+    builder.addCase(createBoard.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.boardsData = payload as BoardInterface[];
+      state.error = '';
+    });
+    builder.addCase(createBoard.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(createBoard.rejected, (state, { payload }) => {
+      state.boardsData = [];
+      state.loading = false;
+      state.error = payload as string;
     });
   },
 });
