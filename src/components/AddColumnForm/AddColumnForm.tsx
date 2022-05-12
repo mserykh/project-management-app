@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
 import { createColumn, fetchBoard } from '../../redux/reducers/board/ActionsBoard';
-import { updateBoardData } from '../../redux/reducers/board/boardStateSlice';
 
 type AddColumnFormData = {
   columnTitle: string;
