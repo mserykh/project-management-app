@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import AddColumnForm from '../../components/AddColumnForm/AddColumnForm';
 import Button from '../../components/Button/Button';
 import ColumnCard from '../../components/ColumnCard/ColumnCard';
+import Modal from '../../components/Modal/Modal';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { createColumn, fetchBoard } from '../../redux/reducers/board/ActionsBoard';
 import { updateBoardData } from '../../redux/reducers/board/boardStateSlice';
@@ -20,6 +22,12 @@ function BoardDetailPage(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const { boardData } = useAppSelector((state) => state.boardReducer);
+
+  const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
+
+  const handleOnClose = (): void => {
+    setIsModalOpened(false);
+  };
 
   useEffect(() => {
     dispatch(fetchBoard(id));
@@ -40,21 +48,14 @@ function BoardDetailPage(): JSX.Element {
         <Button
           className="whitespace-nowrap justify-self-start w-max h-max bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full rounded-tr"
           type="button"
-          onClick={() => {
-            dispatch(
-              createColumn({
-                boardID: id,
-                title: '19 column',
-                columns: boardData.columns,
-                navigate: navigate,
-              })
-            );
-            dispatch(updateBoardData(boardData));
-          }}
+          onClick={() => setIsModalOpened(true)}
           isDisabled={false}
         >
           Add column
         </Button>
+        <Modal isOpened={isModalOpened} onClose={handleOnClose}>
+          <AddColumnForm onClose={handleOnClose} id={id} />
+        </Modal>
       </section>
     </section>
   );

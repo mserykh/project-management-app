@@ -50,7 +50,7 @@ export const createColumn = createAsyncThunk(
         columnPayload.navigate
       );
       if ((response as AxiosResponse).status === 201) {
-        toast.success('A new column has been add');
+        toast.success('A new column has been added');
       }
     } catch (e) {
       // columnPayload.navigate('/login');
