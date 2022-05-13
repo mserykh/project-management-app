@@ -62,7 +62,6 @@ export const createColumn = createAsyncThunk(
         thunkAPI.dispatch(fetchBoard(columnPayload.boardId));
       }
     } catch (e) {
-      // columnPayload.navigate('/login');
       toast.error(`An error !!!! ${e}`);
     }
   }
@@ -70,9 +69,9 @@ export const createColumn = createAsyncThunk(
 
 export const deleteColumn = createAsyncThunk(
   'boardState/deleteColumn',
-  async ({ title, columnId, boardId, navigate }: DeleteColumnPayload, thunkAPI) => {
+  async ({ title, columnId, boardId }: DeleteColumnPayload, thunkAPI) => {
     try {
-      const response = await deleteHttp(`${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`);
+      await deleteHttp(`${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`);
       toast.success(`A ${title} column has been deleted`);
       thunkAPI.dispatch(fetchBoard(boardId));
     } catch (e) {

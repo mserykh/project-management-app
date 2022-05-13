@@ -3,15 +3,9 @@ import Modal from '../Modal/Modal';
 import ColumnCardProps from './types';
 import { useState } from 'react';
 import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteModalWindow';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { deleteColumn } from '../../redux/reducers/board/ActionsBoard';
-import { useNavigate } from 'react-router';
 
 function ColumnCard({ id, title }: ColumnCardProps): JSX.Element {
-  const dispatch = useAppDispatch();
-  const { boardData } = useAppSelector((state) => state.boardReducer);
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   const handleDeleteModalOnClose = (): void => {
     setIsDeleteModalOpened(false);
