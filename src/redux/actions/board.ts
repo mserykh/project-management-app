@@ -8,19 +8,14 @@ export type BoardResponse = {
   data: ColumnInterface;
 };
 
+type BoardPayload = {
+  title: string;
+  description: string;
+  navigate: (url: string) => void;
+};
+
 export const getBoard = async (title: string): Promise<AxiosResponse<unknown, unknown> | void> =>
   await getHttp(`${BACKEND_URL}/${BOARDS_ENDPOINT}`, { title });
-
-export const createBoard = async (title: string, navigate: (url: string) => void) => {
-  const res = await postHttp(
-    `${BACKEND_URL}/${BOARDS_ENDPOINT}`,
-    { title, description: 'empty description' },
-    navigate
-  );
-  if (res?.status === 200) {
-  }
-  return res;
-};
 
 export const updateBoard = async (
   title: string,
