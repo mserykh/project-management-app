@@ -14,9 +14,9 @@ type AddBoardFormData = {
 };
 
 interface AddBoardFormProps {
-  title?: string;
-  description?: string;
-  id?: string;
+  title: string;
+  description: string;
+  id: string;
   onClose: () => void;
 }
 
@@ -55,13 +55,14 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
   };
 
   const isSubmitDisabled = (!isDirty && !title && !description) || Object.keys(errors).length > 0;
-  const fieldLabel = title ? 'Update board title' : 'Add board title';
+  const titleLabel = title ? 'Update board title' : 'Add board title';
+  const descriptionLabel = title ? 'Update board description' : 'Add board description';
   const buttonName = title ? 'Update board' : 'Create board';
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)}>
       <FormElement
         type="text"
-        label={fieldLabel}
+        label={titleLabel}
         labelColor={'black'}
         placeholder="Please enter the board title"
         errorText={'The title should contain at least 1 character'}
@@ -74,7 +75,7 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
       />
       <FormElement
         type="textarea"
-        label={fieldLabel}
+        label={descriptionLabel}
         labelColor={'black'}
         placeholder="Please enter the board description"
         errorText={'The description should contain at least 1 character'}

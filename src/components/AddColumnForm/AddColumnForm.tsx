@@ -31,7 +31,7 @@ const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
   const formSubmitHandler = (data: AddColumnFormData): void => {
     dispatch(
       createColumn({
-        boardID: id,
+        boardId: id,
         title: data.columnTitle,
         columns: boardData.columns,
         navigate: navigate,

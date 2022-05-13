@@ -40,7 +40,7 @@ const Header = (): JSX.Element => {
             {t('add_board_btn')}
           </Button>
           <Modal isOpened={isModalOpened} onClose={handleOnClose}>
-            <AddBoardForm onClose={handleOnClose} />
+            <AddBoardForm title="" id="" description="" onClose={handleOnClose} />
           </Modal>
           <UserAvatar />
           <Button
