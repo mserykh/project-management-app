@@ -1,9 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { BACKEND_URL, BOARDS_ENDPOINT, COLUMNS_ENDPOINT } from '../../constants';
-import { postHttp } from '../../../api/api';
+import { deleteHttp, postHttp } from '../../../api/api';
 import { toast } from 'react-toastify';
 import { ColumnInterface, TaskInterface } from '../../../types';
+import { isDate } from 'lodash';
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
@@ -23,9 +24,17 @@ export const fetchBoard = createAsyncThunk('boardState/fetchBoard', async (id: s
 });
 
 type ColumnPayload = {
-  boardID: string;
   title: string;
   columns: ColumnInterface[];
+  navigate: (url: string) => void;
+  boardId: string;
+  columnId?: string;
+};
+
+type DeleteColumnPayload = {
+  title: string;
+  boardId: string;
+  columnId: string;
   navigate: (url: string) => void;
 };
 
@@ -38,11 +47,11 @@ const getNewOrderNumber = (elementsArray: ColumnInterface[] | TaskInterface[]): 
 };
 
 export const createColumn = createAsyncThunk(
-  'createColumn/createColumn',
+  'boardState/createColumn',
   async (columnPayload: ColumnPayload, thunkAPI) => {
     try {
       const response = await postHttp(
-        `${BOARDS_URL}/${columnPayload.boardID}/${COLUMNS_ENDPOINT}`,
+        `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}`,
         {
           title: columnPayload.title,
           order: getNewOrderNumber(columnPayload.columns),
@@ -51,10 +60,23 @@ export const createColumn = createAsyncThunk(
       );
       if ((response as AxiosResponse).status === 201) {
         toast.success('A new column has been added');
-        thunkAPI.dispatch(fetchBoard(columnPayload.boardID));
+        thunkAPI.dispatch(fetchBoard(columnPayload.boardId));
       }
     } catch (e) {
       // columnPayload.navigate('/login');
+      toast.error(`An error !!!! ${e}`);
+    }
+  }
+);
+
+export const deleteColumn = createAsyncThunk(
+  'boardState/deleteColumn',
+  async ({ title, columnId, boardId, navigate }: DeleteColumnPayload, thunkAPI) => {
+    try {
+      const response = await deleteHttp(`${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`);
+      toast.success(`A ${title} column has been deleted`);
+      thunkAPI.dispatch(fetchBoard(boardId));
+    } catch (e) {
       toast.error(`An error !!!! ${e}`);
     }
   }

@@ -2,14 +2,28 @@ import { ConfirmDeleteModalWindowProps } from './types';
 import { deleteBoard } from '../../redux/actions/board';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { updateBoardsData } from '../../redux/reducers/boards/boardsStateSlice';
-import { BoardInterface } from '../../types';
-function ConfirmDeleteModalWindow(props: ConfirmDeleteModalWindowProps): JSX.Element {
+import { BoardInterface, ColumnInterface } from '../../types';
+import { deleteColumn } from '../../redux/reducers/board/ActionsBoard';
+import { updateColumnData } from '../../redux/reducers/board/boardStateSlice';
+import { useNavigate } from 'react-router';
+function ConfirmDeleteModalWindow({ id, title, type }: ConfirmDeleteModalWindowProps): JSX.Element {
   const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
+  const boardData = useAppSelector((state) => state.boardReducer.boardData);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const submitDeleteHandler = (): void => {
-    deleteBoard(props.id);
-    const boards: BoardInterface[] = boardsData.filter((board) => board.id !== props.id);
-    dispatch(updateBoardsData(boards));
+    switch (type) {
+      case 'board':
+        deleteBoard(id);
+        const boards: BoardInterface[] = boardsData.filter((board) => board.id !== id);
+        dispatch(updateBoardsData(boards));
+        break;
+      case 'column':
+        dispatch(deleteColumn({ title, columnId: id, boardId: boardData.id, navigate }));
+        const columns: ColumnInterface[] = boardData.columns.filter((column) => column.id !== id);
+        dispatch(updateColumnData(columns));
+        break;
+    }
   };
   return (
     <div>
@@ -31,7 +45,7 @@ function ConfirmDeleteModalWindow(props: ConfirmDeleteModalWindowProps): JSX.Ele
               ></path>
             </svg>
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              {`Are you sure you want to delete this ${props.type} '${props.title}'?`}
+              {`Are you sure you want to delete this ${type} '${title}'?`}
             </h3>
             <button
               data-modal-toggle="popup-modal"
