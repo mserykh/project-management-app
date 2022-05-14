@@ -1,24 +1,52 @@
 import card_delete from '../../assets/images/card_delete.svg';
+import task_add from '../../assets/images/task_add.svg';
 import Modal from '../Modal/Modal';
 import ColumnCardProps from './types';
 import { useState } from 'react';
 import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteModalWindow';
-import FormElement from '../FormElements/FormElement';
 import { useForm } from 'react-hook-form';
 import { AddColumnFormData } from '../AddColumnForm/AddColumnForm';
 import Button from '../Button/Button';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useNavigate } from 'react-router';
 import { updateColumn } from '../../redux/reducers/board/ActionsBoard';
+import CreateUpdateTaskForm from '../CreateUpdateTaskForm/CreateUpdateTaskForm';
+import { findIndex } from 'lodash';
+import { ColumnInterface, TaskInterface } from '../../types';
+import TaskCard from '../TaskCard/TaskCard';
+import FormElement from '../FormElements/FormElement';
 
-function ColumnCard({ id, title, order }: ColumnCardProps): JSX.Element {
+function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
   const navigate = useNavigate();
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
   const [isUpdateInputOpened, setIsUpdateInputOpened] = useState<boolean>(false);
+  const [isAddTaskModalOpened, setIsAddTaskModalOpened] = useState<boolean>(false);
+  const { tasks } = useAppSelector((state) => {
+    const columnIndex = findIndex(
+      state.boardReducer.boardData.columns,
+      (column: ColumnInterface) => column.id === id
+    );
+    return state.boardReducer.boardData.columns[columnIndex];
+  });
+  const tasksRender = tasks.map((el: TaskInterface) => (
+    <TaskCard
+      key={el.id}
+      id={el.id as string}
+      title={el.title}
+      boardId={boardId}
+      userId={el.userId}
+      description={el.description}
+      columnId={id}
+    />
+  ));
+
   const handleDeleteModalOnClose = (): void => {
     setIsDeleteModalOpened(false);
+  };
+  const handleAddTaskModalOnClose = (): void => {
+    setIsAddTaskModalOpened(false);
   };
 
   const {
@@ -109,10 +137,24 @@ function ColumnCard({ id, title, order }: ColumnCardProps): JSX.Element {
             src={card_delete}
             onClick={() => setIsDeleteModalOpened(true)}
           ></img>
+          <div
+            onClick={() => {
+              setIsAddTaskModalOpened(true);
+            }}
+          >
+            <img className="inline-block mx-6 " src={task_add}></img>
+            <span className="font-['Inter'] not-italic text-[#503ae7] text-[16px] leading-[150%]">
+              Add task
+            </span>
+          </div>
         </div>
+        <div>{tasksRender}</div>
       </li>
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
         <ConfirmDeleteModalWindow title={title} type="column" id={id} />
+      </Modal>
+      <Modal isOpened={isAddTaskModalOpened} onClose={handleAddTaskModalOnClose}>
+        <CreateUpdateTaskForm onClose={handleAddTaskModalOnClose} columnId={id} boardId={boardId} />
       </Modal>
     </>
   );

@@ -41,7 +41,7 @@ const FormElement = ({
     />
   );
   return (
-    <div className="w-full m-0 float-left  mb-[25px]">
+    <div className="w-full m-0 mb-[25px]">
       <label
         className={`inline-block text-base text-[${labelColor}] float-left mb-[12px] font-semibold ${classNameLabel}`}
       >
