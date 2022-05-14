@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { BACKEND_URL, BOARDS_ENDPOINT, COLUMNS_ENDPOINT } from '../../constants';
-import { deleteHttp, postHttp } from '../../../api/api';
+import { deleteHttp, postHttp, putHttp } from '../../../api/api';
 import { toast } from 'react-toastify';
 import { ColumnInterface, TaskInterface } from '../../../types';
 
@@ -24,10 +24,11 @@ export const fetchBoard = createAsyncThunk('boardState/fetchBoard', async (id: s
 
 type ColumnPayload = {
   title: string;
-  columns: ColumnInterface[];
+  columns?: ColumnInterface[];
   navigate: (url: string) => void;
   boardId: string;
   columnId?: string;
+  order?: number;
 };
 
 type DeleteColumnPayload = {
@@ -53,12 +54,33 @@ export const createColumn = createAsyncThunk(
         `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}`,
         {
           title: columnPayload.title,
-          order: getNewOrderNumber(columnPayload.columns),
+          order: getNewOrderNumber(columnPayload.columns as ColumnInterface[]),
         },
         columnPayload.navigate
       );
       if ((response as AxiosResponse).status === 201) {
         toast.success('A new column has been added');
+        thunkAPI.dispatch(fetchBoard(columnPayload.boardId));
+      }
+    } catch (e) {
+      toast.error(`An error !!!! ${e}`);
+    }
+  }
+);
+
+export const updateColumn = createAsyncThunk(
+  'boardState/updateColumn',
+  async (columnPayload: ColumnPayload, thunkAPI) => {
+    try {
+      const response = await putHttp(
+        `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}/${columnPayload.columnId}`,
+        {
+          title: columnPayload.title,
+          order: columnPayload.order,
+        }
+      );
+      if ((response as AxiosResponse).status === 200) {
+        toast.success('A column has been update');
         thunkAPI.dispatch(fetchBoard(columnPayload.boardId));
       }
     } catch (e) {

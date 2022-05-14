@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { boardStateInterface } from './types';
 import { BoardInterface, ColumnInterface, TaskInterface } from '../../../types';
-import { fetchBoard, createColumn, deleteColumn } from './ActionsBoard';
+import { fetchBoard, createColumn, updateColumn, deleteColumn } from './ActionsBoard';
 import { findIndex } from 'lodash';
 
 const initialState: boardStateInterface = {
@@ -68,6 +68,17 @@ export const boardStateSlice = createSlice({
       state.error = payload as string;
     });
     builder.addCase(createColumn.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(updateColumn.fulfilled, (state) => {
+      state.loading = false;
+      state.error = '';
+    });
+    builder.addCase(updateColumn.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload as string;
+    });
+    builder.addCase(updateColumn.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(deleteColumn.fulfilled, (state) => {
