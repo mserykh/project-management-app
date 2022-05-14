@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { boardStateInterface } from './types';
 import { BoardInterface, ColumnInterface } from '../../../types';
-import { fetchBoard, createColumn } from './ActionsBoard';
+import { fetchBoard, createColumn, deleteColumn } from './ActionsBoard';
 
 const initialState: boardStateInterface = {
   boardData: {
@@ -33,6 +33,9 @@ export const boardStateSlice = createSlice({
     updateBoardData(state: boardStateInterface, payload: PayloadAction<BoardInterface>) {
       state.boardData = payload.payload;
     },
+    updateColumnData(state: boardStateInterface, payload: PayloadAction<ColumnInterface[]>) {
+      state.boardData.columns = payload.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchBoard.fulfilled, (state, { payload }) => {
@@ -48,7 +51,6 @@ export const boardStateSlice = createSlice({
     builder.addCase(fetchBoard.pending, (state) => {
       state.loading = true;
     });
-
     builder.addCase(createColumn.fulfilled, (state) => {
       state.loading = false;
       state.error = '';
@@ -60,10 +62,26 @@ export const boardStateSlice = createSlice({
     builder.addCase(createColumn.pending, (state) => {
       state.loading = true;
     });
+    builder.addCase(deleteColumn.fulfilled, (state) => {
+      state.loading = false;
+      state.error = '';
+    });
+    builder.addCase(deleteColumn.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload as string;
+    });
+    builder.addCase(deleteColumn.pending, (state) => {
+      state.loading = true;
+    });
   },
 });
 
-export const { updateLoading, updateDeleteModalOpen, updateUpdateModalOpen, updateBoardData } =
-  boardStateSlice.actions;
+export const {
+  updateLoading,
+  updateDeleteModalOpen,
+  updateUpdateModalOpen,
+  updateBoardData,
+  updateColumnData,
+} = boardStateSlice.actions;
 
 export default boardStateSlice.reducer;

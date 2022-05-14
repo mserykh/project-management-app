@@ -43,16 +43,16 @@ export const boardsStateSlice = createSlice({
     builder.addCase(fetchAllBoards.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(createBoard.fulfilled, (state, { payload }) => {
+    builder.addCase(createBoard.fulfilled, (state: boardsStateInterface, { payload }) => {
       state.loading = false;
-      state.boardsData = payload as BoardInterface[];
+      const boardsData = [...state.boardsData, payload as BoardInterface];
+      state.boardsData = boardsData;
       state.error = '';
     });
     builder.addCase(createBoard.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(createBoard.rejected, (state, { payload }) => {
-      state.boardsData = [];
       state.loading = false;
       state.error = payload as string;
     });

@@ -1,17 +1,12 @@
 import card_delete from '../../assets/images/card_delete.svg';
-import card_edit from '../../assets/images/card_edit.svg';
-import AddBoardForm from '../AddBoardForm/AddBoardForm';
 import Modal from '../Modal/Modal';
 import ColumnCardProps from './types';
 import { useState } from 'react';
 import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteModalWindow';
 
 function ColumnCard({ id, title }: ColumnCardProps): JSX.Element {
-  const [isUpdateModalOpened, setIsUpdateModalOpened] = useState<boolean>(false);
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
-  const handleUpdateModalOnClose = (): void => {
-    setIsUpdateModalOpened(false);
-  };
+
   const handleDeleteModalOnClose = (): void => {
     setIsDeleteModalOpened(false);
   };
@@ -24,26 +19,14 @@ function ColumnCard({ id, title }: ColumnCardProps): JSX.Element {
         </h3>
         <div className="w-[44px] flex justify-between my-6">
           <img
-            className="inline-block mx-6"
-            src={card_edit}
-            onClick={() => {
-              setIsUpdateModalOpened(true);
-            }}
-          ></img>
-          <img
             className="inline-block mx-6 "
             src={card_delete}
-            onClick={() => {
-              setIsDeleteModalOpened(true);
-            }}
+            onClick={() => setIsDeleteModalOpened(true)}
           ></img>
         </div>
       </li>
-      <Modal isOpened={isUpdateModalOpened} onClose={handleUpdateModalOnClose}>
-        <AddBoardForm onClose={handleUpdateModalOnClose} title={title} id={id} />
-      </Modal>
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
-        <ConfirmDeleteModalWindow title={title} type="board" id={id} />
+        <ConfirmDeleteModalWindow title={title} type="column" id={id} />
       </Modal>
     </>
   );
