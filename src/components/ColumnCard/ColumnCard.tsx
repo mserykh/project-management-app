@@ -1,4 +1,5 @@
 import card_delete from '../../assets/images/card_delete.svg';
+import task_add from '../../assets/images/task_add.svg';
 import Modal from '../Modal/Modal';
 import ColumnCardProps from './types';
 import { useState } from 'react';
@@ -7,6 +8,8 @@ import CreateUpdateTaskForm from '../CreateUpdateTaskForm/CreateUpdateTaskForm';
 
 function ColumnCard({ id, title }: ColumnCardProps): JSX.Element {
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
+  const [isAddTaskModalOpened, setIsAddTaskModalOpened] = useState<boolean>(false);
+
   const handleDeleteModalOnClose = (): void => {
     setIsDeleteModalOpened(false);
   };

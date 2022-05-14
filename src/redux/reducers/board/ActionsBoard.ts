@@ -4,6 +4,7 @@ import { BACKEND_URL, BOARDS_ENDPOINT, COLUMNS_ENDPOINT } from '../../constants'
 import { deleteHttp, postHttp } from '../../../api/api';
 import { toast } from 'react-toastify';
 import { ColumnInterface, TaskInterface } from '../../../types';
+import { isDate } from 'lodash';
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
@@ -72,6 +73,19 @@ export const deleteColumn = createAsyncThunk(
   async ({ title, columnId, boardId }: DeleteColumnPayload, thunkAPI) => {
     try {
       await deleteHttp(`${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`);
+      toast.success(`A ${title} column has been deleted`);
+      thunkAPI.dispatch(fetchBoard(boardId));
+    } catch (e) {
+      toast.error(`An error !!!! ${e}`);
+    }
+  }
+);
+
+export const deleteColumn = createAsyncThunk(
+  'boardState/deleteColumn',
+  async ({ title, columnId, boardId, navigate }: DeleteColumnPayload, thunkAPI) => {
+    try {
+      const response = await deleteHttp(`${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`);
       toast.success(`A ${title} column has been deleted`);
       thunkAPI.dispatch(fetchBoard(boardId));
     } catch (e) {
