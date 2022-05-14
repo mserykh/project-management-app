@@ -13,16 +13,24 @@ export interface ColumnInterface {
 }
 
 export interface TaskInterface {
-  id: string;
+  id?: string;
   title: string;
-  order: number;
-  done: boolean;
+  order?: number;
+  done?: boolean;
   description: string;
-  userId: string;
-  files: FileInterface[];
+  userId?: string;
+  files?: FileInterface[];
+  columnId: string;
+  boardId: string;
 }
 
 export interface FileInterface {
   filename: string;
   fileSize: number;
+}
+
+export interface UserInterface {
+  id: string;
+  login: string;
+  name: string;
 }

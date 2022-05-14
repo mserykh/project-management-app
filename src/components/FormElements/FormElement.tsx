@@ -37,10 +37,8 @@ const FormElement = ({
     />
   );
   return (
-    <div className="w-full m-0 float-left  mb-[25px]">
-      <label
-        className={`inline-block text-base text-[${labelColor}] float-left mb-[12px] font-semibold`}
-      >
+    <div className="w-full m-0 mb-[25px]">
+      <label className={`inline-block text-base text-[${labelColor}] mb-[12px] font-semibold`}>
         {label}
       </label>
       {type === 'textarea' ? textArea : input}

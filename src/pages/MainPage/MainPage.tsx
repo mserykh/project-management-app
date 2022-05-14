@@ -20,18 +20,19 @@ function MainPage(): JSX.Element {
           <input className="inline-block" type="text" placeholder="Enter text here"></input>
         </div>
         <div className="container mx-auto grid grid-1 md:grid-cols-2 lg:grid-cols-4 gap-20">
-          {boardsData.map((el: BoardCardProps): JSX.Element => {
-            return (
-              <BoardCard
-                id={el.id}
-                key={el.id}
-                title={el.title}
-                description={el.description}
-                columnsCount={el.columnsCount}
-                tasksCount={el.tasksCount}
-              />
-            );
-          })}
+          {boardsData &&
+            boardsData.map((el: BoardCardProps): JSX.Element => {
+              return (
+                <BoardCard
+                  id={el.id}
+                  key={el.id}
+                  title={el.title}
+                  columnsCount={el.columnsCount}
+                  tasksCount={el.tasksCount}
+                  description={el.description}
+                />
+              );
+            })}
         </div>
       </div>
     </div>

@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { boardStateInterface } from './types';
-import { BoardInterface, ColumnInterface } from '../../../types';
+import { BoardInterface, ColumnInterface, TaskInterface } from '../../../types';
 import { fetchBoard, createColumn, deleteColumn } from './ActionsBoard';
+import { findIndex } from 'lodash';
 
 const initialState: boardStateInterface = {
   boardData: {
@@ -35,6 +36,13 @@ export const boardStateSlice = createSlice({
     },
     updateColumnData(state: boardStateInterface, payload: PayloadAction<ColumnInterface[]>) {
       state.boardData.columns = payload.payload;
+    },
+    updateTasksData(state: boardStateInterface, payload: PayloadAction<TaskInterface[]>) {
+      const columnIndex = findIndex(
+        state.boardData.columns,
+        (column) => column.id === payload.type
+      );
+      state.boardData.columns[columnIndex].tasks = payload.payload;
     },
   },
   extraReducers: (builder) => {
