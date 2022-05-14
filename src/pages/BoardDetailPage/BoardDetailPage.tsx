@@ -34,7 +34,7 @@ function BoardDetailPage(): JSX.Element {
 
   const columns = boardData.columns as ColumnInterface[];
   const columnsRender = columns.map((el: ColumnInterface) => (
-    <ColumnCard key={el.id} id={el.id} title={el.title} />
+    <ColumnCard key={el.id} id={el.id} title={el.title} order={el.order} />
   ));
 
   return (

@@ -65,7 +65,8 @@ export const putHttp = async (
     ...payload,
   };
   try {
-    await axios.put(url, body, config);
+    const res = await axios.put(url, body, config);
+    return res;
   } catch (e) {
     (e as AxiosError).message;
   }

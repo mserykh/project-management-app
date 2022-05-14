@@ -5,7 +5,7 @@ import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
 import { createColumn } from '../../redux/reducers/board/ActionsBoard';
 
-type AddColumnFormData = {
+export type AddColumnFormData = {
   columnTitle: string;
 };
 
