@@ -26,3 +26,9 @@ export interface FileInterface {
   filename: string;
   fileSize: number;
 }
+
+export interface UserInterface {
+  id: string;
+  login: string;
+  name: string;
+}

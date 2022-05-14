@@ -3,12 +3,15 @@ import Modal from '../Modal/Modal';
 import ColumnCardProps from './types';
 import { useState } from 'react';
 import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteModalWindow';
+import CreateUpdateTaskForm from '../CreateUpdateTaskForm/CreateUpdateTaskForm';
 
 function ColumnCard({ id, title }: ColumnCardProps): JSX.Element {
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
-
   const handleDeleteModalOnClose = (): void => {
     setIsDeleteModalOpened(false);
+  };
+  const handleAddTaskModalOnClose = (): void => {
+    setIsAddTaskModalOpened(false);
   };
 
   return (
@@ -23,10 +26,23 @@ function ColumnCard({ id, title }: ColumnCardProps): JSX.Element {
             src={card_delete}
             onClick={() => setIsDeleteModalOpened(true)}
           ></img>
+          <div
+            onClick={() => {
+              setIsAddTaskModalOpened(true);
+            }}
+          >
+            <img className="inline-block mx-6 " src={task_add}></img>
+            <span className="font-['Inter'] not-italic text-[#503ae7] text-[16px] leading-[150%]">
+              Add task
+            </span>
+          </div>
         </div>
       </li>
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
         <ConfirmDeleteModalWindow title={title} type="column" id={id} />
+      </Modal>
+      <Modal isOpened={isAddTaskModalOpened} onClose={handleAddTaskModalOnClose}>
+        <CreateUpdateTaskForm onClose={handleAddTaskModalOnClose} />
       </Modal>
     </>
   );
