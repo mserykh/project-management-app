@@ -32,20 +32,27 @@ function ColumnCard({ id, title, order }: ColumnCardProps): JSX.Element {
   });
   const isSubmitDisabled = !isDirty || Object.keys(errors).length > 0;
 
-  const handleUpdateColumnTitle = () => {
+  const handleUpdateColumnTitle = (): void => {
     setIsUpdateInputOpened((prevValue) => !prevValue);
   };
 
+  const handleCancel = (): void => {
+    handleUpdateColumnTitle();
+    reset();
+  };
+
   const formSubmitHandler = (data: AddColumnFormData): void => {
-    dispatch(
-      updateColumn({
-        title: data.columnTitle,
-        columnId: id,
-        boardId: boardData.id,
-        order: order,
-        navigate: navigate,
-      })
-    );
+    if (data.columnTitle !== title) {
+      dispatch(
+        updateColumn({
+          title: data.columnTitle,
+          columnId: id,
+          boardId: boardData.id,
+          order: order,
+          navigate: navigate,
+        })
+      );
+    }
     reset();
     handleUpdateColumnTitle();
   };
@@ -89,7 +96,7 @@ function ColumnCard({ id, title, order }: ColumnCardProps): JSX.Element {
               <Button
                 className={`ml-auto whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr bg-gray-200 hover:bg-gray-400`}
                 type="button"
-                onClick={handleUpdateColumnTitle}
+                onClick={handleCancel}
               >
                 Cancel
               </Button>
