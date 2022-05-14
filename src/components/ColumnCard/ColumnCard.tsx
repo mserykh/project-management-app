@@ -16,7 +16,7 @@ function ColumnCard({ id, title, order }: ColumnCardProps): JSX.Element {
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
   const navigate = useNavigate();
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
-
+  const [isUpdateInputOpened, setIsUpdateInputOpened] = useState<boolean>(false);
   const handleDeleteModalOnClose = (): void => {
     setIsDeleteModalOpened(false);
   };
@@ -32,7 +32,9 @@ function ColumnCard({ id, title, order }: ColumnCardProps): JSX.Element {
   });
   const isSubmitDisabled = !isDirty || Object.keys(errors).length > 0;
 
-  const handleUpdateColumnTitle = () => {};
+  const handleUpdateColumnTitle = () => {
+    setIsUpdateInputOpened((prevValue) => !prevValue);
+  };
 
   const formSubmitHandler = (data: AddColumnFormData): void => {
     dispatch(
@@ -45,48 +47,54 @@ function ColumnCard({ id, title, order }: ColumnCardProps): JSX.Element {
       })
     );
     reset();
-    //onClose();
+    handleUpdateColumnTitle();
   };
 
   return (
     <>
       <li key={id} className="w-96 bg-purple-100 rounded-3xl p-6 h-96">
-        <div className="" onClick={handleUpdateColumnTitle}>
-          <h3 className="w-[260px] h-[80px] font-['Inter'] not-italic text-[32px] leading-[125%] my-6 mx-6">
-            {title}
-          </h3>
-          <form onSubmit={handleSubmit(formSubmitHandler)}>
-            <FormElement
-              type="text"
-              label="Add column title"
-              labelColor={'black'}
-              placeholder="Please enter the column title"
-              errorText={'The title should contain at least 1 character'}
-              hasError={!!errors?.columnTitle}
-              inputData={register('columnTitle', {
-                required: true,
-                minLength: 1,
-                value: title || '',
-              })}
-            />
-            <Button
-              className={`ml-auto whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr${
-                isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
-              }`}
-              type="submit"
-              isDisabled={isSubmitDisabled}
+        <div className="">
+          {!isUpdateInputOpened && (
+            <h3
+              onClick={handleUpdateColumnTitle}
+              className={`w-[260px] h-[80px] font-['Inter'] not-italic text-[32px] leading-[125%] my-6 mx-6`}
             >
-              Ok
-            </Button>
-            <Button
-              className={`ml-auto whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr bg-gray-200 hover:bg-gray-400'
-              }`}
-              type="button"
-              isDisabled={isSubmitDisabled}
-            >
-              Cancel
-            </Button>
-          </form>
+              {title}
+            </h3>
+          )}
+          {isUpdateInputOpened && (
+            <form onSubmit={handleSubmit(formSubmitHandler)}>
+              <FormElement
+                type="text"
+                label="Add column title"
+                labelColor={'black'}
+                placeholder="Please enter the column title"
+                errorText={'The title should contain at least 1 character'}
+                hasError={!!errors?.columnTitle}
+                inputData={register('columnTitle', {
+                  required: true,
+                  minLength: 1,
+                  value: title || '',
+                })}
+              />
+              <Button
+                className={`ml-auto whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr${
+                  isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
+                }`}
+                type="submit"
+                isDisabled={isSubmitDisabled}
+              >
+                Ok
+              </Button>
+              <Button
+                className={`ml-auto whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr bg-gray-200 hover:bg-gray-400`}
+                type="button"
+                onClick={handleUpdateColumnTitle}
+              >
+                Cancel
+              </Button>
+            </form>
+          )}
         </div>
         <div className="w-[44px] flex justify-between my-6">
           <img
