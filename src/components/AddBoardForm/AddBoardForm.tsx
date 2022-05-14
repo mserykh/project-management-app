@@ -15,9 +15,15 @@ type AddBoardFormData = {
 };
 
 interface AddBoardFormProps {
+<<<<<<< HEAD
   title: string;
   description: string;
   id: string;
+=======
+  title?: string;
+  description?: string;
+  id?: string;
+>>>>>>> b02ccee (fix: fix merge)
   onClose: () => void;
 }
 
@@ -56,8 +62,12 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
   };
 
   const isSubmitDisabled = (!isDirty && !title && !description) || Object.keys(errors).length > 0;
+<<<<<<< HEAD
   const titleLabel = title ? 'Update board title' : 'Add board title';
   const descriptionLabel = title ? 'Update board description' : 'Add board description';
+=======
+  const fieldLabel = title ? 'Update board title' : 'Add board title';
+>>>>>>> b02ccee (fix: fix merge)
   const buttonName = title ? 'Update board' : 'Create board';
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)}>
