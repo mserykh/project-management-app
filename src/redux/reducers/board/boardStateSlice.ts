@@ -70,7 +70,7 @@ export const boardStateSlice = createSlice({
     builder.addCase(createColumn.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(updateColumn.fulfilled, (state, { payload }) => {
+    builder.addCase(updateColumn.fulfilled, (state) => {
       state.loading = false;
       state.error = '';
     });

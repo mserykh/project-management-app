@@ -1,4 +1,3 @@
-import React from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import ErrorMessageLabel from './ErrorMessageLabel';
 
@@ -34,7 +33,7 @@ const FormElement = ({
   );
   const input = (
     <input
-      className={`border w-full text-base border-solid border-[#AFB0B9] rounded-full pl-23 focus:outline-0 pl-[24px] py-[11px] ${classNameLabel}`}
+      className={`border w-full text-base border-solid border-[#AFB0B9] rounded-full pl-23 focus:outline-0 pl-[24px] py-[11px] ${classNameInput}`}
       type={type}
       placeholder={placeholder}
       {...inputData}
