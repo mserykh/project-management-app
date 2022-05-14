@@ -1,10 +1,10 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 import { setUser } from './userSlice';
 import { setToken } from '../reducers/globalStateSlice';
 import { AppDispatch, RootState } from '../store';
-import { BACKEND_URL, USERS_ENDPOINT } from '../constants';
+import { BACKEND_URL } from '../constants';
 
 function checkIsTokenExpired(expDate: number) {
   return Date.now() > expDate * 1000;
@@ -64,22 +64,6 @@ export const setUserData = (decoded: DecodedJWT, token: string) => (dispatch: Ap
   };
   dispatch(setToken(token));
   dispatch(setUser(userData, true));
-};
-
-export const getAllUsers = () => async (): Promise<unknown> => {
-  const token = localStorage.getItem('token') || '';
-  try {
-    const response = await axios.get(`${BACKEND_URL}/${USERS_ENDPOINT}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = response.data;
-    return data;
-  } catch (e) {
-    return (e as AxiosError).message;
-  }
 };
 
 export const logoutUser = () => (dispatch: AppDispatch) => {

@@ -42,7 +42,7 @@ const config = { headers: { Authorization: `Bearer ${localStorage.getItem('token
 export const postHttp = async (
   url: string,
   payload: Payload,
-  navigate: (url: string) => void
+  navigate?: (url: string) => void
 ): Promise<AxiosResponse<unknown> | void> => {
   const body = { ...payload };
   try {
@@ -50,7 +50,9 @@ export const postHttp = async (
     return res;
   } catch (e) {
     if ((e as AxiosError).response?.status === 401) {
-      navigate('/login');
+      if (navigate) {
+        navigate('/login');
+      }
       toast.error(`Your session has been expired. Please log in`);
     }
     toast.error(`An error ${(e as AxiosError).message}!`);

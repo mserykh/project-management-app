@@ -1,17 +1,17 @@
 import { Controller, useForm } from 'react-hook-form';
-import { createBoard, updateBoard } from '../../redux/actions/board';
-import { BoardInterface, FileInterface, UserInterface } from '../../types';
+import { BoardInterface, FileInterface, UserInterface, TaskInterface } from '../../types';
 import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { updateBoardsData } from '../../redux/reducers/boards/boardsStateSlice';
 import { cloneDeep } from 'lodash';
-import FormTextArea from '../FormElements/FormTextArea/FormTextArea';
 import AsyncSelect from 'react-select/async';
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { BACKEND_URL, USERS_ENDPOINT } from '../../redux/constants';
 import { useNavigate } from 'react-router';
+import { createTask, updateTask } from '../../redux/actions/task';
+import { get } from 'lodash';
 
 type CreateUpdateTaskFormData = {
   taskTitle: string;
@@ -25,8 +25,9 @@ interface CreateUpdateTaskFormProps {
   id?: string;
   description?: string;
   files?: FileInterface[];
-  userId?: string;
   onClose: () => void;
+  boardId: string;
+  columnId: string;
 }
 
 const CreateUpdateTaskForm = ({
@@ -35,8 +36,12 @@ const CreateUpdateTaskForm = ({
   id,
   description,
   files,
-  userId,
+  boardId,
+  columnId,
 }: CreateUpdateTaskFormProps) => {
+  const userId = useAppSelector((state) => {
+    return state.userReducer.user?.id;
+  });
   const isUpdate = () => !!id;
   const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
   const dispatch = useAppDispatch();
@@ -78,8 +83,17 @@ const CreateUpdateTaskForm = ({
 
   const formSubmitHandler = (data: CreateUpdateTaskFormData): void => {
     debugger;
-    if (title && id) {
-      updateBoard(data.taskTitle, id);
+    const taskData: TaskInterface = {
+      title: data.taskTitle,
+      description: data.taskDescription,
+      userId: get(data, 'userId.id') || userId,
+      done: false,
+      order: 1,
+      boardId: boardId,
+      columnId: columnId,
+    };
+    if (!!id) {
+      updateTask(taskData, boardId, columnId, id);
       const newBoards = cloneDeep(boardsData);
       const boards: BoardInterface[] = newBoards.map((board) => {
         if (board.id === id) {
@@ -92,7 +106,7 @@ const CreateUpdateTaskForm = ({
       onClose();
       return;
     }
-    createBoard(data.taskTitle, navigate);
+    createTask(taskData, boardId, columnId);
     reset();
     onClose();
   };
@@ -118,7 +132,8 @@ const CreateUpdateTaskForm = ({
           value: title ? title : '',
         })}
       />
-      <FormTextArea
+      <FormElement
+        type="textarea"
         label="Description *"
         labelColor={'black'}
         placeholder="Please enter the task description"
@@ -134,16 +149,18 @@ const CreateUpdateTaskForm = ({
         <Controller
           name="userId"
           control={control}
-          defaultValue={inputValue}
-          render={({ field, fieldState, formState }) => (
+          render={({ field }) => (
             <AsyncSelect
               cacheOptions
               defaultOptions
-              value={field.value as unknown as UserInterface}
+              value={selectedValue}
+              onChange={(value) => {
+                debugger;
+                return setSelectedValue(value);
+              }}
               placeholder={'Please choose an user'}
               loadOptions={loadSelectOptions}
               onInputChange={handleInputChange}
-              onChange={field.onChange}
               getOptionLabel={selectGetOptionLabel}
               getOptionValue={selectGetOptionValue}
             />

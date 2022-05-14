@@ -5,10 +5,32 @@ import ColumnCardProps from './types';
 import { useState } from 'react';
 import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteModalWindow';
 import CreateUpdateTaskForm from '../CreateUpdateTaskForm/CreateUpdateTaskForm';
+import { useAppSelector } from '../../redux/hooks';
+import { findIndex } from 'lodash';
+import { ColumnInterface, TaskInterface } from '../../types';
+import TaskCard from '../TaskCard/TaskCard';
 
-function ColumnCard({ id, title }: ColumnCardProps): JSX.Element {
+function ColumnCard({ id, title, boardId }: ColumnCardProps): JSX.Element {
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
   const [isAddTaskModalOpened, setIsAddTaskModalOpened] = useState<boolean>(false);
+  const { tasks } = useAppSelector((state) => {
+    const columnIndex = findIndex(
+      state.boardReducer.boardData.columns,
+      (column: ColumnInterface) => column.id === id
+    );
+    return state.boardReducer.boardData.columns[columnIndex];
+  });
+  const tasksRender = tasks.map((el: TaskInterface) => (
+    <TaskCard
+      key={el.id}
+      id={el.id as string}
+      title={el.title}
+      boardId={boardId}
+      userId={el.userId}
+      description={el.description}
+      columnId={id}
+    />
+  ));
 
   const handleDeleteModalOnClose = (): void => {
     setIsDeleteModalOpened(false);
@@ -40,12 +62,13 @@ function ColumnCard({ id, title }: ColumnCardProps): JSX.Element {
             </span>
           </div>
         </div>
+        <div>{tasksRender}</div>
       </li>
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
         <ConfirmDeleteModalWindow title={title} type="column" id={id} />
       </Modal>
       <Modal isOpened={isAddTaskModalOpened} onClose={handleAddTaskModalOnClose}>
-        <CreateUpdateTaskForm onClose={handleAddTaskModalOnClose} />
+        <CreateUpdateTaskForm onClose={handleAddTaskModalOnClose} columnId={id} boardId={boardId} />
       </Modal>
     </>
   );
