@@ -40,9 +40,21 @@ function BoardDetailPage(): JSX.Element {
 
   return (
     <section className="grid grid-rows-columns gap-2 max-w-[1440px] mx-auto pb-2 h-columns">
-      <header>
-        <h2>{boardData.title}</h2>
-        <p>{boardData.description}</p>
+      <header className={'flex justify-between items-start'}>
+        <div>
+          <h2>{boardData.title}</h2>
+          <p>{boardData.description}</p>
+        </div>
+        <Button
+          className="whitespace-nowrap justify-self-start w-max h-max bg-gray-200 hover:bg-gray-400 text-white font-bold py-2 px-4 text-black rounded-full rounded-tr"
+          type="button"
+          onClick={() => {
+            navigate('/main');
+          }}
+          isDisabled={false}
+        >
+          Go to boards list
+        </Button>
       </header>
       <section className="flex gap-6 w-full overflow-x-auto justify-stretch">
         <ul className="grid grid-flow-col gap-6">{columnsRender}</ul>
