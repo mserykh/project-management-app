@@ -1,3 +1,4 @@
+import React from 'react';
 import UserEditForm from '../../components/UserEditForm/UserEditForm';
 
 function ProfileEditPage(): JSX.Element {
