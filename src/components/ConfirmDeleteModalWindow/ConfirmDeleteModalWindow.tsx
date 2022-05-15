@@ -2,10 +2,11 @@ import { ConfirmDeleteModalWindowProps } from './types';
 import { deleteBoard } from '../../redux/actions/board';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { updateBoardsData } from '../../redux/reducers/boards/boardsStateSlice';
-import { BoardInterface, ColumnInterface } from '../../types';
-import { deleteColumn } from '../../redux/reducers/board/ActionsBoard';
+import { BoardInterface, ColumnInterface, TaskInterface } from '../../types';
+import { deleteColumn, deleteTask } from '../../redux/reducers/board/ActionsBoard';
 import { updateColumnData } from '../../redux/reducers/board/boardStateSlice';
 import { useNavigate } from 'react-router';
+import { findIndex, cloneDeep } from 'lodash';
 function ConfirmDeleteModalWindow({ id, title, type }: ConfirmDeleteModalWindowProps): JSX.Element {
   const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
@@ -23,6 +24,23 @@ function ConfirmDeleteModalWindow({ id, title, type }: ConfirmDeleteModalWindowP
         const columns: ColumnInterface[] = boardData.columns.filter((column) => column.id !== id);
         dispatch(updateColumnData(columns));
         break;
+      case 'task':
+        const columnId = boardData.columns.filter((column: ColumnInterface) => {
+          if (findIndex(column.tasks, (task: TaskInterface) => task.id === id) !== -1) {
+            return column;
+          }
+        })[0].id;
+        const columnIndex = findIndex(
+          boardData.columns,
+          (column: ColumnInterface) => column.id === columnId
+        );
+        dispatch(deleteTask({ title, columnId, boardId: boardData.id, taskId: id, navigate }));
+        const tasks: TaskInterface[] = boardData.columns[columnIndex].tasks.filter(
+          (task) => task.id !== id
+        );
+        const newColumns = cloneDeep(boardData.columns);
+        newColumns[columnIndex].tasks = tasks;
+        dispatch(updateColumnData(newColumns));
     }
   };
   return (

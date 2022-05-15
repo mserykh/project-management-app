@@ -28,7 +28,7 @@ export const createTask = async (
 ): Promise<AxiosResponse<unknown, unknown> | void | string> => {
   const URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}/${boardId}/columns/${columnId}/tasks`;
   try {
-    await postHttp(URL, data);
+    return await postHttp(URL, data);
   } catch (e) {
     return (e as AxiosError).message;
   }

@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { boardStateInterface } from './types';
-import { BoardInterface, ColumnInterface, TaskInterface } from '../../../types';
-import { fetchBoard, createColumn, updateColumn, deleteColumn } from './ActionsBoard';
+import { BoardInterface, ColumnInterface, TaskInterface, UserInterface } from '../../../types';
+import { fetchBoard, createColumn, deleteColumn, getAllUsers, updateColumn } from './ActionsBoard';
 import { findIndex } from 'lodash';
 
 const initialState: boardStateInterface = {
@@ -16,6 +16,7 @@ const initialState: boardStateInterface = {
   deleteModalOpen: false,
   updateModalOpen: false,
   error: '',
+  users: [],
 };
 
 export const boardStateSlice = createSlice({
@@ -36,6 +37,9 @@ export const boardStateSlice = createSlice({
     },
     updateColumnData(state: boardStateInterface, payload: PayloadAction<ColumnInterface[]>) {
       state.boardData.columns = payload.payload;
+    },
+    updateUsers(state: boardStateInterface, payload: PayloadAction<UserInterface[]>) {
+      state.users = payload.payload;
     },
     updateTasksData(state: boardStateInterface, payload: PayloadAction<TaskInterface[]>) {
       const columnIndex = findIndex(
@@ -92,6 +96,17 @@ export const boardStateSlice = createSlice({
     builder.addCase(deleteColumn.pending, (state) => {
       state.loading = true;
     });
+    builder.addCase(getAllUsers.fulfilled, (state, payload) => {
+      state.loading = false;
+      state.users = payload.payload as UserInterface[];
+    });
+    builder.addCase(getAllUsers.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getAllUsers.rejected, (state, payload) => {
+      state.loading = false;
+      state.error = payload.payload as string;
+    });
   },
 });
 
@@ -101,6 +116,7 @@ export const {
   updateUpdateModalOpen,
   updateBoardData,
   updateColumnData,
+  updateUsers,
 } = boardStateSlice.actions;
 
 export default boardStateSlice.reducer;
