@@ -25,11 +25,7 @@ const App = (): JSX.Element => {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<WelcomePage />} />
-        <Route
-          element={
-            <ProtectedRoute />
-          }
-        >
+        <Route element={<ProtectedRoute />}>
           <Route path="main" element={<MainPage />} />
           <Route path="board/:id" element={<BoardDetailPage />} />
           <Route path="profile-edit" element={<ProfileEditPage />} />
