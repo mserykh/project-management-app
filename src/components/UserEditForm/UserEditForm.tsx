@@ -59,7 +59,7 @@ const UserEditForm: React.FC = () => {
     const res = await deleteUser(token, userId);
     if (res === 204) {
       toastDispatch({ type: 'SUCCESS', payload: 'User has been deleted successfully' });
-      navigate('/login');
+      navigate('/');
       dispatch(logoutUser());
     } else {
       toastDispatch({ type: 'ERROR', payload: 'User was not found, delete fail' });
