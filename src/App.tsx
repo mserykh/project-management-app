@@ -27,7 +27,7 @@ const App = (): JSX.Element => {
         <Route index element={<WelcomePage />} />
         <Route
           element={
-            <ProtectedRoute token={localStorage.getItem('token') || ''} redirectedPath="/" />
+            <ProtectedRoute />
           }
         >
           <Route path="main" element={<MainPage />} />
