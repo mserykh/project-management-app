@@ -1,9 +1,10 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { ProtectedRouteProps } from './types';
+import { useAppSelector } from '../../redux/hooks';
 
-function ProtectedRoute(props: ProtectedRouteProps): JSX.Element {
-  if (!props.token) {
-    return <Navigate to={props.redirectedPath} replace />;
+function ProtectedRoute(): JSX.Element {
+  const userIsAuthenticated = useAppSelector((state) => state.userReducer.isAuthenticated);
+  if (!userIsAuthenticated) {
+    return <Navigate to="/" replace />;
   }
 
   return <Outlet />;
