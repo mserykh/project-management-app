@@ -20,8 +20,8 @@ export interface TaskInterface {
   description: string;
   userId?: string;
   files?: FileInterface[];
-  columnId: string;
-  boardId: string;
+  columnId?: string;
+  boardId?: string;
 }
 
 export interface FileInterface {

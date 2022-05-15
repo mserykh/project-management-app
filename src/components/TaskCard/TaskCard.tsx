@@ -49,8 +49,9 @@ function TaskCard(props: TaskInterface): JSX.Element {
       <Modal isOpened={isAddTaskModalOpened} onClose={handleAddTaskModalOnClose}>
         <CreateUpdateTaskForm
           onClose={handleAddTaskModalOnClose}
-          columnId={props.columnId}
-          boardId={props.boardId}
+          columnId={props.columnId as string}
+          boardId={props.boardId as string}
+          editMode={false}
         />
       </Modal>
     </>

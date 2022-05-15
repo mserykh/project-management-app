@@ -154,7 +154,12 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
         <ConfirmDeleteModalWindow title={title} type="column" id={id} />
       </Modal>
       <Modal isOpened={isAddTaskModalOpened} onClose={handleAddTaskModalOnClose}>
-        <CreateUpdateTaskForm onClose={handleAddTaskModalOnClose} columnId={id} boardId={boardId} />
+        <CreateUpdateTaskForm
+          onClose={handleAddTaskModalOnClose}
+          columnId={id}
+          boardId={boardId}
+          editMode={true}
+        />
       </Modal>
     </>
   );

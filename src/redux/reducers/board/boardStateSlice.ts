@@ -1,13 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { boardStateInterface } from './types';
-<<<<<<< HEAD
-import { BoardInterface, ColumnInterface, TaskInterface } from '../../../types';
-import { fetchBoard, createColumn, updateColumn, deleteColumn } from './ActionsBoard';
-=======
 import { BoardInterface, ColumnInterface, TaskInterface, UserInterface } from '../../../types';
-import { fetchBoard, createColumn, deleteColumn, getAllUsers } from './ActionsBoard';
->>>>>>> b6ae4d4 (feat: modal window for deletion a task was added)
+import { fetchBoard, createColumn, deleteColumn, getAllUsers, updateColumn } from './ActionsBoard';
 import { findIndex } from 'lodash';
 
 const initialState: boardStateInterface = {
