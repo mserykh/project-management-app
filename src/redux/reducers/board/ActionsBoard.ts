@@ -1,9 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-<<<<<<< HEAD
-import { BACKEND_URL, BOARDS_ENDPOINT, COLUMNS_ENDPOINT } from '../../constants';
-import { deleteHttp, postHttp, putHttp } from '../../../api/api';
-=======
 import {
   BACKEND_URL,
   BOARDS_ENDPOINT,
@@ -11,8 +7,7 @@ import {
   TASKS_ENDPOINT,
   USERS_ENDPOINT,
 } from '../../constants';
-import { deleteHttp, postHttp } from '../../../api/api';
->>>>>>> b6ae4d4 (feat: modal window for deletion a task was added)
+import { deleteHttp, postHttp, putHttp } from '../../../api/api';
 import { toast } from 'react-toastify';
 import { ColumnInterface, TaskInterface, UserInterface } from '../../../types';
 
