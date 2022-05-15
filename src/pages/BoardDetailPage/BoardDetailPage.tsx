@@ -39,7 +39,7 @@ function BoardDetailPage(): JSX.Element {
 
   return (
     <section className="max-w-[1440px] mx-auto mb-auto">
-      <header className={"flex justify-between items-start"}>
+      <header className={'flex justify-between items-start'}>
         <div>
           <h2>{boardData.title}</h2>
           <p>{boardData.description}</p>
