@@ -87,7 +87,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
 
   return (
     <>
-      <li key={id} className="w-96 bg-purple-100 rounded-3xl p-6 h-96">
+      <li key={id} className="w-96 bg-purple-100 rounded-3xl p-6">
         <div className="">
           {!isUpdateInputOpened && (
             <h3
@@ -148,7 +148,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
             </span>
           </div>
         </div>
-        <div>{tasksRender}</div>
+        <div className="overflow-auto">{tasksRender}</div>
       </li>
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
         <ConfirmDeleteModalWindow title={title} type="column" id={id} />
