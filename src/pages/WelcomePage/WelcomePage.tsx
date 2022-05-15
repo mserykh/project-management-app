@@ -2,9 +2,9 @@ import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hooks';
 
 function WelcomePage(): JSX.Element {
-  const token = useAppSelector((state) => state.globalStateReducer.token);
-  if (token) {
-    return <Navigate to="main" replace />;
+  const userIsAuthenticated = useAppSelector((state) => state.userReducer.isAuthenticated);
+  if (userIsAuthenticated) {
+    return <Navigate to="/main" replace />;
   }
   return (
     <main className="bg-cyan-200 h-screen">

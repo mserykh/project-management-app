@@ -6,7 +6,7 @@ import Button from '../../components/Button/Button';
 import ColumnCard from '../../components/ColumnCard/ColumnCard';
 import Modal from '../../components/Modal/Modal';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { fetchBoard } from '../../redux/reducers/board/ActionsBoard';
+import { fetchBoard, getAllUsers } from '../../redux/reducers/board/ActionsBoard';
 import { ColumnInterface } from '../../types';
 
 function BoardDetailPage(): JSX.Element {
@@ -30,6 +30,7 @@ function BoardDetailPage(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchBoard(id));
+    dispatch(getAllUsers());
   }, [dispatch, id]);
 
   const columns = boardData.columns as ColumnInterface[];

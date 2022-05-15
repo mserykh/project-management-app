@@ -30,6 +30,7 @@ function MainPage(): JSX.Element {
                   columnsCount={el.columnsCount}
                   tasksCount={el.tasksCount}
                   description={el.description}
+                  files={el.files}
                 />
               );
             })}

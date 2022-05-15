@@ -33,7 +33,6 @@ export const signIn =
         },
       });
       const token = res.data.token;
-      console.log(token);
       const decoded = jwt_decode(token) as DecodedJWT;
       dispatch(setUserData(decoded, token));
       localStorage.setItem('token', token);

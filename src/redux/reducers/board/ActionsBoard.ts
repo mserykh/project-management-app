@@ -1,9 +1,15 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { BACKEND_URL, BOARDS_ENDPOINT, COLUMNS_ENDPOINT } from '../../constants';
+import {
+  BACKEND_URL,
+  BOARDS_ENDPOINT,
+  COLUMNS_ENDPOINT,
+  TASKS_ENDPOINT,
+  USERS_ENDPOINT,
+} from '../../constants';
 import { deleteHttp, postHttp, putHttp } from '../../../api/api';
 import { toast } from 'react-toastify';
-import { ColumnInterface, TaskInterface } from '../../../types';
+import { ColumnInterface, TaskInterface, UserInterface } from '../../../types';
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
@@ -33,6 +39,14 @@ type ColumnPayload = {
 
 type DeleteColumnPayload = {
   title: string;
+  boardId: string;
+  columnId: string;
+  navigate: (url: string) => void;
+};
+
+type DeleteTaskPayload = {
+  title: string;
+  taskId: string;
   boardId: string;
   columnId: string;
   navigate: (url: string) => void;
@@ -98,6 +112,40 @@ export const deleteColumn = createAsyncThunk(
       thunkAPI.dispatch(fetchBoard(boardId));
     } catch (e) {
       toast.error(`An error !!!! ${e}`);
+    }
+  }
+);
+
+export const deleteTask = createAsyncThunk(
+  'boardState/deleteTask',
+  async ({ title, taskId, columnId, boardId }: DeleteTaskPayload, thunkAPI) => {
+    try {
+      await deleteHttp(
+        `${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}/${TASKS_ENDPOINT}/${taskId}`
+      );
+      toast.success(`A ${title} task has been deleted`);
+      thunkAPI.dispatch(fetchBoard(boardId));
+    } catch (e) {
+      toast.error(`An error !!!! ${e}`);
+    }
+  }
+);
+
+export const getAllUsers = createAsyncThunk(
+  'boardState/getAllUsers',
+  async (): Promise<UserInterface[] | string | void> => {
+    const token = localStorage.getItem('token') || '';
+    try {
+      const response = await axios.get(`${BACKEND_URL}/${USERS_ENDPOINT}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = response.data;
+      return data;
+    } catch (e) {
+      return (e as AxiosError).message;
     }
   }
 );
