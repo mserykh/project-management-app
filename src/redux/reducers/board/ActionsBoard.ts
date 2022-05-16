@@ -52,7 +52,7 @@ type DeleteTaskPayload = {
   navigate: (url: string) => void;
 };
 
-const getNewOrderNumber = (elementsArray: ColumnInterface[] | TaskInterface[]): number => {
+export const getNewOrderNumber = (elementsArray: ColumnInterface[] | TaskInterface[]): number => {
   if (elementsArray.length > 0) {
     const maxOrderNumber = Math.max(...elementsArray.map((element) => element.order as number));
     return maxOrderNumber + 1;

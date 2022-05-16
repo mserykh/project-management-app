@@ -42,7 +42,7 @@ export const updateTask = async (
 ): Promise<AxiosResponse<string, unknown> | void | string> => {
   const URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}/${boardId}/columns/${columnId}/tasks`;
   try {
-    await putHttp(`${URL}/${id}`, { data });
+    await putHttp(`${URL}/${id}`, { ...data });
   } catch (e) {
     return (e as AxiosError).message;
   }
