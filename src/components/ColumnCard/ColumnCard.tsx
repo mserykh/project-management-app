@@ -17,28 +17,13 @@ import TaskCard from '../TaskCard/TaskCard';
 import FormElement from '../FormElements/FormElement';
 import { DragSourceMonitor, DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd';
 import { updateColumnData } from '../../redux/reducers/board/boardStateSlice';
+import { moveColumn } from '../../utils';
 
 function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
   const columns = boardData.columns;
   const navigate = useNavigate();
-
-  const moveColumn = (dragColumnOrder: number, hoverColumnOrder: number) => {
-    const draggingItem = columns[dragColumnOrder - 1];
-    const updatedDraggingItem = { ...draggingItem, order: hoverColumnOrder };
-    const item = columns[hoverColumnOrder - 1];
-    const updatedItem = { ...item, order: dragColumnOrder };
-    const newItems = columns.filter((item) => item.order !== dragColumnOrder);
-    if (hoverColumnOrder > dragColumnOrder) {
-      newItems.splice(dragColumnOrder - 1, 0, updatedItem);
-      newItems.splice(hoverColumnOrder - 1, 0, updatedDraggingItem);
-    } else {
-      newItems.splice(hoverColumnOrder - 1, 0, updatedDraggingItem);
-      newItems.splice(dragColumnOrder - 1, 0, updatedItem);
-    }
-    dispatch(updateColumnData(newItems));
-  };
 
   const ref = useRef<HTMLLIElement>(null);
 
@@ -68,8 +53,15 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
       if (dragColumnOrder > dropColumnOrder && hoverClientX > hoverMiddleX) {
         return;
       }
-
-      moveColumn(dragColumnOrder, dropColumnOrder);
+      moveColumn(
+        columns,
+        boardId,
+        dragColumnOrder,
+        dropColumnOrder,
+        dispatch,
+        updateColumn,
+        updateColumnData
+      );
     },
   });
 

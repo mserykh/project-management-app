@@ -11,6 +11,7 @@ import { deleteHttp, postHttp, putHttp } from '../../../api/api';
 import { toast } from 'react-toastify';
 import { ColumnInterface, TaskInterface, UserInterface } from '../../../types';
 import { updateColumnData } from './boardStateSlice';
+import { getNewOrderNumber } from '../../../utils';
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
@@ -29,10 +30,10 @@ export const fetchBoard = createAsyncThunk('boardState/fetchBoard', async (id: s
   }
 });
 
-type ColumnPayload = {
+export type ColumnPayload = {
   title: string;
   columns?: ColumnInterface[];
-  navigate: (url: string) => void;
+  navigate?: (url: string) => void;
   boardId: string;
   columnId?: string;
   order?: number;
@@ -51,14 +52,6 @@ type DeleteTaskPayload = {
   boardId: string;
   columnId: string;
   navigate: (url: string) => void;
-};
-
-const getNewOrderNumber = (elementsArray: ColumnInterface[] | TaskInterface[]): number => {
-  if (elementsArray.length > 0) {
-    const maxOrderNumber = Math.max(...elementsArray.map((element) => element.order as number));
-    return maxOrderNumber + 1;
-  }
-  return 1;
 };
 
 export const createColumn = createAsyncThunk(

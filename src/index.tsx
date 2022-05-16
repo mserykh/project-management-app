@@ -16,9 +16,7 @@ root.render(
   <Provider store={store}>
     <Suspense fallback="Loading...">
       <BrowserRouter>
-        <DndProvider backend={HTML5Backend}>
-          <App />
-        </DndProvider>
+        <App />
       </BrowserRouter>
     </Suspense>
   </Provider>
