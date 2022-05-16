@@ -21,18 +21,9 @@ function ConfirmDeleteModalWindow({ id, title, type }: ConfirmDeleteModalWindowP
         dispatch(updateBoardsData(boards));
         break;
       case 'column':
-        const deletedIndex = boardData.columns.findIndex((column) => column.id === id);
         const columns: ColumnInterface[] = boardData.columns.filter((column) => column.id !== id);
-        const updatedColumns = columns.map((column, index) => {
-          if (index > deletedIndex - 1) {
-            const newColumn = { ...column, order: column.order - 1 };
-            return newColumn;
-          }
-          return column;
-        });
-        console.log(updatedColumns);
         dispatch(deleteColumn({ title, columnId: id, boardId: boardData.id, navigate }));
-        dispatch(updateColumnData(updatedColumns));
+        dispatch(updateColumnData(columns));
         break;
       case 'task':
         const columnId = boardData.columns.filter((column: ColumnInterface) => {
