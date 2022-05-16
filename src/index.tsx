@@ -7,6 +7,8 @@ import { BrowserRouter } from 'react-router-dom';
 import './n18i';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
@@ -14,7 +16,9 @@ root.render(
   <Provider store={store}>
     <Suspense fallback="Loading...">
       <BrowserRouter>
-        <App />
+        <DndProvider backend={HTML5Backend}>
+          <App />
+        </DndProvider>
       </BrowserRouter>
     </Suspense>
   </Provider>

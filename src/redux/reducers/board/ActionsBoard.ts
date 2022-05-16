@@ -10,6 +10,7 @@ import {
 import { deleteHttp, postHttp, putHttp } from '../../../api/api';
 import { toast } from 'react-toastify';
 import { ColumnInterface, TaskInterface, UserInterface } from '../../../types';
+import { updateColumnData } from './boardStateSlice';
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
@@ -103,13 +104,14 @@ export const updateColumn = createAsyncThunk(
   }
 );
 
+// update all orders for columns following the deleted item : -1
+
 export const deleteColumn = createAsyncThunk(
   'boardState/deleteColumn',
-  async ({ title, columnId, boardId }: DeleteColumnPayload, thunkAPI) => {
+  async ({ title, columnId, boardId }: DeleteColumnPayload) => {
     try {
       await deleteHttp(`${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`);
       toast.success(`A ${title} column has been deleted`);
-      thunkAPI.dispatch(fetchBoard(boardId));
     } catch (e) {
       toast.error(`An error !!!! ${e}`);
     }

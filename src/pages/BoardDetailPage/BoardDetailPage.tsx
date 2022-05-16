@@ -34,13 +34,16 @@ function BoardDetailPage(): JSX.Element {
   }, [dispatch, id]);
 
   const columns = boardData.columns as ColumnInterface[];
+  // const droppableColumnsRender = columns.map((el: ColumnInterface) => (
+  //   <DroppableColumn key={el.order} />
+  // ));
   const columnsRender = columns.map((el: ColumnInterface) => (
     <ColumnCard key={el.id} id={el.id} title={el.title} boardId={id} order={el.order} />
   ));
 
   return (
-    <section className="grid grid-rows-columns gap-2 max-w-[1440px] mx-auto pb-2 h-columns">
-      <header className={'flex justify-between items-start'}>
+    <section className="grid grid-rows-columns gap-2 mx-auto pb-2 h-columns">
+      <header className={'flex justify-between items-start max-w-[1440px] w-full mx-auto'}>
         <div>
           <h2>{boardData.title}</h2>
           <p>{boardData.description}</p>
@@ -57,6 +60,7 @@ function BoardDetailPage(): JSX.Element {
         </Button>
       </header>
       <section className="flex gap-6 w-full overflow-x-auto justify-stretch">
+        {/* <ul className="grid grid-flow-col gap-6">{droppableColumnsRender}</ul> */}
         <ul className="grid grid-flow-col gap-6">{columnsRender}</ul>
         <Button
           className="whitespace-nowrap justify-self-start w-max h-max bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full rounded-tr"

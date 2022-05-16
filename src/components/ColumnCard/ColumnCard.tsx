@@ -2,7 +2,7 @@ import card_delete from '../../assets/images/card_delete.svg';
 import task_add from '../../assets/images/task_add.svg';
 import Modal from '../Modal/Modal';
 import ColumnCardProps from './types';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteModalWindow';
 import { useForm } from 'react-hook-form';
 import { AddColumnFormData } from '../AddColumnForm/AddColumnForm';
@@ -15,11 +15,77 @@ import { findIndex } from 'lodash';
 import { ColumnInterface, TaskInterface } from '../../types';
 import TaskCard from '../TaskCard/TaskCard';
 import FormElement from '../FormElements/FormElement';
+import { DragSourceMonitor, DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd';
+import { updateColumnData } from '../../redux/reducers/board/boardStateSlice';
 
 function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
+  const columns = boardData.columns;
   const navigate = useNavigate();
+
+  const moveColumn = (dragColumnOrder: number, hoverColumnOrder: number) => {
+    const draggingItem = columns[dragColumnOrder - 1];
+    const updatedDraggingItem = { ...draggingItem, order: hoverColumnOrder };
+    const item = columns[hoverColumnOrder - 1];
+    const updatedItem = { ...item, order: dragColumnOrder };
+    const newItems = columns.filter((item) => item.order !== dragColumnOrder);
+    if (hoverColumnOrder > dragColumnOrder) {
+      newItems.splice(dragColumnOrder - 1, 0, updatedItem);
+      newItems.splice(hoverColumnOrder - 1, 0, updatedDraggingItem);
+    } else {
+      newItems.splice(hoverColumnOrder - 1, 0, updatedDraggingItem);
+      newItems.splice(dragColumnOrder - 1, 0, updatedItem);
+    }
+    dispatch(updateColumnData(newItems));
+  };
+
+  const ref = useRef<HTMLLIElement>(null);
+
+  const [, dropRef] = useDrop({
+    accept: 'column',
+    // drop: (item, monitor) => {
+    //   dispatch(updateColumnData(boardData.columns));
+    // },
+    drop: (item: ColumnCardProps, monitor: DropTargetMonitor) => {
+      if (!ref.current) {
+        return;
+      }
+      const dragColumnOrder = item.order;
+      const dropColumnOrder = order;
+      if (dragColumnOrder === dropColumnOrder) {
+        return;
+      }
+      const hoverBoundingRect = ref.current.getBoundingClientRect();
+      const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
+      const clientOffset = monitor.getClientOffset() as XYCoord;
+      const hoverClientX = clientOffset.x - hoverBoundingRect.left;
+
+      if (dragColumnOrder < dropColumnOrder && hoverClientX < hoverMiddleX) {
+        return;
+      }
+
+      if (dragColumnOrder > dropColumnOrder && hoverClientX > hoverMiddleX) {
+        return;
+      }
+
+      moveColumn(dragColumnOrder, dropColumnOrder);
+    },
+  });
+
+  const [{ isDragging }, dragRef] = useDrag({
+    type: 'column',
+    item: () => {
+      return { id, title, order, boardId };
+    },
+    end: (item, monitor) => {
+      console.log(item);
+    },
+    collect: (monitor: DragSourceMonitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
   const [isUpdateInputOpened, setIsUpdateInputOpened] = useState<boolean>(false);
   const [isAddTaskModalOpened, setIsAddTaskModalOpened] = useState<boolean>(false);
@@ -85,14 +151,22 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
     handleUpdateColumnTitle();
   };
 
+  dragRef(dropRef(ref));
+
   return (
     <>
-      <li key={id} className="overflow-auto w-96 bg-purple-100 rounded-3xl p-6">
+      <li
+        ref={ref}
+        key={id}
+        className={`overflow-auto w-72 ${
+          isDragging ? 'bg-purple-50' : 'bg-purple-100'
+        } rounded-3xl p-4`}
+      >
         <div className="">
           {!isUpdateInputOpened && (
             <h3
               onClick={handleUpdateColumnTitle}
-              className={`w-[260px] h-[80px] font-['Inter'] not-italic text-[32px] leading-[125%] my-6 mx-6`}
+              className={`w-[256px] h-[80px] font-['Inter'] not-italic text-[32px] leading-[125%]`}
             >
               {title}
             </h3>
@@ -131,24 +205,25 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
             </form>
           )}
         </div>
-        <div className="w-[44px] flex justify-between my-6">
-          <img
-            className="inline-block mx-6 "
-            src={card_delete}
-            onClick={() => setIsDeleteModalOpened(true)}
-          ></img>
+        <div className="flex justify-between mb-2">
           <div
+            className="flex gap-2"
             onClick={() => {
               setIsAddTaskModalOpened(true);
             }}
           >
-            <img className="inline-block mx-6 " src={task_add}></img>
+            <img className="inline-block" src={task_add}></img>
             <span className="font-['Inter'] not-italic text-[#503ae7] text-[16px] leading-[150%]">
               Add task
             </span>
           </div>
+          <img
+            className="inline-block"
+            src={card_delete}
+            onClick={() => setIsDeleteModalOpened(true)}
+          ></img>
         </div>
-        <div>{tasksRender}</div>
+        <div className="flex flex-col gap-2 w-full">{tasksRender}</div>
       </li>
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
         <ConfirmDeleteModalWindow title={title} type="column" id={id} />
