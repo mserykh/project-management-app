@@ -8,7 +8,7 @@ import { cloneDeep } from 'lodash';
 import { createTask, updateTask } from '../../redux/actions/task';
 import { get } from 'lodash';
 import Select from 'react-select';
-import { updateColumnData } from '../../redux/reducers/board/boardStateSlice';
+import { updateColumnsData } from '../../redux/reducers/board/boardStateSlice';
 import AxiosResponse from 'axios';
 import { useState } from 'react';
 
@@ -86,7 +86,7 @@ const CreateUpdateTaskForm = ({
     const columnIndex = boardData.columns.findIndex((column) => column.id === columnId);
     const copyColumns = cloneDeep(boardData.columns);
     copyColumns[columnIndex].tasks.push(newTask as unknown as TaskInterface);
-    dispatch(updateColumnData(copyColumns));
+    dispatch(updateColumnsData(copyColumns));
     reset();
     onClose();
   };

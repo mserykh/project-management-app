@@ -9,10 +9,8 @@ import {
 } from '../../constants';
 import { deleteHttp, postHttp, putHttp } from '../../../api/api';
 import { toast } from 'react-toastify';
-import { ColumnInterface, TaskInterface, UserInterface } from '../../../types';
-import { updateColumnData } from './boardStateSlice';
+import { ColumnInterface, UserInterface } from '../../../types';
 import { getNewOrderNumber } from '../../../utils';
-import { TFuncReturn } from 'react-i18next';
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
@@ -107,7 +105,7 @@ export const updateColumn = createAsyncThunk(
 
 const updateColumnOrder = async (columnPayload: ColumnPayload): Promise<void> => {
   try {
-    const response = await putHttp(
+    await putHttp(
       `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}/${columnPayload.columnId}`,
       {
         title: columnPayload.title,

@@ -16,8 +16,8 @@ import { ColumnInterface, TaskInterface } from '../../types';
 import TaskCard from '../TaskCard/TaskCard';
 import FormElement from '../FormElements/FormElement';
 import { DragSourceMonitor, DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd';
-import { updateColumnData } from '../../redux/reducers/board/boardStateSlice';
 import { moveColumn } from '../../utils';
+import { updateColumnData, updateColumnsData } from '../../redux/reducers/board/boardStateSlice';
 
 function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element {
   const dispatch = useAppDispatch();
@@ -32,10 +32,6 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
     item: () => {
       return { id, title, order, boardId };
     },
-
-    // end: (item, monitor) => {
-    //   console.log(item);
-    // },
     collect: (monitor: DragSourceMonitor) => ({
       item: monitor.getItem(),
       isDragging: monitor.isDragging(),
@@ -67,15 +63,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
       if (dragColumnOrder > dropColumnOrder && hoverClientX > hoverMiddleX) {
         return;
       }
-      await moveColumn(
-        columns,
-        boardId,
-        dragColumnOrder,
-        dropColumnOrder,
-        dispatch,
-        updateColumn,
-        updateColumnData
-      );
+      await moveColumn(columns, boardId, dragColumnOrder, dropColumnOrder, dispatch);
     },
   });
 
@@ -137,6 +125,14 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
           boardId: boardData.id,
           order: order,
           navigate: navigate,
+        })
+      );
+      dispatch(
+        updateColumnData({
+          id: id,
+          title: data.columnTitle,
+          order: order,
+          tasks,
         })
       );
     }

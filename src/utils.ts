@@ -1,6 +1,7 @@
-import { ActionCreatorWithPayload, AnyAction, AsyncThunk, Dispatch } from '@reduxjs/toolkit';
+import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { ThunkDispatch } from 'redux-thunk';
-import { changeColumnsOrder, ColumnPayload } from './redux/reducers/board/ActionsBoard';
+import { changeColumnsOrder } from './redux/reducers/board/ActionsBoard';
+import { updateColumnsData } from './redux/reducers/board/boardStateSlice';
 import { boardStateInterface } from './redux/reducers/board/types';
 import { boardsStateInterface } from './redux/reducers/boards/types';
 import { globalStateInterface } from './redux/reducers/types';
@@ -39,9 +40,7 @@ export const moveColumn = async (
     undefined,
     AnyAction
   > &
-    Dispatch,
-  updateColumn: AsyncThunk<void, ColumnPayload, Record<string, never>>,
-  updateColumnData: ActionCreatorWithPayload<ColumnInterface[], string>
+    Dispatch
 ): Promise<void> => {
   const sortedElements = [...elementsArray].sort((a, b) => a.order - b.order);
   const draggingItem = findColumn(sortedElements, dragItemOrder);
@@ -96,7 +95,7 @@ export const moveColumn = async (
       })
     );
 
-    const columnDataUpdatedAction = updateColumnData(newColumns);
+    const columnDataUpdatedAction = updateColumnsData(newColumns);
     dispatch(columnDataUpdatedAction);
   }
   if (hoveredItem.index > draggingItem.index) {
@@ -141,6 +140,6 @@ export const moveColumn = async (
       })
     );
 
-    dispatch(updateColumnData(newColumns));
+    dispatch(updateColumnsData(newColumns));
   }
 };
