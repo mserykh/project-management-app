@@ -131,10 +131,12 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
     const dragIndex = columnData.tasks.findIndex((task) => task.order === dragOrder);
     const hoverIndex = columnData.tasks.findIndex((task) => task.order === hoverOrder);
     const dragItem = columnData.tasks[dragIndex];
+    if (isNil(dragItem)) {
+      return;
+    }
     const copyTasks = cloneDeep(columnData.tasks);
     const prevItem = copyTasks.splice(hoverIndex, 1, dragItem);
     const copyBoardData = cloneDeep(boardData);
-
     const hoverTaskData = {
       columnId: columnId,
       description: prevItem[0].description,
@@ -155,7 +157,6 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
     };
     const copyDragTaskData = { ...dragTaskData, id: dragItem.id };
     const copyHoverTaskData = { ...hoverTaskData, id: prevItem[0].id };
-
     copyTasks[dragIndex] = copyDragTaskData;
     copyTasks[hoverIndex] = copyHoverTaskData;
     copyBoardData.columns[columnIndex].tasks = copyTasks;
