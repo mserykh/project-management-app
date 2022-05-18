@@ -27,12 +27,24 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
 
   const ref = useRef<HTMLLIElement>(null);
 
+  const [{ isDragging }, dragRef, preview] = useDrag({
+    type: 'column',
+    item: () => {
+      return { id, title, order, boardId };
+    },
+
+    // end: (item, monitor) => {
+    //   console.log(item);
+    // },
+    collect: (monitor: DragSourceMonitor) => ({
+      item: monitor.getItem(),
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
   const [, dropRef] = useDrop({
     accept: 'column',
-    // drop: (item, monitor) => {
-    //   dispatch(updateColumnData(boardData.columns));
-    // },
-    drop: (item: ColumnCardProps, monitor: DropTargetMonitor) => {
+    drop: async (item: ColumnCardProps, monitor: DropTargetMonitor) => {
       if (!ref.current) {
         return;
       }
@@ -41,6 +53,8 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
       if (dragColumnOrder === dropColumnOrder) {
         return;
       }
+      console.log(dragColumnOrder, dropColumnOrder);
+
       const hoverBoundingRect = ref.current.getBoundingClientRect();
       const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
       const clientOffset = monitor.getClientOffset() as XYCoord;
@@ -53,7 +67,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
       if (dragColumnOrder > dropColumnOrder && hoverClientX > hoverMiddleX) {
         return;
       }
-      moveColumn(
+      await moveColumn(
         columns,
         boardId,
         dragColumnOrder,
@@ -63,19 +77,6 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
         updateColumnData
       );
     },
-  });
-
-  const [{ isDragging }, dragRef] = useDrag({
-    type: 'column',
-    item: () => {
-      return { id, title, order, boardId };
-    },
-    end: (item, monitor) => {
-      console.log(item);
-    },
-    collect: (monitor: DragSourceMonitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
   });
 
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
@@ -150,13 +151,14 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
       <li
         ref={ref}
         key={id}
-        className={`overflow-auto w-72 ${
-          isDragging ? 'bg-purple-50' : 'bg-purple-100'
+        className={`overflow-auto w-72 bg-purple-100 ${
+          isDragging ? 'opacity-0' : 'opacity-100'
         } rounded-3xl p-4`}
       >
         <div className="">
           {!isUpdateInputOpened && (
             <h3
+              ref={dragRef}
               onClick={handleUpdateColumnTitle}
               className={`w-[256px] h-[80px] font-['Inter'] not-italic text-[32px] leading-[125%]`}
             >

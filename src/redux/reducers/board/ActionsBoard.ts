@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { ColumnInterface, TaskInterface, UserInterface } from '../../../types';
 import { updateColumnData } from './boardStateSlice';
 import { getNewOrderNumber } from '../../../utils';
+import { TFuncReturn } from 'react-i18next';
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
@@ -37,6 +38,12 @@ export type ColumnPayload = {
   boardId: string;
   columnId?: string;
   order?: number;
+};
+
+type changeColumnsOrderPayload = {
+  draggingColumn: ColumnPayload;
+  changedColumns: ColumnPayload[];
+  draggedColumn: ColumnPayload;
 };
 
 type DeleteColumnPayload = {
@@ -78,7 +85,7 @@ export const createColumn = createAsyncThunk(
 
 export const updateColumn = createAsyncThunk(
   'boardState/updateColumn',
-  async (columnPayload: ColumnPayload, thunkAPI) => {
+  async (columnPayload: ColumnPayload) => {
     try {
       const response = await putHttp(
         `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}/${columnPayload.columnId}`,
@@ -88,16 +95,54 @@ export const updateColumn = createAsyncThunk(
         }
       );
       if ((response as AxiosResponse).status === 200) {
-        toast.success('A column has been update');
-        thunkAPI.dispatch(fetchBoard(columnPayload.boardId));
+        toast.success('A column has been updated');
+        // thunkAPI.dispatch(fetchBoard(columnPayload.boardId));
       }
     } catch (e) {
-      toast.error(`An error !!!! ${e}`);
+      console.error(e);
+      toast.error(`An error ${e}`);
     }
   }
 );
 
-// update all orders for columns following the deleted item : -1
+const updateColumnOrder = async (columnPayload: ColumnPayload): Promise<void> => {
+  try {
+    const response = await putHttp(
+      `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}/${columnPayload.columnId}`,
+      {
+        title: columnPayload.title,
+        order: columnPayload.order,
+      }
+    );
+  } catch (e) {
+    console.error(e);
+    toast.error(`An error ${e}`);
+  }
+};
+
+export const changeColumnsOrder = createAsyncThunk(
+  'boardState/changeColumnsOrder',
+  async ({ draggingColumn, changedColumns, draggedColumn }: changeColumnsOrderPayload) => {
+    try {
+      runGenerator(generator(draggingColumn, changedColumns, draggedColumn));
+      toast.success('A column has been updated');
+    } catch (e) {
+      console.error(e);
+    }
+  }
+);
+
+function* generator(
+  draggingColumn: ColumnPayload,
+  changedColumns: ColumnPayload[],
+  draggedColumn: ColumnPayload
+) {
+  yield updateColumnOrder(draggingColumn);
+  for (const changedColumn of changedColumns) {
+    yield updateColumnOrder(changedColumn);
+  }
+  yield updateColumnOrder(draggedColumn);
+}
 
 export const deleteColumn = createAsyncThunk(
   'boardState/deleteColumn',
@@ -106,7 +151,7 @@ export const deleteColumn = createAsyncThunk(
       await deleteHttp(`${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`);
       toast.success(`A ${title} column has been deleted`);
     } catch (e) {
-      toast.error(`An error !!!! ${e}`);
+      toast.error(`An error ${e}`);
     }
   }
 );
@@ -121,7 +166,7 @@ export const deleteTask = createAsyncThunk(
       toast.success(`A ${title} task has been deleted`);
       thunkAPI.dispatch(fetchBoard(boardId));
     } catch (e) {
-      toast.error(`An error !!!! ${e}`);
+      toast.error(`An error ${e}`);
     }
   }
 );
@@ -144,3 +189,21 @@ export const getAllUsers = createAsyncThunk(
     }
   }
 );
+
+function runGenerator(
+  gen: Generator<Promise<void> | void, Promise<void> | void, Promise<void> | void>
+): Promise<void | ColumnPayload> {
+  return Promise.resolve().then(function handleNext(value): void | PromiseLike<void> {
+    const next = gen.next(value);
+
+    return (function handleResult(next): Promise<void> | void {
+      if (next.done) {
+        return next.value;
+      } else {
+        return Promise.resolve(next.value).then(handleNext, function handleErr(err) {
+          return Promise.resolve(gen.throw(err)).then(handleResult);
+        });
+      }
+    })(next);
+  });
+}

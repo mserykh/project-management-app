@@ -1,6 +1,6 @@
 import { ActionCreatorWithPayload, AnyAction, AsyncThunk, Dispatch } from '@reduxjs/toolkit';
 import { ThunkDispatch } from 'redux-thunk';
-import { ColumnPayload } from './redux/reducers/board/ActionsBoard';
+import { changeColumnsOrder, ColumnPayload } from './redux/reducers/board/ActionsBoard';
 import { boardStateInterface } from './redux/reducers/board/types';
 import { boardsStateInterface } from './redux/reducers/boards/types';
 import { globalStateInterface } from './redux/reducers/types';
@@ -24,7 +24,7 @@ export const findColumn = (elementsArray: ColumnInterface[] | TaskInterface[], o
   };
 };
 
-export const moveColumn = (
+export const moveColumn = async (
   elementsArray: ColumnInterface[],
   boardId: string,
   dragItemOrder: number,
@@ -42,21 +42,14 @@ export const moveColumn = (
     Dispatch,
   updateColumn: AsyncThunk<void, ColumnPayload, Record<string, never>>,
   updateColumnData: ActionCreatorWithPayload<ColumnInterface[], string>
-): void => {
+): Promise<void> => {
   const sortedElements = [...elementsArray].sort((a, b) => a.order - b.order);
   const draggingItem = findColumn(sortedElements, dragItemOrder);
   const updatedDraggingItem = {
     ...draggingItem.element,
     order: getNewOrderNumber(sortedElements),
   } as ColumnInterface;
-  dispatch(
-    updateColumn({
-      title: updatedDraggingItem.title,
-      order: updatedDraggingItem.order,
-      columnId: updatedDraggingItem.id,
-      boardId,
-    })
-  );
+
   const hoveredItem = findColumn(sortedElements, hoverItemOrder);
   let newColumns = [] as ColumnInterface[];
 
@@ -66,16 +59,6 @@ export const moveColumn = (
       .map((item) => {
         return (item = { ...item, order: item.order + 1 });
       });
-    changedColumns.forEach((column) =>
-      dispatch(
-        updateColumn({
-          title: column.title,
-          order: column.order,
-          columnId: column.id,
-          boardId,
-        })
-      )
-    );
     const beforeChangedColumns = [...sortedElements].slice(0, hoveredItem.index);
     const afterChangedColumns = [...sortedElements].slice(
       draggingItem.index + 1,
@@ -87,52 +70,77 @@ export const moveColumn = (
       ...changedColumns,
       ...afterChangedColumns,
     ];
+
+    const reversedChangedColumns = [...changedColumns].reverse();
+
     dispatch(
-      updateColumn({
-        title: updatedDraggingItem.title,
-        order: hoverItemOrder,
-        columnId: updatedDraggingItem.id,
-        boardId,
+      changeColumnsOrder({
+        draggingColumn: {
+          title: updatedDraggingItem.title,
+          order: updatedDraggingItem.order,
+          columnId: updatedDraggingItem.id,
+          boardId,
+        },
+        changedColumns: reversedChangedColumns.map((x) => ({
+          title: x.title,
+          order: x.order,
+          columnId: x.id,
+          boardId,
+        })),
+        draggedColumn: {
+          title: updatedDraggingItem.title,
+          order: hoverItemOrder,
+          columnId: updatedDraggingItem.id,
+          boardId,
+        },
       })
     );
-    dispatch(updateColumnData(newColumns));
-    return;
-  } else if (hoveredItem.index > draggingItem.index) {
+
+    const columnDataUpdatedAction = updateColumnData(newColumns);
+    dispatch(columnDataUpdatedAction);
+  }
+  if (hoveredItem.index > draggingItem.index) {
     const changedColumns = [...sortedElements]
-      .slice(draggingItem.index + 1, hoveredItem.index)
+      .slice(draggingItem.index + 1, hoveredItem.index + 1)
       .map((item) => {
         return (item = { ...item, order: item.order - 1 });
       });
-    changedColumns.forEach((column) =>
-      dispatch(
-        updateColumn({
-          title: column.title,
-          order: column.order,
-          columnId: column.id,
-          boardId,
-        })
-      )
-    );
     const beforeChangedColumns = [...sortedElements].slice(0, draggingItem.index);
     const afterChangedColumns = [...sortedElements].slice(
       hoveredItem.index + 1,
       sortedElements.length
     );
-    dispatch(
-      updateColumn({
-        title: updatedDraggingItem.title,
-        order: hoverItemOrder,
-        columnId: updatedDraggingItem.id,
-        boardId,
-      })
-    );
+
     newColumns = [
       ...beforeChangedColumns,
       ...changedColumns,
       { ...updatedDraggingItem, order: hoverItemOrder },
       ...afterChangedColumns,
     ];
+
+    dispatch(
+      changeColumnsOrder({
+        draggingColumn: {
+          title: updatedDraggingItem.title,
+          order: updatedDraggingItem.order,
+          columnId: updatedDraggingItem.id,
+          boardId,
+        },
+        changedColumns: changedColumns.map((x) => ({
+          title: x.title,
+          order: x.order,
+          columnId: x.id,
+          boardId,
+        })),
+        draggedColumn: {
+          title: updatedDraggingItem.title,
+          order: hoverItemOrder,
+          columnId: updatedDraggingItem.id,
+          boardId,
+        },
+      })
+    );
+
     dispatch(updateColumnData(newColumns));
-    return;
   }
 };

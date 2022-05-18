@@ -43,7 +43,7 @@ function BoardDetailPage(): JSX.Element {
     ));
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider debugMode={true} backend={HTML5Backend}>
       <section className="grid grid-rows-columns gap-2 mx-auto pb-2 h-columns">
         <header className={'flex justify-between items-start max-w-[1440px] w-full mx-auto'}>
           <div>
@@ -61,10 +61,10 @@ function BoardDetailPage(): JSX.Element {
             Go to boards list
           </Button>
         </header>
-        <section className="flex gap-6 w-full overflow-x-auto justify-stretch">
-          <ul className="grid grid-flow-col gap-6">{columnsRender}</ul>
+        <section className="flex gap-4 w-full overflow-x-auto justify-stretch">
+          <ul className="grid grid-flow-col gap-4">{columnsRender}</ul>
           <Button
-            className="whitespace-nowrap justify-self-start w-max h-max bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full rounded-tr"
+            className="whitespace-nowrap justify-self-start w-72 h-max bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full rounded-tr"
             type="button"
             onClick={() => {
               setIsModalOpened(true);
