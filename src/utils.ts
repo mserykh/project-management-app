@@ -51,13 +51,15 @@ export const moveColumn = async (
 
   const hoveredItem = findColumn(sortedElements, hoverItemOrder);
   let newColumns = [] as ColumnInterface[];
+  let changedColumns = [] as ColumnInterface[];
 
   if (hoveredItem.index < draggingItem.index) {
-    const changedColumns = [...sortedElements]
+    changedColumns = [...sortedElements]
       .slice(hoveredItem.index, draggingItem.index)
       .map((item) => {
         return (item = { ...item, order: item.order + 1 });
-      });
+      })
+      .reverse();
     const beforeChangedColumns = [...sortedElements].slice(0, hoveredItem.index);
     const afterChangedColumns = [...sortedElements].slice(
       draggingItem.index + 1,
@@ -66,40 +68,12 @@ export const moveColumn = async (
     newColumns = [
       ...beforeChangedColumns,
       { ...updatedDraggingItem, order: hoverItemOrder },
-      ...changedColumns,
+      ...[...changedColumns].reverse(),
       ...afterChangedColumns,
     ];
-
-    const reversedChangedColumns = [...changedColumns].reverse();
-
-    dispatch(
-      changeColumnsOrder({
-        draggingColumn: {
-          title: updatedDraggingItem.title,
-          order: updatedDraggingItem.order,
-          columnId: updatedDraggingItem.id,
-          boardId,
-        },
-        changedColumns: reversedChangedColumns.map((x) => ({
-          title: x.title,
-          order: x.order,
-          columnId: x.id,
-          boardId,
-        })),
-        draggedColumn: {
-          title: updatedDraggingItem.title,
-          order: hoverItemOrder,
-          columnId: updatedDraggingItem.id,
-          boardId,
-        },
-      })
-    );
-
-    const columnDataUpdatedAction = updateColumnsData(newColumns);
-    dispatch(columnDataUpdatedAction);
   }
   if (hoveredItem.index > draggingItem.index) {
-    const changedColumns = [...sortedElements]
+    changedColumns = [...sortedElements]
       .slice(draggingItem.index + 1, hoveredItem.index + 1)
       .map((item) => {
         return (item = { ...item, order: item.order - 1 });
@@ -116,30 +90,30 @@ export const moveColumn = async (
       { ...updatedDraggingItem, order: hoverItemOrder },
       ...afterChangedColumns,
     ];
-
-    dispatch(
-      changeColumnsOrder({
-        draggingColumn: {
-          title: updatedDraggingItem.title,
-          order: updatedDraggingItem.order,
-          columnId: updatedDraggingItem.id,
-          boardId,
-        },
-        changedColumns: changedColumns.map((x) => ({
-          title: x.title,
-          order: x.order,
-          columnId: x.id,
-          boardId,
-        })),
-        draggedColumn: {
-          title: updatedDraggingItem.title,
-          order: hoverItemOrder,
-          columnId: updatedDraggingItem.id,
-          boardId,
-        },
-      })
-    );
-
-    dispatch(updateColumnsData(newColumns));
   }
+
+  dispatch(
+    changeColumnsOrder({
+      draggingColumn: {
+        title: updatedDraggingItem.title,
+        order: updatedDraggingItem.order,
+        columnId: updatedDraggingItem.id,
+        boardId,
+      },
+      changedColumns: changedColumns.map((x) => ({
+        title: x.title,
+        order: x.order,
+        columnId: x.id,
+        boardId,
+      })),
+      draggedColumn: {
+        title: updatedDraggingItem.title,
+        order: hoverItemOrder,
+        columnId: updatedDraggingItem.id,
+        boardId,
+      },
+    })
+  );
+
+  dispatch(updateColumnsData(newColumns));
 };
