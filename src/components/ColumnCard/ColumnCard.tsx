@@ -17,7 +17,7 @@ import TaskCard from '../TaskCard/TaskCard';
 import FormElement from '../FormElements/FormElement';
 import { DragSourceMonitor, DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd';
 import { moveColumn } from '../../utils';
-import { updateColumnData, updateColumnsData } from '../../redux/reducers/board/boardStateSlice';
+import { updateColumnData } from '../../redux/reducers/board/boardStateSlice';
 
 function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element {
   const dispatch = useAppDispatch();
