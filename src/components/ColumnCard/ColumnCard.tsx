@@ -49,7 +49,6 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
       if (dragColumnOrder === dropColumnOrder) {
         return;
       }
-      console.log(dragColumnOrder, dropColumnOrder);
 
       const hoverBoundingRect = ref.current.getBoundingClientRect();
       const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
@@ -148,7 +147,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
         ref={ref}
         key={id}
         className={`overflow-auto w-72 bg-purple-100 ${
-          isDragging ? 'opacity-0' : 'opacity-100'
+          isDragging ? 'opacity-0' : 'cursor-grab opacity-100'
         } rounded-3xl p-4`}
       >
         <div className="">
@@ -161,7 +160,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
               {title}
             </h3>
           )}
-          {isUpdateInputOpened && (
+          {isUpdateInputOpened && !isDragging && (
             <form onSubmit={handleSubmit(formSubmitHandler)}>
               <FormElement
                 type="text"

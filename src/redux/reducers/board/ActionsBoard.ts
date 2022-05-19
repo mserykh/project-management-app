@@ -122,7 +122,7 @@ export const changeColumnsOrder = createAsyncThunk(
   'boardState/changeColumnsOrder',
   async ({ draggingColumn, changedColumns, draggedColumn }: changeColumnsOrderPayload) => {
     try {
-      runGenerator(generator(draggingColumn, changedColumns, draggedColumn));
+      runGenerator(changeColumnsOrderGenerator(draggingColumn, changedColumns, draggedColumn));
       toast.success('A column has been updated');
     } catch (e) {
       console.error(e);
@@ -130,7 +130,7 @@ export const changeColumnsOrder = createAsyncThunk(
   }
 );
 
-function* generator(
+function* changeColumnsOrderGenerator(
   draggingColumn: ColumnPayload,
   changedColumns: ColumnPayload[],
   draggedColumn: ColumnPayload
