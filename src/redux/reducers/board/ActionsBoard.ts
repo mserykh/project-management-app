@@ -9,7 +9,8 @@ import {
 } from '../../constants';
 import { deleteHttp, postHttp, putHttp } from '../../../api/api';
 import { toast } from 'react-toastify';
-import { ColumnInterface, TaskInterface, UserInterface } from '../../../types';
+import { ColumnInterface, UserInterface } from '../../../types';
+import { getNewOrderNumber } from '../../../utils';
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
@@ -28,13 +29,19 @@ export const fetchBoard = createAsyncThunk('boardState/fetchBoard', async (id: s
   }
 });
 
-type ColumnPayload = {
+export type ColumnPayload = {
   title: string;
   columns?: ColumnInterface[];
-  navigate: (url: string) => void;
+  navigate?: (url: string) => void;
   boardId: string;
   columnId?: string;
   order?: number;
+};
+
+type changeColumnsOrderPayload = {
+  draggingColumn: ColumnPayload;
+  changedColumns: ColumnPayload[];
+  draggedColumn: ColumnPayload;
 };
 
 type DeleteColumnPayload = {
@@ -50,14 +57,6 @@ type DeleteTaskPayload = {
   boardId: string;
   columnId: string;
   navigate: (url: string) => void;
-};
-
-export const getNewOrderNumber = (elementsArray: ColumnInterface[] | TaskInterface[]): number => {
-  if (elementsArray.length > 0) {
-    const maxOrderNumber = Math.max(...elementsArray.map((element) => element.order as number));
-    return maxOrderNumber + 1;
-  }
-  return 1;
 };
 
 export const createColumn = createAsyncThunk(
@@ -84,7 +83,7 @@ export const createColumn = createAsyncThunk(
 
 export const updateColumn = createAsyncThunk(
   'boardState/updateColumn',
-  async (columnPayload: ColumnPayload, thunkAPI) => {
+  async (columnPayload: ColumnPayload) => {
     try {
       const response = await putHttp(
         `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}/${columnPayload.columnId}`,
@@ -94,24 +93,63 @@ export const updateColumn = createAsyncThunk(
         }
       );
       if ((response as AxiosResponse).status === 200) {
-        toast.success('A column has been update');
-        thunkAPI.dispatch(fetchBoard(columnPayload.boardId));
+        toast.success('A column has been updated');
+        // thunkAPI.dispatch(fetchBoard(columnPayload.boardId));
       }
     } catch (e) {
-      toast.error(`An error !!!! ${e}`);
+      console.error(e);
+      toast.error(`An error ${e}`);
     }
   }
 );
 
+const updateColumnOrder = async (columnPayload: ColumnPayload): Promise<void> => {
+  try {
+    await putHttp(
+      `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}/${columnPayload.columnId}`,
+      {
+        title: columnPayload.title,
+        order: columnPayload.order,
+      }
+    );
+  } catch (e) {
+    console.error(e);
+    toast.error(`An error ${e}`);
+  }
+};
+
+export const changeColumnsOrder = createAsyncThunk(
+  'boardState/changeColumnsOrder',
+  async ({ draggingColumn, changedColumns, draggedColumn }: changeColumnsOrderPayload) => {
+    try {
+      runGenerator(changeColumnsOrderGenerator(draggingColumn, changedColumns, draggedColumn));
+      toast.success('A column has been updated');
+    } catch (e) {
+      console.error(e);
+    }
+  }
+);
+
+function* changeColumnsOrderGenerator(
+  draggingColumn: ColumnPayload,
+  changedColumns: ColumnPayload[],
+  draggedColumn: ColumnPayload
+) {
+  yield updateColumnOrder(draggingColumn);
+  for (const changedColumn of changedColumns) {
+    yield updateColumnOrder(changedColumn);
+  }
+  yield updateColumnOrder(draggedColumn);
+}
+
 export const deleteColumn = createAsyncThunk(
   'boardState/deleteColumn',
-  async ({ title, columnId, boardId }: DeleteColumnPayload, thunkAPI) => {
+  async ({ title, columnId, boardId }: DeleteColumnPayload) => {
     try {
       await deleteHttp(`${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`);
       toast.success(`A ${title} column has been deleted`);
-      thunkAPI.dispatch(fetchBoard(boardId));
     } catch (e) {
-      toast.error(`An error !!!! ${e}`);
+      toast.error(`An error ${e}`);
     }
   }
 );
@@ -126,7 +164,7 @@ export const deleteTask = createAsyncThunk(
       toast.success(`A ${title} task has been deleted`);
       thunkAPI.dispatch(fetchBoard(boardId));
     } catch (e) {
-      toast.error(`An error !!!! ${e}`);
+      toast.error(`An error ${e}`);
     }
   }
 );
@@ -149,3 +187,21 @@ export const getAllUsers = createAsyncThunk(
     }
   }
 );
+
+function runGenerator(
+  gen: Generator<Promise<void> | void, Promise<void> | void, Promise<void> | void>
+): Promise<void | ColumnPayload> {
+  return Promise.resolve().then(function handleNext(value): void | PromiseLike<void> {
+    const next = gen.next(value);
+
+    return (function handleResult(next): Promise<void> | void {
+      if (next.done) {
+        return next.value;
+      } else {
+        return Promise.resolve(next.value).then(handleNext, function handleErr(err) {
+          return Promise.resolve(gen.throw(err)).then(handleResult);
+        });
+      }
+    })(next);
+  });
+}

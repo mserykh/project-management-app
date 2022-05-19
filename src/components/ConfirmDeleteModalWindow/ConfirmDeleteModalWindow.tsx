@@ -4,9 +4,10 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { updateBoardsData } from '../../redux/reducers/boards/boardsStateSlice';
 import { BoardInterface, ColumnInterface, TaskInterface } from '../../types';
 import { deleteColumn, deleteTask } from '../../redux/reducers/board/ActionsBoard';
-import { updateColumnData } from '../../redux/reducers/board/boardStateSlice';
+import { updateColumnsData } from '../../redux/reducers/board/boardStateSlice';
 import { useNavigate } from 'react-router';
 import { findIndex, cloneDeep } from 'lodash';
+
 function ConfirmDeleteModalWindow({ id, title, type }: ConfirmDeleteModalWindowProps): JSX.Element {
   const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
@@ -20,9 +21,9 @@ function ConfirmDeleteModalWindow({ id, title, type }: ConfirmDeleteModalWindowP
         dispatch(updateBoardsData(boards));
         break;
       case 'column':
-        dispatch(deleteColumn({ title, columnId: id, boardId: boardData.id, navigate }));
         const columns: ColumnInterface[] = boardData.columns.filter((column) => column.id !== id);
-        dispatch(updateColumnData(columns));
+        dispatch(deleteColumn({ title, columnId: id, boardId: boardData.id, navigate }));
+        dispatch(updateColumnsData(columns));
         break;
       case 'task':
         const columnId = boardData.columns.filter((column: ColumnInterface) => {
@@ -40,7 +41,7 @@ function ConfirmDeleteModalWindow({ id, title, type }: ConfirmDeleteModalWindowP
         );
         const newColumns = cloneDeep(boardData.columns);
         newColumns[columnIndex].tasks = tasks;
-        dispatch(updateColumnData(newColumns));
+        dispatch(updateColumnsData(newColumns));
     }
   };
   return (

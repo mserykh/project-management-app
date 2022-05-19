@@ -2,7 +2,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { boardStateInterface } from './types';
 import { BoardInterface, ColumnInterface, TaskInterface, UserInterface } from '../../../types';
-import { fetchBoard, createColumn, deleteColumn, getAllUsers, updateColumn } from './ActionsBoard';
+import {
+  fetchBoard,
+  createColumn,
+  deleteColumn,
+  getAllUsers,
+  updateColumn,
+  changeColumnsOrder,
+} from './ActionsBoard';
 import { findIndex } from 'lodash';
 
 const initialState: boardStateInterface = {
@@ -35,7 +42,14 @@ export const boardStateSlice = createSlice({
     updateBoardData(state: boardStateInterface, payload: PayloadAction<BoardInterface>) {
       state.boardData = payload.payload;
     },
-    updateColumnData(state: boardStateInterface, payload: PayloadAction<ColumnInterface[]>) {
+    updateColumnData(state: boardStateInterface, payload: PayloadAction<ColumnInterface>) {
+      const columnIndex = findIndex(
+        state.boardData.columns,
+        (column) => column.id === payload.payload.id
+      );
+      state.boardData.columns[columnIndex].title = payload.payload.title;
+    },
+    updateColumnsData(state: boardStateInterface, payload: PayloadAction<ColumnInterface[]>) {
       state.boardData.columns = payload.payload;
     },
     updateUsers(state: boardStateInterface, payload: PayloadAction<UserInterface[]>) {
@@ -85,6 +99,17 @@ export const boardStateSlice = createSlice({
     builder.addCase(updateColumn.pending, (state) => {
       state.loading = true;
     });
+    builder.addCase(changeColumnsOrder.fulfilled, (state) => {
+      state.loading = false;
+      state.error = '';
+    });
+    builder.addCase(changeColumnsOrder.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload as string;
+    });
+    builder.addCase(changeColumnsOrder.pending, (state) => {
+      state.loading = true;
+    });
     builder.addCase(deleteColumn.fulfilled, (state) => {
       state.loading = false;
       state.error = '';
@@ -116,6 +141,7 @@ export const {
   updateUpdateModalOpen,
   updateBoardData,
   updateColumnData,
+  updateColumnsData,
   updateUsers,
 } = boardStateSlice.actions;
 

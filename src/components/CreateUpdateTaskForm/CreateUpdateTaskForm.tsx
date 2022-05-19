@@ -7,8 +7,8 @@ import { cloneDeep, findIndex } from 'lodash';
 import { createTask, updateTask } from '../../redux/actions/task';
 import { get } from 'lodash';
 import Select from 'react-select';
-import { updateColumnData } from '../../redux/reducers/board/boardStateSlice';
-import { getNewOrderNumber } from '../../redux/reducers/board/ActionsBoard';
+import { updateColumnsData } from '../../redux/reducers/board/boardStateSlice';
+import { getNewOrderNumber } from '../../utils';
 import card_edit from '../../assets/images/card_edit.svg';
 import { useState } from 'react';
 
@@ -83,7 +83,7 @@ const CreateUpdateTaskForm = ({
       const newTask = (newTaskData as unknown as Record<string, unknown>).data;
       copyColumns[columnIndex].tasks.push(newTask as unknown as TaskInterface);
     }
-    dispatch(updateColumnData(copyColumns));
+    dispatch(updateColumnsData(copyColumns));
     reset();
     onClose();
   };

@@ -32,14 +32,14 @@ function TaskCard(props: TaskInterface): JSX.Element {
     <>
       <div
         key={props.id}
-        className="w-[360px] bg-white rounded-3xl p-6 h-[275px]"
+        className="bg-white rounded-3xl p-4 h-46"
         onClick={() => setIsAddTaskModalOpened(true)}
       >
-        <h3 className="overflow-hidden text-ellipsis whitespace-nowrap mb-10">{props.title}</h3>
-        <h5 className="overflow-hidden text-ellipsis whitespace-nowrap mb-10">
+        <h3 className="overflow-hidden text-ellipsis whitespace-nowrap mb-5">{props.title}</h3>
+        <h5 className="overflow-hidden text-ellipsis whitespace-nowrap mb-5">
           {props.description}
         </h5>
-        <div className="mb-10">
+        <div className="mb-5">
           <img className="inline-block" src={user_image}></img>
           <span className="text-[#1ad993]">&nbsp;{props.userId ? userName(props.userId) : ''}</span>
         </div>
