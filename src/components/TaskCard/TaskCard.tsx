@@ -6,7 +6,7 @@ import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteM
 import CreateUpdateTaskForm from '../CreateUpdateTaskForm/CreateUpdateTaskForm';
 import { TaskInterface, UserInterface } from '../../types';
 import { useAppSelector } from '../../redux/hooks';
-import { findIndex } from 'lodash';
+import { findIndex, get } from 'lodash';
 
 function TaskCard(props: TaskInterface): JSX.Element {
   const { users } = useAppSelector((state) => state.boardReducer);
@@ -24,13 +24,17 @@ function TaskCard(props: TaskInterface): JSX.Element {
   const userName = (userId: string) => {
     if (userId) {
       const userIndex = findIndex(users, (user: UserInterface) => user.id === userId);
-      return users[userIndex].login;
+      return get(users[userIndex], 'login');
     }
   };
 
   return (
     <>
-      <div key={props.id} className="bg-white rounded-3xl p-4 h-46">
+      <div
+        key={props.id}
+        className="bg-white rounded-3xl p-4 h-46"
+        onClick={() => setIsAddTaskModalOpened(true)}
+      >
         <h3 className="overflow-hidden text-ellipsis whitespace-nowrap mb-5">{props.title}</h3>
         <h5 className="overflow-hidden text-ellipsis whitespace-nowrap mb-5">
           {props.description}
@@ -51,7 +55,11 @@ function TaskCard(props: TaskInterface): JSX.Element {
           onClose={handleAddTaskModalOnClose}
           columnId={props.columnId as string}
           boardId={props.boardId as string}
-          editMode={false}
+          title={props.title}
+          description={props.description}
+          id={props.id}
+          userId={props.userId}
+          readOnly={true}
         />
       </Modal>
     </>

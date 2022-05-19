@@ -222,7 +222,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
           onClose={handleAddTaskModalOnClose}
           columnId={id}
           boardId={boardId}
-          editMode={true}
+          readOnly={false}
         />
       </Modal>
     </>

@@ -1,15 +1,15 @@
 import { Controller, useForm } from 'react-hook-form';
-import { BoardInterface, FileInterface, UserInterface, TaskInterface } from '../../types';
+import { FileInterface, UserInterface, TaskInterface } from '../../types';
 import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { updateBoardsData } from '../../redux/reducers/boards/boardsStateSlice';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, findIndex } from 'lodash';
 import { createTask, updateTask } from '../../redux/actions/task';
 import { get } from 'lodash';
 import Select from 'react-select';
 import { updateColumnsData } from '../../redux/reducers/board/boardStateSlice';
-import AxiosResponse from 'axios';
+import { getNewOrderNumber } from '../../utils';
+import card_edit from '../../assets/images/card_edit.svg';
 import { useState } from 'react';
 
 type CreateUpdateTaskFormData = {
@@ -27,7 +27,9 @@ interface CreateUpdateTaskFormProps {
   onClose: () => void;
   boardId: string;
   columnId: string;
-  editMode: boolean;
+  readOnly?: boolean;
+  userId?: string;
+  order?: number;
 }
 
 const CreateUpdateTaskForm = ({
@@ -35,18 +37,16 @@ const CreateUpdateTaskForm = ({
   title,
   id,
   description,
-  files,
   boardId,
   columnId,
-  editMode,
+  userId,
+  order,
+  readOnly,
 }: CreateUpdateTaskFormProps) => {
-  const userId = useAppSelector((state) => {
-    return state.userReducer.user?.id;
-  });
   const isUpdate = () => !!id;
-  const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
   const users = useAppSelector((state) => state.boardReducer.users);
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
+  const [editMode, setEditMode] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const {
     register,
@@ -60,37 +60,39 @@ const CreateUpdateTaskForm = ({
   });
 
   const formSubmitHandler = async (data: CreateUpdateTaskFormData): Promise<void> => {
+    const columnIndex = boardData.columns.findIndex((column) => column.id === columnId);
+    const copyColumns = cloneDeep(boardData.columns);
+    const generatedOrder = order ? order : getNewOrderNumber(boardData.columns[columnIndex].tasks);
     const taskData: TaskInterface = {
       title: data.taskTitle,
       description: data.taskDescription,
-      userId: get(data, 'userId.id') || userId,
+      userId: get(data, 'userId.id'),
       done: false,
-      order: 1,
+      order: generatedOrder,
     };
     if (!!id) {
-      updateTask(taskData, boardId, columnId, id);
-      const newBoards = cloneDeep(boardsData);
-      const boards: BoardInterface[] = newBoards.map((board) => {
-        if (board.id === id) {
-          board['title'] = data.taskTitle;
-        }
-        return board;
-      });
-      dispatch(updateBoardsData(boards));
-      reset();
-      onClose();
-      return;
+      taskData.boardId = boardId;
+      taskData.columnId = columnId;
+      await updateTask(taskData, boardId, columnId, id);
+      const taskIndex = findIndex(copyColumns[columnIndex].tasks, (task) => task.id === id);
+      copyColumns[columnIndex].tasks[taskIndex].description = taskData.description;
+      copyColumns[columnIndex].tasks[taskIndex].title = taskData.title;
+      copyColumns[columnIndex].tasks[taskIndex].userId = get(data, 'userId.id');
+    } else {
+      const newTaskData = await createTask(taskData, boardId, columnId);
+      const newTask = (newTaskData as unknown as Record<string, unknown>).data;
+      copyColumns[columnIndex].tasks.push(newTask as unknown as TaskInterface);
     }
-    const newTaskData = await createTask(taskData, boardId, columnId);
-    const newTask = (newTaskData as unknown as Record<string, unknown>).data;
-    const columnIndex = boardData.columns.findIndex((column) => column.id === columnId);
-    const copyColumns = cloneDeep(boardData.columns);
-    copyColumns[columnIndex].tasks.push(newTask as unknown as TaskInterface);
     dispatch(updateColumnsData(copyColumns));
     reset();
     onClose();
   };
-
+  const userName = (userId: string) => {
+    if (userId) {
+      const userIndex = findIndex(users, (user: UserInterface) => user.id === userId);
+      return get(users[userIndex], 'login', 'None');
+    }
+  };
   const isSubmitDisabled = (!isDirty && !isUpdate()) || Object.keys(errors).length > 0;
   const fieldLabel = isUpdate() ? `Update task ${title}` : 'Add new task';
   const buttonName = isUpdate() ? 'Update task' : 'Add new task';
@@ -131,6 +133,7 @@ const CreateUpdateTaskForm = ({
           control={control}
           render={({ field }) => (
             <Select<UserInterface>
+              placeholder="Please select an user"
               options={users}
               getOptionLabel={(user: UserInterface) => user.login}
               getOptionValue={(user: UserInterface) => user.id}
@@ -150,8 +153,29 @@ const CreateUpdateTaskForm = ({
       </Button>
     </form>
   );
+  const formReadMode = (
+    <div className="flex">
+      <div>
+        <div>
+          <label htmlFor="task_title">Task title:</label>
+          <h3 id="task_title">{title}</h3>
+        </div>
+        <div>
+          <label htmlFor="task_title">Task Description:</label>
+          <p id="task_description">{description}</p>
+        </div>
+        <div>
+          <label htmlFor="task_user">User:</label>
+          <h5>{userId ? userName(userId) : ''}</h5>
+        </div>
+      </div>
+      <div>
+        <img src={card_edit} onClick={() => setEditMode(true)}></img>
+      </div>
+    </div>
+  );
 
-  return editMode ? formEditMode : <></>;
+  return editMode || !readOnly ? formEditMode : formReadMode;
 };
 
 export default CreateUpdateTaskForm;
