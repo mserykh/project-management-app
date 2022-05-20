@@ -44,14 +44,14 @@ function BoardDetailPage(): JSX.Element {
 
   return (
     <DndProvider debugMode={true} backend={HTML5Backend}>
-      <section className="grid grid-rows-columns gap-2 mx-auto pb-2 h-columns">
-        <header className={'flex justify-between items-start max-w-[1440px] w-full mx-auto'}>
-          <div>
-            <h2>{boardData.title}</h2>
-            <p>{boardData.description}</p>
+      <section className="grid grid-rows-columns gap-x-2 gap-y-6 mx-auto pb-2 h-columns">
+        <header className="section__header section__header--columns">
+          <div className="section__header-inner">
+            <h2 className="section__title">{boardData.title}</h2>
+            <p className="section__description">{boardData.description}</p>
           </div>
           <Button
-            className="whitespace-nowrap justify-self-start w-max h-max bg-gray-200 hover:bg-gray-400 text-white font-bold py-2 px-4 text-black rounded-full rounded-tr"
+            className="button button--back"
             type="button"
             onClick={() => {
               navigate('/main');
@@ -61,17 +61,17 @@ function BoardDetailPage(): JSX.Element {
             Go to boards list
           </Button>
         </header>
-        <section className="flex gap-4 w-full overflow-x-auto justify-stretch">
+        <section className="columns">
           <ul className="grid grid-flow-col gap-4">{columnsRender}</ul>
           <Button
-            className="whitespace-nowrap justify-self-start w-72 h-max bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full rounded-tr"
+            className="button button--column"
             type="button"
             onClick={() => {
               setIsModalOpened(true);
             }}
             isDisabled={false}
           >
-            Add column
+            Add a column
           </Button>
           <Modal isOpened={isModalOpened} onClose={handleOnClose}>
             <AddColumnForm onClose={handleOnClose} id={id} />

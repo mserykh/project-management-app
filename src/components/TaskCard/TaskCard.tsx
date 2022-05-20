@@ -29,23 +29,18 @@ function TaskCard(props: TaskInterface): JSX.Element {
   };
 
   return (
-    <>
-      <div
-        key={props.id}
-        className="bg-white rounded-3xl p-4 h-46"
-        onClick={() => setIsAddTaskModalOpened(true)}
-      >
-        <h3 className="overflow-hidden text-ellipsis whitespace-nowrap mb-5">{props.title}</h3>
-        <h5 className="overflow-hidden text-ellipsis whitespace-nowrap mb-5">
-          {props.description}
-        </h5>
-        <div className="mb-5">
-          <img className="inline-block" src={user_image}></img>
+    <li>
+      <div key={props.id} className="task" onClick={() => setIsAddTaskModalOpened(true)}>
+        <h3 className="task__title">{props.title}</h3>
+        <p className="task__description">{props.description}</p>
+        <div className="flex gap-2">
+          <img src={user_image} alt="" />
           <span className="text-[#1ad993]">&nbsp;{props.userId ? userName(props.userId) : ''}</span>
         </div>
-        <div className="flex justify-end">
-          <img src={card_delete} onClick={() => setIsDeleteModalOpened(true)}></img>
-        </div>
+        <button className="flex justify-end">
+          <img src={card_delete} onClick={() => setIsDeleteModalOpened(true)} />
+          <span className="sr-only">Delete the task</span>
+        </button>
       </div>
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
         <ConfirmDeleteModalWindow title={props.title} type="task" id={props.id ? props.id : ''} />
@@ -62,7 +57,7 @@ function TaskCard(props: TaskInterface): JSX.Element {
           readOnly={true}
         />
       </Modal>
-    </>
+    </li>
   );
 }
 

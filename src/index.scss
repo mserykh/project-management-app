@@ -6,24 +6,8 @@
 
 @import 'tailwindcss/utilities';
 
-html {
-}
-
 * {
   box-sizing: border-box;
-}
-
-*::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
-
-*::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
 }
 
 body {
@@ -43,19 +27,33 @@ body {
 }
 
 .button {
-  &--text {
+  @apply flex gap-x-2 items-center whitespace-nowrap justify-self-start font-semibold text-m h-max py-2 px-4 rounded-full transition;
+  &--column {
+    @apply mr-4 bg-primaryPurple hover:bg-white text-white hover:text-primaryPurple rounded-tr;
   }
-  &--icon {
+  &--back {
+    @apply text-grey hover:underline;
+  }
+  &--task {
+    @apply py-1 -ml-3 text-primaryPurple font-medium text-s hover:bg-white hover:rounded-full;
   }
 }
 
 .section {
-}
-
-.section__title {
-  @apply text-2xl font-heading font-black;
-  &--main {
-    @apply text-3xl;
+  &__title {
+    @apply text-2xl font-heading font-black;
+    &--main {
+      @apply text-3xl;
+    }
+  }
+  &__description {
+    @apply text-s font-medium;
+  }
+  &__header {
+    @apply flex justify-between mx-auto container items-start;
+    &--columns {
+      @apply xs:min-w-xs sm:min-w-sm md:min-w-md l:min-w-l xl:min-w-xl 2xl:min-w-2xl;
+    }
   }
 }
 
@@ -73,16 +71,61 @@ body {
     @apply p-6 block;
   }
   &__title {
-    @apply font-semibold text-m truncate;
+    @apply font-semibold text-l truncate;
   }
   &__description {
     @apply h-8 truncate;
   }
+}
 
+.columns {
+  @apply flex gap-4 w-full overflow-x-auto justify-items-stretch;
+}
+
+.column {
+  @apply p-5 w-72 flex flex-col gap-y-4 rounded-3xl bg-off-white overflow-auto;
+  &__title {
+    @apply font-semibold text-l truncate;
+  }
+  &::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+  }
+}
+
+.task {
+  @apply flex flex-col gap-2 bg-white rounded-3xl p-4;
+  &__title {
+    @apply font-semibold text-m truncate;
+  }
+  &__description {
+    @apply truncate;
+  }
+}
+
+.textarea {
+  @apply pl-6 py-3 w-full text-base border border-solid border-grey rounded-full;
+}
+
+.input {
+  @apply pl-6 py-3 w-full text-base border border-solid border-grey rounded-full;
 }
 
 .footer {
   @apply px-20 text-center text-grey shadow-footer mt-auto;
+  &-container {
+    @apply container mx-auto w-full py-6 flex flex-wrap gap-y-6 justify-between items-center;
+  }
+}
+
+.header {
+  @apply px-20;
   &-container {
     @apply container mx-auto w-full py-6 flex flex-wrap gap-y-6 justify-between items-center;
   }

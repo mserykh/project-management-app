@@ -18,6 +18,15 @@ module.exports = {
         'board-l': 'calc((100% - 16px * (4 - 1)) / 4)',
         'board-xl': 'calc((100% - 16px * (5 - 1)) / 5)',
       },
+      minWidth: {
+        '2xs': '320px',
+        xs: '480px',
+        sm: '640px',
+        md: '780px',
+        l: '1024px',
+        xl: '1280px',
+        '2xl': '1440px',
+      },
       maxWidth: {
         'board-xs': 'calc((100% - 16px * (1 - 1)) / 1)',
         'board-s': 'calc((100% - 16px * (2 - 1)) / 2)',
@@ -26,15 +35,17 @@ module.exports = {
         'board-xl': 'calc((100% - 16px * (5 - 1)) / 5)',
       },
       height: {
-        columns: 'calc(100vh - 267px)',
+        columns: 'calc(100vh - 207px)',
       },
       gridTemplateRows: {
         columns: 'max-content',
       },
       colors: {
-        primaryBlue: '#096CFE',
-        purple: '#AA9BFF',
+        black: '#14142B',
         grey: '#AFB0B9',
+        primaryBlue: '#096CFE',
+        primaryPurple: '#503AE7',
+        purple: '#AA9BFF',
         'off-white': '#F4F2FF',
       },
       fontFamily: {

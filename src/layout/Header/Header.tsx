@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useHref, useLocation, useMatch, useNavigate } from 'react-router-dom';
 import { useScroll } from '../../hooks/useScroll';
 import Button from '../../components/Button/Button';
 import LanguageToggle from '../../components/LanguageToggle/LanguageToggle';
@@ -14,6 +14,9 @@ import { logoutUser } from '../../redux/user/actions';
 const Header = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const boardUrl = useMatch('/board/:boardId');
+  const pathName = useLocation().pathname;
+  const isBoardPage = boardUrl?.pathname === location.pathname;
 
   const { t } = useTranslation();
   const isScrolling = useScroll();
@@ -72,13 +75,17 @@ const Header = (): JSX.Element => {
 
   return (
     <header
-      className={`container mx-auto sticky top-0 text-left bg-white z-999 transition-all${
-        isScrolling ? ' shadow' : 'shadow-none'
+      className={`sticky top-0 text-left bg-white z-999 transition-all ${
+        isScrolling || isBoardPage ? 'shadow' : 'shadow-none'
       }`}
     >
-      <div className="flex justify-between mx-auto py-10">
+      <div
+        className={`container w-full flex justify-between mx-auto ${
+          isScrolling || isBoardPage ? 'py-5' : 'py-10'
+        }`}
+      >
         <NavLink to="/">
-          <Logo isScrolling={isScrolling} />
+          <Logo isScrolling={isScrolling} isBoardPage={isBoardPage} />
         </NavLink>
         <AuthorisedButtons />
         <LanguageToggle />

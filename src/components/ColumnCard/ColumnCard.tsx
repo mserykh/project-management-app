@@ -146,22 +146,19 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
       <li
         ref={ref}
         key={id}
-        className={`overflow-auto w-72 bg-purple-100 ${
-          isDragging ? 'opacity-0' : 'cursor-grab opacity-100'
-        } rounded-3xl p-4`}
+        className={`column ${isDragging ? 'opacity-0' : 'cursor-grab opacity-100'}`}
       >
-        <div className="">
+        <header className="column__header transition">
           {!isUpdateInputOpened && (
-            <h3
-              ref={dragRef}
-              onClick={handleUpdateColumnTitle}
-              className={`w-[256px] h-[80px] font-['Inter'] not-italic text-[32px] leading-[125%]`}
-            >
-              {title}
-            </h3>
+            <>
+              <h3 ref={dragRef} onClick={handleUpdateColumnTitle} className="column__title">
+                {title}
+              </h3>
+              <p className="caption">{`${tasks.length} ${tasks.length > 1 ? 'tasks' : 'task'}`}</p>
+            </>
           )}
           {isUpdateInputOpened && !isDragging && (
-            <form onSubmit={handleSubmit(formSubmitHandler)}>
+            <form className="transition" onSubmit={handleSubmit(formSubmitHandler)}>
               <FormElement
                 type="text"
                 label="Add column title"
@@ -169,50 +166,55 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
                 placeholder="Please enter the column title"
                 errorText={'The title should contain at least 1 character'}
                 hasError={!!errors?.columnTitle}
+                classNameLabel="hidden"
                 inputData={register('columnTitle', {
                   required: true,
                   minLength: 1,
                   value: title || '',
                 })}
               />
-              <Button
-                className={`ml-auto whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr${
-                  isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
-                }`}
-                type="submit"
-                isDisabled={isSubmitDisabled}
-              >
-                Ok
-              </Button>
-              <Button
-                className={`ml-auto whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr bg-gray-200 hover:bg-gray-400`}
-                type="button"
-                onClick={handleCancel}
-              >
-                Cancel
-              </Button>
+              <div className="w-full flex justify-end gap-4">
+                <Button
+                  className={`whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr${
+                    isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
+                  }`}
+                  type="submit"
+                  isDisabled={isSubmitDisabled}
+                >
+                  Ok
+                </Button>
+                <Button
+                  className={`whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr bg-gray-200 hover:bg-gray-400`}
+                  type="button"
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </Button>
+              </div>
             </form>
           )}
-        </div>
-        <div className="flex justify-between mb-2">
-          <div
-            className="flex gap-2"
+        </header>
+        <div className="flex items-center justify-between">
+          <button
+            className="button button--task"
             onClick={() => {
               setIsAddTaskModalOpened(true);
             }}
           >
-            <img className="inline-block" src={task_add}></img>
-            <span className="font-['Inter'] not-italic text-[#503ae7] text-[16px] leading-[150%]">
-              Add task
-            </span>
-          </div>
-          <img
-            className="inline-block"
-            src={card_delete}
-            onClick={() => setIsDeleteModalOpened(true)}
-          ></img>
+            <img className="" src={task_add}></img>
+            <span>Add task</span>
+          </button>
+          <button
+            onClick={() => {
+              setIsDeleteModalOpened(true);
+            }}
+            className="flex items-center justify-center w-8 h-8 hover:bg-white hover:rounded-full"
+          >
+            <img src={card_delete} alt="" />
+            <span className="sr-only">Delete the column</span>
+          </button>
         </div>
-        <div className="flex flex-col gap-2 w-full">{tasksRender}</div>
+        <ul className="flex flex-col gap-2 w-full">{tasksRender}</ul>
       </li>
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
         <ConfirmDeleteModalWindow title={title} type="column" id={id} />
