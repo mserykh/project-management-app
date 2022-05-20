@@ -1,8 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Nunito:wght@500;900&display=swap');
+
 @import 'tailwindcss/base';
 
 @import 'tailwindcss/components';
 
 @import 'tailwindcss/utilities';
+
+html {
+}
 
 * {
   box-sizing: border-box;
@@ -12,29 +17,73 @@
   width: 3px;
   height: 3px;
 }
- 
+
 *::-webkit-scrollbar-track {
   box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
 }
- 
+
 *::-webkit-scrollbar-thumb {
   background-color: darkgrey;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
 }
 
 #root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+.caption {
+  @apply font-medium tracking-wider text-purple uppercase;
+}
+
+.button {
+  &--text {
+  }
+  &--icon {
+  }
+}
+
+.section {
+}
+
+.section__title {
+  @apply text-2xl font-heading font-black;
+  &--main {
+    @apply text-3xl;
+  }
+}
+
+.boards {
+  &-list {
+    @apply flex flex-wrap gap-4 justify-start;
+  }
+}
+
+.board {
+  &__item {
+    @apply bg-off-white rounded max-w-board-xs w-board-xs 2xl:max-w-board-xl 2xl:w-board-xl l:max-w-board-l l:w-board-l md:max-w-board-m md:w-board-m sm:max-w-board-s sm:w-board-s;
+  }
+  &__link {
+    @apply p-6 block;
+  }
+  &__title {
+    @apply font-semibold text-m truncate;
+  }
+  &__description {
+    @apply h-8 truncate;
+  }
+
+}
+
+.footer {
+  @apply px-20 text-center text-grey shadow-footer mt-auto;
+  &-container {
+    @apply container mx-auto w-full py-6 flex flex-wrap gap-y-6 justify-between items-center;
+  }
 }

@@ -72,11 +72,11 @@ const Header = (): JSX.Element => {
 
   return (
     <header
-      className={`sticky top-0 text-left bg-white text-gray-600 z-999 transition-all${
+      className={`container mx-auto sticky top-0 text-left bg-white z-999 transition-all${
         isScrolling ? ' shadow' : 'shadow-none'
       }`}
     >
-      <div className="flex justify-between container mx-auto py-10">
+      <div className="flex justify-between mx-auto py-10">
         <NavLink to="/">
           <Logo isScrolling={isScrolling} />
         </NavLink>

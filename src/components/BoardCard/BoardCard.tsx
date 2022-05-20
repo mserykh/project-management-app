@@ -24,35 +24,37 @@ function BoardCard(props: BoardCardProps): JSX.Element {
     }
   };
   return (
-    <>
-      <NavLink to={`/board/${props.id}`} onClick={handleOnClick}>
-        <div className="flex flex-col gap-4 w-[260px] h-[252px] bg-[#f4f2ff] rounded-[24px] my-6 py-4 px-4">
-          <h3 className="w-full h-[60px] text-ellipsis overflow-hidden font-['Inter'] not-italic text-[24px] leading-[125%]">
-            {props.title}
-          </h3>
-          <p className="font-['Inter'] text-[16px]">{props.description}</p>
-          <div className="w-[44px] gap-6 flex justify-between">
-            <img
-              className="inline-block"
-              src={card_edit}
+    <li className="board__item hover:shadow-md">
+      <NavLink to={`/board/${props.id}`} onClick={handleOnClick} className="board__link">
+        <div className="flex flex-col gap-4">
+          <h3 className="board__title">{props.title}</h3>
+          <p className="board__description">{props.description}</p>
+          <div className="flex gap-2 -ml-2">
+            <button
               onClick={() => {
                 setIsUpdateModalOpened(true);
               }}
-            ></img>
-            <img
-              className="inline-block"
-              src={card_delete}
+              className="flex items-center justify-center w-8 h-8 hover:bg-white hover:rounded-full"
+            >
+              <img src={card_edit} alt="" />
+              <span className="sr-only">Edit the board</span>
+            </button>
+            <button
               onClick={() => {
-                setIsDeleteModalOpened(true);
+                setIsUpdateModalOpened(true);
               }}
-            ></img>
+              className="flex items-center justify-center w-8 h-8 hover:bg-white hover:rounded-full"
+            >
+              <img src={card_delete} alt="" />
+              <span className="sr-only">Delete the board</span>{' '}
+            </button>
           </div>
-          <div className="uppercase text-[#aa9bff] text-[16px] leading-5">{`${
-            props.columnsCount ? props.columnsCount : '0'
-          } columns`}</div>
-          <div className="uppercase text-[#aa9bff] text-[16px] leading-5">{`${
-            props.tasksCount ? props.tasksCount : '0'
-          } tasks`}</div>
+          <p className="caption">{`${props.columnsCount ? props.columnsCount : '0'} column${
+            !props.columnsCount || props.columnsCount > 1 ? 's' : ''
+          }`}</p>
+          <p className="caption">{`${props.tasksCount ? props.tasksCount : '0'} task${
+            !props.tasksCount || props.tasksCount > 1 ? 's' : ''
+          }`}</p>
         </div>
       </NavLink>
       <Modal isOpened={isUpdateModalOpened} onClose={handleUpdateModalOnClose}>
@@ -66,7 +68,7 @@ function BoardCard(props: BoardCardProps): JSX.Element {
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
         <ConfirmDeleteModalWindow title={props.title} type="board" id={props.id} />
       </Modal>
-    </>
+    </li>
   );
 }
 
