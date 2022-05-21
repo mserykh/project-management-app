@@ -1,5 +1,5 @@
 import { Controller, useForm } from 'react-hook-form';
-import { FileInterface, UserInterface, TaskInterface } from '../../types';
+import { FileInterface, UserInterface, TaskInterface, ColumnInterface } from '../../types';
 import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
@@ -40,7 +40,6 @@ const CreateUpdateTaskForm = ({
   boardId,
   columnId,
   userId,
-  order,
   readOnly,
 }: CreateUpdateTaskFormProps) => {
   const isUpdate = () => !!id;
@@ -60,15 +59,16 @@ const CreateUpdateTaskForm = ({
   });
 
   const formSubmitHandler = async (data: CreateUpdateTaskFormData): Promise<void> => {
-    const columnIndex = boardData.columns.findIndex((column) => column.id === columnId);
+    const columnIndex = boardData.columns.findIndex(
+      (column: ColumnInterface) => column.id === columnId
+    );
     const copyColumns = cloneDeep(boardData.columns);
-    const generatedOrder = order ? order : getNewOrderNumber(boardData.columns[columnIndex].tasks);
     const taskData: TaskInterface = {
       title: data.taskTitle,
       description: data.taskDescription,
       userId: get(data, 'userId.id'),
       done: false,
-      order: generatedOrder,
+      order: getNewOrderNumber(boardData.columns[columnIndex].tasks),
     };
     if (!!id) {
       taskData.boardId = boardId;
@@ -83,6 +83,10 @@ const CreateUpdateTaskForm = ({
       const newTask = (newTaskData as unknown as Record<string, unknown>).data;
       copyColumns[columnIndex].tasks.push(newTask as unknown as TaskInterface);
     }
+    dispatch(updateColumnsData(copyColumns));
+    const newTaskData = await createTask(taskData, boardId, columnId);
+    const newTask = (newTaskData as unknown as Record<string, unknown>).data;
+    copyColumns[columnIndex].tasks.push(newTask as unknown as TaskInterface);
     dispatch(updateColumnsData(copyColumns));
     reset();
     onClose();
