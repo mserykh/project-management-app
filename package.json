@@ -1,6 +1,9 @@
 {
   "name": "project-managment-app",
   "version": "0.1.0",
+  "jest": {
+    "transformIgnorePatterns": ["/node_modules/(?!(somePkg)|react-dnd|dnd-core|@react-dnd|react-toastify)"]
+  },
   "private": true,
   "engines": {
     "npm": ">=7.0.0",

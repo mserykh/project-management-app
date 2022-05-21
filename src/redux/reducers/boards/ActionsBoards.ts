@@ -4,6 +4,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { BACKEND_URL, BOARDS_ENDPOINT } from '../../constants';
 import { postHttp } from '../../../api/api';
 import { BoardInterface } from '../../../types';
+import i18n from '../../../n18i';
+import { errorHandler } from '../../utils';
 
 type BoardPayload = {
   title: string;
@@ -25,7 +27,12 @@ export const fetchAllBoards = createAsyncThunk('boardsState/fetchAll', async () 
     const responseData = response.data;
     return responseData;
   } catch (e) {
-    return e;
+    if (errorHandler(e as Record<string, unknown>)) {
+      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+        type: i18n.t('_TYPE_BOARD_'),
+      });
+      toast.error(error);
+    }
   }
 });
 
@@ -47,7 +54,12 @@ export const createBoard = createAsyncThunk(
       const responseData = (response as AxiosResponse).data;
       return responseData as BoardInterface;
     } catch (e) {
-      toast.error(`An error ${e}`);
+      if (errorHandler(e as Record<string, unknown>)) {
+        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+          type: i18n.t('_TYPE_BOARD_'),
+        });
+        toast.error(error);
+      }
     }
   }
 );

@@ -3,6 +3,7 @@ import { createBoard, fetchAllBoards } from './ActionsBoards';
 
 import { boardsStateInterface } from './types';
 import { BoardInterface } from '../../../types';
+import { AxiosError } from 'axios';
 
 const initialState: boardsStateInterface = {
   boardsData: [],
@@ -38,7 +39,7 @@ export const boardsStateSlice = createSlice({
     builder.addCase(fetchAllBoards.rejected, (state, { payload }) => {
       state.boardsData = [];
       state.loading = false;
-      state.error = payload as string;
+      state.error = (payload as AxiosError).message;
     });
     builder.addCase(fetchAllBoards.pending, (state) => {
       state.loading = true;
@@ -54,7 +55,7 @@ export const boardsStateSlice = createSlice({
     });
     builder.addCase(createBoard.rejected, (state, { payload }) => {
       state.loading = false;
-      state.error = payload as string;
+      state.error = (payload as AxiosError).message;
     });
   },
 });

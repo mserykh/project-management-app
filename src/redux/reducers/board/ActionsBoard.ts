@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   BACKEND_URL,
@@ -11,6 +11,8 @@ import { deleteHttp, postHttp, putHttp } from '../../../api/api';
 import { toast } from 'react-toastify';
 import { ColumnInterface, UserInterface } from '../../../types';
 import { getNewOrderNumber } from '../../../utils';
+import i18n from '../../../n18i';
+import { errorHandler } from '../../utils';
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
@@ -76,7 +78,12 @@ export const createColumn = createAsyncThunk(
         thunkAPI.dispatch(fetchBoard(columnPayload.boardId));
       }
     } catch (e) {
-      toast.error(`An error !!!! ${e}`);
+      if (errorHandler(e as Record<string, unknown>)) {
+        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+          type: i18n.t('_TYPE_COLUMN_'),
+        });
+        toast.error(error);
+      }
     }
   }
 );
@@ -97,8 +104,12 @@ export const updateColumn = createAsyncThunk(
         // thunkAPI.dispatch(fetchBoard(columnPayload.boardId));
       }
     } catch (e) {
-      console.error(e);
-      toast.error(`An error ${e}`);
+      if (errorHandler(e as Record<string, unknown>)) {
+        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+          type: i18n.t('_TYPE_COLUMN_'),
+        });
+        toast.error(error);
+      }
     }
   }
 );
@@ -149,7 +160,12 @@ export const deleteColumn = createAsyncThunk(
       await deleteHttp(`${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`);
       toast.success(`A ${title} column has been deleted`);
     } catch (e) {
-      toast.error(`An error ${e}`);
+      if (errorHandler(e as Record<string, unknown>)) {
+        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+          type: i18n.t('_TYPE_COLUMN_'),
+        });
+        toast.error(error);
+      }
     }
   }
 );
@@ -164,7 +180,12 @@ export const deleteTask = createAsyncThunk(
       toast.success(`A ${title} task has been deleted`);
       thunkAPI.dispatch(fetchBoard(boardId));
     } catch (e) {
-      toast.error(`An error ${e}`);
+      if (errorHandler(e as Record<string, unknown>)) {
+        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+          type: i18n.t('_TYPE_TASK_'),
+        });
+        toast.error(error);
+      }
     }
   }
 );
@@ -183,7 +204,13 @@ export const getAllUsers = createAsyncThunk(
       const data = response.data;
       return data;
     } catch (e) {
-      return (e as AxiosError).message;
+      debugger;
+      if (errorHandler(e as Record<string, unknown>)) {
+        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+          type: i18n.t('_TYPE_TASK_'),
+        });
+        toast.error(error);
+      }
     }
   }
 );

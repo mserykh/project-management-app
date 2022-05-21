@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { toast } from 'react-toastify';
 
 type BoardPayload = {
   title: string;
@@ -33,7 +32,7 @@ export const getHttp = async (
   try {
     await axios.get(urlWithQuery, params);
   } catch (e) {
-    console.log(e);
+    throw (e as AxiosError).toJSON();
   }
 };
 
@@ -53,9 +52,8 @@ export const postHttp = async (
       if (navigate) {
         navigate('/login');
       }
-      toast.error(`Your session has been expired. Please log in`);
     }
-    toast.error(`An error ${(e as AxiosError).message}!`);
+    throw (e as AxiosError).toJSON();
   }
 };
 
@@ -70,7 +68,7 @@ export const putHttp = async (
     const res = await axios.put(url, body, config);
     return res;
   } catch (e) {
-    (e as AxiosError).message;
+    throw (e as AxiosError).toJSON();
   }
 };
 
@@ -78,6 +76,6 @@ export const deleteHttp = async (url: string): Promise<void | string> => {
   try {
     await axios.delete(url, config);
   } catch (e) {
-    return (e as AxiosError).message;
+    throw (e as AxiosError).toJSON();
   }
 };
