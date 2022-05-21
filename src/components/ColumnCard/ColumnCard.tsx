@@ -216,7 +216,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
     handleUpdateColumnTitle();
   };
 
-  dragRef(dropRef(ref));
+  dragRef(dropRef(dropRef1(ref)));
 
   return (
     <>
@@ -271,7 +271,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
             </form>
           )}
         </div>
-        <div className="flex justify-between mb-2" ref={dropRef1}>
+        <div className="flex justify-between mb-2">
           <div
             className="flex gap-2"
             onClick={() => {
