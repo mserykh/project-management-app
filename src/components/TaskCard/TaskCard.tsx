@@ -57,7 +57,7 @@ function TaskCard(props: TaskInterface): JSX.Element {
   };
 
   const userName = (userId: string) => {
-    if (userId) {
+    if (userId && users) {
       const userIndex = findIndex(users, (user: UserInterface) => user.id === userId);
       return get(users[userIndex], 'login');
     }
