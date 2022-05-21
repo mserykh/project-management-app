@@ -35,7 +35,7 @@ module.exports = {
         'board-xl': 'calc((100% - 16px * (5 - 1)) / 5)',
       },
       height: {
-        columns: 'calc(100vh - 207px)',
+        columns: 'calc(100vh - 176px)',
       },
       gridTemplateRows: {
         columns: 'max-content',
@@ -44,9 +44,11 @@ module.exports = {
         black: '#14142B',
         grey: '#AFB0B9',
         primaryBlue: '#096CFE',
+        primaryGreen: '#1AD993',
         primaryPurple: '#503AE7',
         purple: '#AA9BFF',
         'off-white': '#F4F2FF',
+        red: '#FF3D3D',
       },
       fontFamily: {
         body: ['Inter', 'sans-serif'],
@@ -67,6 +69,12 @@ module.exports = {
           '4rem',
           {
             lineHeight: '5rem',
+          },
+        ],
+        logo: [
+          '2.75rem',
+          {
+            lineHeight: '2.75rem',
           },
         ],
       },

@@ -173,7 +173,10 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
                   value: title || '',
                 })}
               />
-              <div className="w-full flex justify-end gap-4">
+              <div className="buttons-wrapper">
+                <Button className={`button--cancel`} type="button" onClick={handleCancel}>
+                  Cancel
+                </Button>
                 <Button
                   className={`whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr${
                     isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
@@ -182,13 +185,6 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
                   isDisabled={isSubmitDisabled}
                 >
                   Ok
-                </Button>
-                <Button
-                  className={`whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr bg-gray-200 hover:bg-gray-400`}
-                  type="button"
-                  onClick={handleCancel}
-                >
-                  Cancel
                 </Button>
               </div>
             </form>
@@ -214,10 +210,15 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
             <span className="sr-only">Delete the column</span>
           </button>
         </div>
-        <ul className="flex flex-col gap-2 w-full">{tasksRender}</ul>
+        <ul className="tasks-list">{tasksRender}</ul>
       </li>
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
-        <ConfirmDeleteModalWindow title={title} type="column" id={id} />
+        <ConfirmDeleteModalWindow
+          title={title}
+          type="column"
+          id={id}
+          onClose={handleDeleteModalOnClose}
+        />
       </Modal>
       <Modal isOpened={isAddTaskModalOpened} onClose={handleAddTaskModalOnClose}>
         <CreateUpdateTaskForm

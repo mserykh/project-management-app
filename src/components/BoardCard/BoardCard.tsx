@@ -41,7 +41,7 @@ function BoardCard(props: BoardCardProps): JSX.Element {
             </button>
             <button
               onClick={() => {
-                setIsUpdateModalOpened(true);
+                setIsDeleteModalOpened(true);
               }}
               className="flex items-center justify-center w-8 h-8 hover:bg-white hover:rounded-full"
             >
@@ -66,7 +66,12 @@ function BoardCard(props: BoardCardProps): JSX.Element {
         />
       </Modal>
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
-        <ConfirmDeleteModalWindow title={props.title} type="board" id={props.id} />
+        <ConfirmDeleteModalWindow
+          title={props.title}
+          type="board"
+          id={props.id}
+          onClose={handleDeleteModalOnClose}
+        />
       </Modal>
     </li>
   );

@@ -35,7 +35,9 @@ function TaskCard(props: TaskInterface): JSX.Element {
         <p className="task__description">{props.description}</p>
         <div className="flex gap-2">
           <img src={user_image} alt="" />
-          <span className="text-[#1ad993]">&nbsp;{props.userId ? userName(props.userId) : ''}</span>
+          <span className="text-[#1ad993] task__username">
+            &nbsp;{props.userId ? userName(props.userId) : ''}
+          </span>
         </div>
         <button className="flex justify-end">
           <img src={card_delete} onClick={() => setIsDeleteModalOpened(true)} />
@@ -43,7 +45,12 @@ function TaskCard(props: TaskInterface): JSX.Element {
         </button>
       </div>
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
-        <ConfirmDeleteModalWindow title={props.title} type="task" id={props.id ? props.id : ''} />
+        <ConfirmDeleteModalWindow
+          title={props.title}
+          type="task"
+          id={props.id ? props.id : ''}
+          onClose={handleDeleteModalOnClose}
+        />
       </Modal>
       <Modal isOpened={isAddTaskModalOpened} onClose={handleAddTaskModalOnClose}>
         <CreateUpdateTaskForm

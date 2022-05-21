@@ -7,9 +7,9 @@ type LogoProps = {
 
 const Logo = ({ isScrolling, isBoardPage }: LogoProps): JSX.Element => {
   return (
-    <div>
+    <div className="logo">
       <img src={logo} alt="Application logo" id="app_logo" />
-      {!(isScrolling || isBoardPage) && <span className="transition-all">ALLDONE</span>}
+      {!(isScrolling || isBoardPage) && <span className="logo__text transition-all">ALLDONE</span>}
     </div>
   );
 };

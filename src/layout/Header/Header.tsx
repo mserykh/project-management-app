@@ -38,7 +38,7 @@ const Header = (): JSX.Element => {
           <Button
             onClick={() => setIsModalOpened(true)}
             type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+            className="button button--board"
           >
             {t('add_board_btn')}
           </Button>
@@ -74,11 +74,7 @@ const Header = (): JSX.Element => {
   };
 
   return (
-    <header
-      className={`sticky top-0 text-left bg-white z-999 transition-all ${
-        isScrolling || isBoardPage ? 'shadow' : 'shadow-none'
-      }`}
-    >
+    <header className={`header ${isScrolling || isBoardPage ? 'shadow' : 'shadow-none'}`}>
       <div
         className={`container w-full flex justify-between mx-auto ${
           isScrolling || isBoardPage ? 'py-5' : 'py-10'
