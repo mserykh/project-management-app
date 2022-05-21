@@ -75,6 +75,7 @@ const Header = (): JSX.Element => {
       className={`sticky top-0 text-left bg-white text-gray-600 z-999 transition-all${
         isScrolling ? ' shadow' : 'shadow-none'
       }`}
+      role="header"
     >
       <div className="flex justify-between container mx-auto py-10">
         <NavLink to="/">
