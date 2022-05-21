@@ -204,7 +204,6 @@ export const getAllUsers = createAsyncThunk(
       const data = response.data;
       return data;
     } catch (e) {
-      debugger;
       if (errorHandler(e as Record<string, unknown>)) {
         const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
           type: i18n.t('_TYPE_TASK_'),

@@ -45,7 +45,6 @@ export const deleteBoard = async (id: string): Promise<void | string> => {
   try {
     await deleteHttp(`${BACKEND_URL}/${BOARDS_ENDPOINT}/${id}`);
   } catch (e) {
-    debugger;
     errorHandler(e as Record<string, unknown>);
     if (errorHandler(e as Record<string, unknown>)) {
       const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
