@@ -11,15 +11,18 @@ function MainPage(): JSX.Element {
     dispatch(fetchAllBoards());
   }, [dispatch]);
   return (
-    <div className="container mx-auto">
-      <div className="container mx-auto mx-4 my-4 py10 align-center">
-        <div className="flex justify-between">
-          <h2 className="font-['Nunito'] not-italic font-black text-[48px] leading-[120%] mx-20">
-            Boards
-          </h2>
+    <main className="container mx-auto">
+      <section className="py-6 flex flex-col gap-4">
+        <header className="flex flex-wrap gap-y-4 justify-between items-center">
+          <div className="flex items-center gap-4">
+            <h2 className="section__title">Boards</h2>
+            <p className="caption px-3 py-1 bg-off-white rounded-full">
+              {boardsData && boardsData.length}
+            </p>
+          </div>
           <input className="inline-block" type="text" placeholder="Enter text here"></input>
-        </div>
-        <div className="container mx-auto grid grid-1 md:grid-cols-2 lg:grid-cols-4 gap-20">
+        </header>
+        <ul className="boards-list">
           {boardsData &&
             boardsData.map((el: BoardCardProps): JSX.Element => {
               return (
@@ -34,9 +37,9 @@ function MainPage(): JSX.Element {
                 />
               );
             })}
-        </div>
-      </div>
-    </div>
+        </ul>
+      </section>
+    </main>
   );
 }
 

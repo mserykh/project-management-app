@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Nunito:wght@500;900&display=swap');
+
 @import 'tailwindcss/base';
 
 @import 'tailwindcss/components';
@@ -8,33 +10,175 @@
   box-sizing: border-box;
 }
 
-*::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
- 
-*::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
-}
- 
-*::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-}
-
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
 }
 
 #root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+.caption {
+  @apply font-medium tracking-wider text-purple uppercase;
+}
+
+.buttons-wrapper {
+  @apply w-full flex flex-wrap justify-end gap-4;
+}
+
+.button {
+  @apply flex gap-x-2 items-center whitespace-nowrap justify-self-start font-semibold text-m h-max py-2 px-4 rounded-full transition;
+  &--column {
+    @apply mr-4 bg-primaryPurple hover:bg-white text-white hover:text-primaryPurple rounded-tr-none;
+  }
+  &--board {
+    @apply mr-4 bg-primaryGreen hover:bg-white text-white hover:text-primaryGreen rounded-tr-none;
+  }
+  &--back {
+    @apply text-grey hover:underline;
+  }
+  &--cancel {
+    @apply whitespace-nowrap text-black font-bold py-2 px-4 rounded-full hover:bg-grey;
+  }
+  &--task {
+    @apply py-1 -ml-3 text-primaryPurple font-medium text-s hover:bg-white hover:rounded-full;
+  }
+  &--delete {
+    @apply bg-red text-white rounded-bl-none;
+  }
+  &--add {
+    @apply text-white rounded-tr-none;
+  }
+  &--update {
+    @apply text-white rounded-tr-none;
+  }
+}
+
+.header {
+  @apply sticky top-0 text-left bg-white z-40 transition-all;
+}
+
+.logo {
+  @apply flex gap-4;
+  &__text {
+    @apply font-heading font-black uppercase h-11 text-logo;
+  }
+}
+
+.section {
+  &__title {
+    @apply text-2xl font-heading font-black;
+    &--main {
+      @apply text-3xl;
+    }
+  }
+  &__description {
+    @apply text-s font-medium;
+  }
+  &__header {
+    @apply flex justify-between mx-auto container items-start;
+    &--columns {
+      @apply xs:min-w-xs sm:min-w-sm md:min-w-md l:min-w-l xl:min-w-xl 2xl:min-w-2xl;
+    }
+  }
+}
+
+.boards {
+  &-list {
+    @apply flex flex-wrap gap-4 justify-start;
+  }
+}
+
+.board {
+  &__item {
+    @apply bg-off-white rounded max-w-board-xs w-board-xs 2xl:max-w-board-xl 2xl:w-board-xl l:max-w-board-l l:w-board-l md:max-w-board-m md:w-board-m sm:max-w-board-s sm:w-board-s;
+  }
+  &__link {
+    @apply p-6 block;
+  }
+  &__title {
+    @apply font-semibold text-l truncate;
+  }
+  &__description {
+    @apply h-8 truncate;
+  }
+}
+
+.columns-list {
+  @apply px-4 flex gap-4 w-full overflow-x-auto justify-items-stretch pb-4 relative;
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(200, 200, 200);
+  }
+}
+
+.column {
+  @apply p-5 w-72 flex flex-col gap-y-4 rounded-3xl bg-off-white overflow-hidden;
+  &__title {
+    @apply font-semibold text-l truncate;
+  }
+}
+
+.tasks-list {
+  @apply flex flex-col gap-2 w-full overflow-auto relative;
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(200, 200, 200);
+  }
+}
+
+.task {
+  @apply flex flex-col gap-2 bg-white rounded-3xl p-4;
+  &__title {
+    @apply font-semibold text-m truncate;
+  }
+  &__description {
+    @apply truncate;
+  }
+  &__username {
+    @apply truncate;
+  }
+}
+
+.form {
+  @apply flex flex-col items-end gap-4;
+  &__title {
+    @apply font-semibold text-m self-start;
+  }
+}
+
+.textarea {
+  @apply pl-6 py-3 w-full text-base border border-solid border-grey rounded-full;
+}
+
+.input {
+  @apply pl-6 py-3 w-full text-base border border-solid border-grey rounded-full;
+}
+
+.footer {
+  @apply px-20 text-center text-grey shadow-footer mt-auto;
+  &-container {
+    @apply container mx-auto w-full py-6 flex flex-wrap gap-y-6 justify-between items-center;
+  }
+}
+
+.header {
+  @apply px-20;
+  &-container {
+    @apply container mx-auto w-full py-6 flex flex-wrap gap-y-6 justify-between items-center;
+  }
 }

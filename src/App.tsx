@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import './App.scss';
 import { Routes, Route } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import Layout from './layout/Layout/Layout';

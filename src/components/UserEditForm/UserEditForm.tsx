@@ -110,7 +110,12 @@ const UserEditForm: React.FC = () => {
         Delete
       </button>
       <Modal isOpened={isModalOpen} onClose={handleModalOnclose}>
-        <ConfirmDeleteModalWindow id={userId ? userId : ''} title={'profile'} type="user" />
+        <ConfirmDeleteModalWindow
+          id={userId ? userId : ''}
+          title={'profile'}
+          type="user"
+          onClose={handleModalOnclose}
+        />
       </Modal>
     </div>
   );

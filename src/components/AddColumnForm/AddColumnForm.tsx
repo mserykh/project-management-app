@@ -43,7 +43,7 @@ const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
 
   const isSubmitDisabled = !isDirty || Object.keys(errors).length > 0;
   return (
-    <form onSubmit={handleSubmit(formSubmitHandler)}>
+    <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
       <FormElement
         type="text"
         label="Add column title"
@@ -60,7 +60,7 @@ const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
         labelClassName="inline-block text-base text-[black] float-left mb-[12px] font-semibold"
       />
       <Button
-        className={`ml-auto whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr${
+        className={`button--add${
           isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
         }`}
         type="submit"

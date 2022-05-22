@@ -64,28 +64,34 @@ function TaskCard(props: TaskInterface): JSX.Element {
   };
   drag(drop(ref));
   return (
-    <>
+    <li>
       <div
         key={props.id}
-        className="w-[360px] bg-white rounded-3xl p-6 h-[275px] mb-10"
+        className="task"
         ref={ref}
         draggable
         onClick={() => setIsAddTaskModalOpened(true)}
       >
-        <h3 className="overflow-hidden text-ellipsis whitespace-nowrap mb-10">{props.title}</h3>
-        <h5 className="overflow-hidden text-ellipsis whitespace-nowrap mb-10">
-          {props.description}
-        </h5>
-        <div className="mb-5">
-          <img className="inline-block" src={user_image}></img>
-          <span className="text-[#1ad993]">&nbsp;{props.userId ? userName(props.userId) : ''}</span>
+        <h3 className="task__title">{props.title}</h3>
+        <h5 className="task__description">{props.description}</h5>
+        <div className="flex gap-2">
+          <img src={user_image} alt="" />
+          <span className="text-primaryGreen task__username">
+            &nbsp;{props.userId ? userName(props.userId) : ''}
+          </span>
         </div>
-        <div className="flex justify-end">
-          <img src={card_delete} onClick={() => setIsDeleteModalOpened(true)}></img>
-        </div>
+        <button className="flex justify-end">
+          <img src={card_delete} onClick={() => setIsDeleteModalOpened(true)} />
+          <span className="sr-only">Delete the task</span>
+        </button>
       </div>
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
-        <ConfirmDeleteModalWindow title={props.title} type="task" id={props.id ? props.id : ''} />
+        <ConfirmDeleteModalWindow
+          title={props.title}
+          type="task"
+          id={props.id ? props.id : ''}
+          onClose={handleDeleteModalOnClose}
+        />
       </Modal>
       <Modal isOpened={isAddTaskModalOpened} onClose={handleAddTaskModalOnClose}>
         <CreateUpdateTaskForm
@@ -99,7 +105,7 @@ function TaskCard(props: TaskInterface): JSX.Element {
           readOnly={true}
         />
       </Modal>
-    </>
+    </li>
   );
 }
 
