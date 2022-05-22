@@ -8,6 +8,10 @@ import { updateColumnsData } from '../../redux/reducers/board/boardStateSlice';
 import { useNavigate } from 'react-router';
 import { findIndex, cloneDeep } from 'lodash';
 import warning from '../../assets/images/warning.svg';
+import { deleteUser } from '../UserEditForm/UserEditAction';
+import { logoutUser } from '../../redux/user/actions';
+import { useContext } from 'react';
+import { ToastContext } from '../../contexts/ToastContext';
 
 function ConfirmDeleteModalWindow({
   id,
@@ -17,9 +21,10 @@ function ConfirmDeleteModalWindow({
 }: ConfirmDeleteModalWindowProps): JSX.Element {
   const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
+  const { dispatch: toastDispatch } = useContext(ToastContext);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const submitDeleteHandler = (): void => {
+  const submitDeleteHandler = async () => {
     switch (type) {
       case 'board':
         deleteBoard(id);
@@ -48,6 +53,16 @@ function ConfirmDeleteModalWindow({
         const newColumns = cloneDeep(boardData.columns);
         newColumns[columnIndex].tasks = tasks;
         dispatch(updateColumnsData(newColumns));
+        break;
+      case 'user':
+        const res = await deleteUser(id);
+        if (res === 204) {
+          toastDispatch({ type: 'SUCCESS', payload: 'User has been deleted successfully' });
+          navigate('/');
+          dispatch(logoutUser());
+        } else {
+          toastDispatch({ type: 'ERROR', payload: 'User was not found, delete fail' });
+        }
     }
   };
   return (
