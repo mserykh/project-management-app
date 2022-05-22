@@ -1,7 +1,7 @@
 import card_delete from '../../assets/images/card_delete.svg';
 import user_image from '../../assets/images/user_image.svg';
 import Modal from '../Modal/Modal';
-import { useRef, useState } from 'react';
+import { SyntheticEvent, useRef, useState } from 'react';
 import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteModalWindow';
 import CreateUpdateTaskForm from '../CreateUpdateTaskForm/CreateUpdateTaskForm';
 import { TaskInterface, UserInterface } from '../../types';
@@ -70,7 +70,15 @@ function TaskCard(props: TaskInterface): JSX.Element {
         className="task"
         ref={ref}
         draggable
-        onClick={() => setIsAddTaskModalOpened(true)}
+        onClick={(event: SyntheticEvent) => {
+          if ((event.target as Node).nodeName === 'IMG') {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          } else {
+            setIsAddTaskModalOpened(true);
+          }
+        }}
       >
         <h3 className="task__title">{props.title}</h3>
         <h5 className="task__description">{props.description}</h5>
