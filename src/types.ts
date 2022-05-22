@@ -22,6 +22,8 @@ export interface TaskInterface {
   files?: FileInterface[];
   columnId?: string;
   boardId?: string;
+  moveTaskHandler?: (dragIndex: number, hoverIndex: number) => void;
+  index?: number;
 }
 
 export interface FileInterface {

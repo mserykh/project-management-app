@@ -1,8 +1,11 @@
-import { AxiosError, AxiosResponse } from 'axios';
-import { getHttp, postHttp, putHttp, deleteHttp } from '../../api/api';
+import { AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
+import { getHttp, postHttp, putHttp } from '../../api/api';
+import i18n from '../../n18i';
 import { ColumnInterface, TaskInterface } from '../../types';
 import { BOARDS_ENDPOINT } from '../constants';
 import { BACKEND_URL } from '../constants';
+import { errorHandler } from '../utils';
 
 export type BoardResponse = {
   data: ColumnInterface;
@@ -17,7 +20,12 @@ export const getAllTasks = async (
     const res = await getHttp(URL, {});
     return res;
   } catch (e) {
-    return (e as AxiosError).message;
+    if (errorHandler(e as Record<string, unknown>)) {
+      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+        type: i18n.t('_TYPE_TASK_'),
+      });
+      toast.error(error);
+    }
   }
 };
 
@@ -30,7 +38,12 @@ export const createTask = async (
   try {
     return await postHttp(URL, data);
   } catch (e) {
-    return (e as AxiosError).message;
+    if (errorHandler(e as Record<string, unknown>)) {
+      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+        type: i18n.t('_TYPE_TASK_'),
+      });
+      toast.error(error);
+    }
   }
 };
 
@@ -44,9 +57,11 @@ export const updateTask = async (
   try {
     await putHttp(`${URL}/${id}`, { ...data });
   } catch (e) {
-    return (e as AxiosError).message;
+    if (errorHandler(e as Record<string, unknown>)) {
+      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+        type: i18n.t('_TYPE_TASK_'),
+      });
+      toast.error(error);
+    }
   }
 };
-
-export const deleteBoard = async (id: string): Promise<void | string> =>
-  await deleteHttp(`${BACKEND_URL}/${BOARDS_ENDPOINT}/${id}`);

@@ -5,6 +5,9 @@ import { setUser } from './userSlice';
 import { setToken } from '../reducers/globalStateSlice';
 import { AppDispatch, RootState } from '../store';
 import { BACKEND_URL } from '../constants';
+import { toast } from 'react-toastify';
+import i18n from '../../n18i';
+import { errorHandler } from '../utils';
 
 function checkIsTokenExpired(expDate: number) {
   return Date.now() > expDate * 1000;
@@ -37,6 +40,12 @@ export const signIn =
       dispatch(setUserData(decoded, token));
       localStorage.setItem('token', token);
     } catch (err) {
+      if (errorHandler(err as Record<string, unknown>)) {
+        const error = i18n.t(errorHandler(err as Record<string, unknown>) as string, {
+          type: i18n.t('_TYPE_USER_'),
+        });
+        toast.error(error);
+      }
       dispatch(logoutUser());
     }
   };
@@ -52,6 +61,12 @@ export const auth = () => async (dispatch: AppDispatch, getState: () => RootStat
       dispatch(setUserData(decoded, token));
     }
   } catch (err) {
+    if (errorHandler(err as Record<string, unknown>)) {
+      const error = i18n.t(errorHandler(err as Record<string, unknown>) as string, {
+        type: i18n.t('_TYPE_USER_'),
+      });
+      toast.error(error);
+    }
     dispatch(logoutUser());
   }
 };

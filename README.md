@@ -10,7 +10,7 @@
 
 ### Backend
 
-[go to swagger documentation](https://pacific-badlands-18958.herokuapp.com/docs/)
+[go to swagger documentation](https://radiant-falls-50591.herokuapp.com/docs/)
 
 ### Backlog and tasks
 

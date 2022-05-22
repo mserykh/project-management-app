@@ -11,6 +11,7 @@ import {
   changeColumnsOrder,
 } from './ActionsBoard';
 import { findIndex } from 'lodash';
+import { AxiosError } from 'axios';
 
 const initialState: boardStateInterface = {
   boardData: {
@@ -72,7 +73,7 @@ export const boardStateSlice = createSlice({
     builder.addCase(fetchBoard.rejected, (state, { payload }) => {
       state.boardData = {} as BoardInterface;
       state.loading = false;
-      state.error = payload as string;
+      state.error = (payload as AxiosError).message;
     });
     builder.addCase(fetchBoard.pending, (state) => {
       state.loading = true;
@@ -83,7 +84,7 @@ export const boardStateSlice = createSlice({
     });
     builder.addCase(createColumn.rejected, (state, { payload }) => {
       state.loading = false;
-      state.error = payload as string;
+      state.error = (payload as AxiosError).message;
     });
     builder.addCase(createColumn.pending, (state) => {
       state.loading = true;
@@ -94,7 +95,7 @@ export const boardStateSlice = createSlice({
     });
     builder.addCase(updateColumn.rejected, (state, { payload }) => {
       state.loading = false;
-      state.error = payload as string;
+      state.error = (payload as AxiosError).message;
     });
     builder.addCase(updateColumn.pending, (state) => {
       state.loading = true;
@@ -116,7 +117,7 @@ export const boardStateSlice = createSlice({
     });
     builder.addCase(deleteColumn.rejected, (state, { payload }) => {
       state.loading = false;
-      state.error = payload as string;
+      state.error = (payload as AxiosError).message;
     });
     builder.addCase(deleteColumn.pending, (state) => {
       state.loading = true;
@@ -130,7 +131,7 @@ export const boardStateSlice = createSlice({
     });
     builder.addCase(getAllUsers.rejected, (state, payload) => {
       state.loading = false;
-      state.error = payload.payload as string;
+      state.error = (payload.payload as AxiosError).message;
     });
   },
 });
