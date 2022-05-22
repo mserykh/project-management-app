@@ -16,14 +16,15 @@ type AddBoardFormData = {
 
 interface AddBoardFormProps {
   title?: string;
-  description?: string;
   id?: string;
+  description?: string;
   onClose: () => void;
 }
 
-const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) => {
+const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
   const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const {
     register,
     reset,
@@ -33,7 +34,6 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
     mode: 'onSubmit',
     reValidateMode: 'onBlur',
   });
-  const navigate = useNavigate();
 
   const formSubmitHandler = (data: AddBoardFormData): void => {
     if (title && id) {
@@ -55,15 +55,14 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
     onClose();
   };
 
-  const isSubmitDisabled = (!isDirty && !title && !description) || Object.keys(errors).length > 0;
-  const titleLabel = title ? 'Update board title' : 'Add board title';
-  const descriptionLabel = title ? 'Update board description' : 'Add board description';
+  const isSubmitDisabled = (!isDirty && !title) || Object.keys(errors).length > 0;
+  const fieldLabel = title ? 'Update board title' : 'Add board title';
   const buttonName = title ? 'Update board' : 'Create board';
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)}>
       <FormElement
         type="text"
-        label={titleLabel}
+        label={fieldLabel}
         labelColor={'black'}
         placeholder="Please enter the board title"
         errorText={'The title should contain at least 1 character'}
@@ -73,19 +72,9 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
           minLength: 1,
           value: title ? title : '',
         })}
-      />
-      <FormElement
-        type="textarea"
-        label={descriptionLabel}
-        labelColor={'black'}
-        placeholder="Please enter the board description"
-        errorText={'The description should contain at least 1 character'}
-        hasError={!!errors?.boardDescription}
-        inputData={register('boardDescription', {
-          required: true,
-          minLength: 1,
-          value: description ? description : '',
-        })}
+        containerClassName="w-full m-0 float-left  mb-[25px]"
+        inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
+        labelClassName="inline-block text-base text-[black] float-left mb-[12px] font-semibold"
       />
       <Button
         className={`text-white font-bold py-2 px-4 rounded-full${
