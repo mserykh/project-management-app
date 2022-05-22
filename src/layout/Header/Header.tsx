@@ -1,4 +1,4 @@
-import { NavLink, useHref, useLocation, useMatch, useNavigate } from 'react-router-dom';
+import { NavLink, useMatch, useNavigate } from 'react-router-dom';
 import { useScroll } from '../../hooks/useScroll';
 import Button from '../../components/Button/Button';
 import LanguageToggle from '../../components/LanguageToggle/LanguageToggle';
@@ -15,7 +15,6 @@ const Header = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const boardUrl = useMatch('/board/:boardId');
-  const pathName = useLocation().pathname;
   const isBoardPage = boardUrl?.pathname === location.pathname;
 
   const { t } = useTranslation();
