@@ -27,16 +27,16 @@ body {
 }
 
 .buttons-wrapper {
-  @apply w-full flex justify-end gap-4;
+  @apply w-full flex flex-wrap justify-end gap-4;
 }
 
 .button {
   @apply flex gap-x-2 items-center whitespace-nowrap justify-self-start font-semibold text-m h-max py-2 px-4 rounded-full transition;
   &--column {
-    @apply mr-4 bg-primaryPurple hover:bg-white text-white hover:text-primaryPurple rounded-tr;
+    @apply mr-4 bg-primaryPurple hover:bg-white text-white hover:text-primaryPurple rounded-tr-none;
   }
   &--board {
-    @apply mr-4 bg-primaryGreen hover:bg-white text-white hover:text-primaryGreen rounded-tr;
+    @apply mr-4 bg-primaryGreen hover:bg-white text-white hover:text-primaryGreen rounded-tr-none;
   }
   &--back {
     @apply text-grey hover:underline;
@@ -48,12 +48,18 @@ body {
     @apply py-1 -ml-3 text-primaryPurple font-medium text-s hover:bg-white hover:rounded-full;
   }
   &--delete {
-    @apply bg-red text-white rounded-bl;
+    @apply bg-red text-white rounded-bl-none;
+  }
+  &--add {
+    @apply text-white rounded-tr-none;
+  }
+  &--update {
+    @apply text-white rounded-tr-none;
   }
 }
 
 .header {
-  @apply sticky top-0 text-left bg-white z-50 transition-all;
+  @apply sticky top-0 text-left bg-white z-40 transition-all;
 }
 
 .logo {
@@ -145,6 +151,13 @@ body {
   }
   &__username {
     @apply truncate;
+  }
+}
+
+.form {
+  @apply flex flex-col items-end gap-4;
+  &__title {
+    @apply font-semibold text-m self-start;
   }
 }
 

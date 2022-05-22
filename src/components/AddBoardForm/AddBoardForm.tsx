@@ -60,7 +60,7 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
   const descriptionLabel = title ? 'Update board description' : 'Add board description';
   const buttonName = title ? 'Update board' : 'Create board';
   return (
-    <form onSubmit={handleSubmit(formSubmitHandler)}>
+    <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
       <FormElement
         type="text"
         label={titleLabel}
@@ -88,8 +88,8 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
         })}
       />
       <Button
-        className={`text-white font-bold py-2 px-4 rounded-full${
-          isSubmitDisabled ? ' bg-gray-300' : ' bg-blue-500 hover:bg-blue-700'
+        className={`button--add${
+          isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
         }`}
         type="submit"
         isDisabled={isSubmitDisabled}

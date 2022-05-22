@@ -12,12 +12,10 @@ function MainPage(): JSX.Element {
   }, [dispatch]);
   return (
     <main className="container mx-auto">
-      <section className="py-12 flex flex-col gap-4">
+      <section className="py-6 flex flex-col gap-4">
         <header className="flex flex-wrap gap-y-4 justify-between items-center">
           <div className="flex items-center gap-4">
-            <h2 className="font-heading not-italic font-black text-[48px] leading-[120%] mr-2">
-              Boards
-            </h2>
+            <h2 className="section__title">Boards</h2>
             <p className="caption px-3 py-1 bg-off-white rounded-full">
               {boardsData && boardsData.length}
             </p>

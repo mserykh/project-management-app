@@ -158,7 +158,10 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
             </>
           )}
           {isUpdateInputOpened && !isDragging && (
-            <form className="transition" onSubmit={handleSubmit(formSubmitHandler)}>
+            <form
+              className="form items-baselinetransition"
+              onSubmit={handleSubmit(formSubmitHandler)}
+            >
               <FormElement
                 type="text"
                 label="Add column title"
@@ -174,12 +177,12 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
                 })}
               />
               <div className="buttons-wrapper">
-                <Button className={`button--cancel`} type="button" onClick={handleCancel}>
+                <Button className="button--cancel" type="button" onClick={handleCancel}>
                   Cancel
                 </Button>
                 <Button
-                  className={`whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr${
-                    isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
+                  className={`button--update${
+                    isSubmitDisabled ? ' bg-gray-300' : ' bg-primaryGreen hover:bg-emerald-600'
                   }`}
                   type="submit"
                   isDisabled={isSubmitDisabled}

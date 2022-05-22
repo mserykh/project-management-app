@@ -44,7 +44,7 @@ function BoardDetailPage(): JSX.Element {
 
   return (
     <DndProvider debugMode={true} backend={HTML5Backend}>
-      <section className="grid grid-rows-columns gap-x-2 gap-y-6 mx-auto h-columns">
+      <section className="p-6 grid grid-rows-columns gap-x-2 gap-y-6 mx-auto h-columns">
         <header className="section__header section__header--columns">
           <div className="section__header-inner">
             <h2 className="section__title">{boardData.title}</h2>

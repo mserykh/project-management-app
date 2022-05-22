@@ -51,29 +51,27 @@ function ConfirmDeleteModalWindow({
     }
   };
   return (
-    <div>
-      <div className="relative p-4 w-full h-full md:h-auto">
-        <div className="p-6 gap-6 flex flex-col items-center">
-          <img src={warning} alt="" />
-          <h3 className="text-m">{`Are you sure you want to delete this ${type} '${title}'?`}</h3>
-          <div className="buttons-wrapper">
-            <button
-              data-modal-toggle="popup-modal"
-              type="button"
-              className="button button--cancel"
-              onClick={onClose}
-            >
-              No, cancel
-            </button>
-            <button
-              data-modal-toggle="popup-modal"
-              type="button"
-              className="button button--delete"
-              onClick={submitDeleteHandler}
-            >
-              Yes, I am sure
-            </button>
-          </div>
+    <div className="relative w-full h-full md:h-auto">
+      <div className="p-6 gap-6 flex flex-col items-center">
+        <img src={warning} alt="" />
+        <h3 className="text-m">{`Are you sure you want to delete this ${type} '${title}'?`}</h3>
+        <div className="buttons-wrapper">
+          <button
+            data-modal-toggle="popup-modal"
+            type="button"
+            className="button button--cancel"
+            onClick={onClose}
+          >
+            No, cancel
+          </button>
+          <button
+            data-modal-toggle="popup-modal"
+            type="button"
+            className="button button--delete"
+            onClick={submitDeleteHandler}
+          >
+            Yes, I am sure
+          </button>
         </div>
       </div>
     </div>

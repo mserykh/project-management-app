@@ -97,10 +97,8 @@ const CreateUpdateTaskForm = ({
   const fieldLabel = isUpdate() ? `Update task ${title}` : 'Add new task';
   const buttonName = isUpdate() ? 'Update task' : 'Add new task';
   const formEditMode = (
-    <form onSubmit={handleSubmit(formSubmitHandler)}>
-      <h1 className="font-['Inter'] not-italic font-black text-[20px] leading-[140%]">
-        {fieldLabel}
-      </h1>
+    <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
+      <h1 className="form__title">{fieldLabel}</h1>
       <FormElement
         type="text"
         label="Title *"
@@ -143,8 +141,8 @@ const CreateUpdateTaskForm = ({
         ></Controller>
       </div>
       <Button
-        className={`text-white font-bold py-2 px-4 rounded-full${
-          isSubmitDisabled ? ' bg-gray-300' : ' bg-blue-500 hover:bg-blue-700'
+        className={`button--add${
+          isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
         }`}
         type="submit"
         isDisabled={isSubmitDisabled}

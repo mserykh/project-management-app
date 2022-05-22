@@ -36,12 +36,8 @@ const FormElement = ({
     />
   );
   return (
-    <div className="w-full m-0 mb-[25px]">
-      <label
-        className={`inline-block text-base text-[${labelColor}] float-left mb-[12px] font-semibold ${classNameLabel}`}
-      >
-        {label}
-      </label>
+    <div className="w-full flex flex-col gap-3">
+      <label className={`text-[${labelColor}] font-semibold ${classNameLabel}`}>{label}</label>
       {type === 'textarea' ? textArea : input}
       {hasError && <ErrorMessageLabel>{errorText}</ErrorMessageLabel>}
     </div>

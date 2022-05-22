@@ -14,20 +14,18 @@ const Modal = ({ isOpened, children, onClose }: ModalProps): JSX.Element => {
   }
 
   return createPortal(
-    <>
-      <div className="fixed z-20 inset-0 overflow-hidden bg-gray-500 bg-opacity-75 transition-opacity">
-        <div className="relative top-2/4 -translate-y-1/2 mx-auto max-w-lg flex bg-white rounded-3xl transition-all">
-          <button
-            className="absolute flex justify-center items-center p-4 cursor-pointer z-10 hover:bg-gray-100 hover:rounded-full"
-            onClick={onClose}
-          >
-            <img src={close} alt="" />
-            <span className="sr-only"></span>
-          </button>
-          <div className="px-4 py-4">{children}</div>
-        </div>
+    <div className="fixed px-4 z-50 inset-0 overflow-hidden bg-gray-500 bg-opacity-75 transition-opacity">
+      <div className="relative p-4 top-2/4 -translate-y-1/2 mx-auto max-w-lg bg-white rounded-3xl transition-all">
+        <button
+          className="flex justify-center items-center p-4 cursor-pointer z-49 hover:bg-gray-100 hover:rounded-full"
+          onClick={onClose}
+        >
+          <img src={close} alt="" />
+          <span className="sr-only"></span>
+        </button>
+        <div className="p-6">{children}</div>
       </div>
-    </>,
+    </div>,
     document.getElementById('modal') as HTMLElement
   );
 };
