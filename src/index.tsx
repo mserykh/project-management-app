@@ -7,12 +7,13 @@ import { BrowserRouter } from 'react-router-dom';
 import './n18i';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import Spinner from './components/Spinner/Spinner';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   // <React.StrictMode>
   <Provider store={store}>
-    <Suspense fallback="Loading...">
+    <Suspense fallback={<Spinner text="loading" />}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
