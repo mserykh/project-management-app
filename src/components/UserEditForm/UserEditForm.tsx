@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContext } from '../../contexts/ToastContext';
-import EditFormElement from '../FormElements/EditFormElement';
 import { deleteUser, getUserData, updateUser } from './UserEditAction';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useNavigate } from 'react-router';
 import { logoutUser } from '../../redux/user/actions';
 import Modal from '../Modal/Modal';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
+import FormElement from '../FormElements/FormElement';
 
 const UserEditForm: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -69,36 +69,48 @@ const UserEditForm: React.FC = () => {
   return (
     <div>
       <form className="grid grid-cols-2 gap-2" onSubmit={handleSubmit(formSubmitHandler)}>
-        <EditFormElement
+        <FormElement
           type="text"
           label="New username"
+          labelColor="#AA9BFF"
           placeholder="Min. 8 characters"
           errorText="The length of password should be more than eight characters!"
           hasError={errors?.userName}
           inputData={register('userName', {
             minLength: 8,
           })}
+          containerClassName="text-xs flex flex-col gap-3"
+          labelClassName="form-label mt-2 text-[#AA9BFF]"
+          inputClassName="form-control w-[410px] rounded-3xl border-[#AFB0B9] border-[1px] py-[13px] pl-[24px] focus:outline-0"
         />
-        <EditFormElement
+        <FormElement
           type="text"
           label="New name"
+          labelColor="#AA9BFF"
           placeholder="Min. 5 characters"
           errorText="The length of password should be more than five characters!"
           hasError={errors?.name}
           inputData={register('name', {
             minLength: 5,
           })}
+          containerClassName="text-xs flex flex-col gap-3"
+          labelClassName="form-label mt-2 text-[#AA9BFF]"
+          inputClassName="form-control w-[410px] rounded-3xl border-[#AFB0B9] border-[1px] py-[13px] pl-[24px] focus:outline-0"
         />
-        <EditFormElement
+        <FormElement
           type="password"
           label="password"
           placeholder="Min. 8 characters"
+          labelColor="#AA9BFF"
           errorText={'The length of password should be more than eight characters!'}
           hasError={errors?.password}
           inputData={register('password', {
             minLength: 8,
             required: true,
           })}
+          containerClassName="text-xs flex flex-col gap-3"
+          labelClassName="form-label mt-2 text-[#AA9BFF]"
+          inputClassName="form-control w-[410px] rounded-3xl border-[#AFB0B9] border-[1px] py-[13px] pl-[24px] focus:outline-0"
         />
         <button
           className="px-[172px] py-[12px] bg-[#096CFE] text-white text-xl rounded-3xl rounded-tr-none font-semibold mb-[24px]"
