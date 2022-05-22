@@ -1,13 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContext } from '../../contexts/ToastContext';
-import { deleteUser, getUserData, updateUser } from './UserEditAction';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { useNavigate } from 'react-router';
-import { logoutUser } from '../../redux/user/actions';
+import { getUserData, updateUser } from './UserEditAction';
+import { useAppSelector } from '../../redux/hooks';
 import Modal from '../Modal/Modal';
-import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import FormElement from '../FormElements/FormElement';
+import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteModalWindow';
 
 const UserEditForm: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -22,12 +20,9 @@ const UserEditForm: React.FC = () => {
   } = useForm({
     mode: 'onSubmit',
   });
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const token = useAppSelector((state) => state.globalStateReducer.token);
   const userId = useAppSelector((state) => state.userReducer.user?.id);
-
   const { dispatch: toastDispatch } = useContext(ToastContext);
 
   const formSubmitHandler: SubmitHandler<FieldValues> = async (values) => {
@@ -53,17 +48,6 @@ const UserEditForm: React.FC = () => {
         return;
     }
     reset();
-  };
-
-  const handleDeleteBtn = async () => {
-    const res = await deleteUser(token, userId);
-    if (res === 204) {
-      toastDispatch({ type: 'SUCCESS', payload: 'User has been deleted successfully' });
-      navigate('/');
-      dispatch(logoutUser());
-    } else {
-      toastDispatch({ type: 'ERROR', payload: 'User was not found, delete fail' });
-    }
   };
 
   return (
@@ -126,7 +110,7 @@ const UserEditForm: React.FC = () => {
         Delete
       </button>
       <Modal isOpened={isModalOpen} onClose={handleModalOnclose}>
-        <ConfirmModal onConfirm={handleDeleteBtn} onCancel={handleModalOnclose} title={'profile'} />
+        <ConfirmDeleteModalWindow id={userId ? userId : ''} title={'profile'} type="user" />
       </Modal>
     </div>
   );

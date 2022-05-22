@@ -33,11 +33,11 @@ export async function getUserData(token: string, id: string | undefined) {
   return userData;
 }
 
-export async function deleteUser(token: string, id: string | undefined) {
+export async function deleteUser(id: string | undefined) {
   try {
     const res = await axios.delete(`${BACKEND_URL}/users/${id}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     });
     return res.status;
