@@ -7,8 +7,6 @@ export async function updateUser(
   token: string
 ) {
   try {
-    console.log(userId);
-
     const res = await axios({
       method: 'PUT',
       url: `${BACKEND_URL}/users/${userId}`,
@@ -17,11 +15,8 @@ export async function updateUser(
       },
       data: userUpdateData,
     });
-
-    console.log('first');
     return res.status;
   } catch (err) {
-    console.log('second');
     return 404;
   }
 }
@@ -36,6 +31,19 @@ export async function getUserData(token: string, id: string | undefined) {
   const userData = await res.data.find((data: UserDataType) => data.id === id);
 
   return userData;
+}
+
+export async function deleteUser(token: string, id: string | undefined) {
+  try {
+    const res = await axios.delete(`${BACKEND_URL}/users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.status;
+  } catch (err) {
+    return 404;
+  }
 }
 
 interface UserEditData {

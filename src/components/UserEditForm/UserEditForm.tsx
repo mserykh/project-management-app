@@ -2,8 +2,10 @@ import React, { useContext } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContext } from '../../contexts/ToastContext';
 import EditFormElement from '../FormElements/EditFormElement';
-import { getUserData, updateUser } from './UserEditAction';
-import { useAppSelector } from '../../redux/hooks';
+import { deleteUser, getUserData, updateUser } from './UserEditAction';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useNavigate } from 'react-router';
+import { logoutUser } from '../../redux/user/actions';
 
 const UserEditForm: React.FC = () => {
   const {
@@ -14,6 +16,8 @@ const UserEditForm: React.FC = () => {
   } = useForm({
     mode: 'onSubmit',
   });
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const token = useAppSelector((state) => state.globalStateReducer.token);
   const userId = useAppSelector((state) => state.userReducer.user?.id);
@@ -39,12 +43,23 @@ const UserEditForm: React.FC = () => {
         toastDispatch({ type: 'SUCCESS', payload: 'User successfully updated' });
         break;
       case 404:
-        toastDispatch({ type: 'ERROR', payload: `User wasn't founded!` });
+        toastDispatch({ type: 'ERROR', payload: `User wasn't founded!, update` });
         break;
       default:
         return;
     }
     reset();
+  };
+
+  const handleDeleteBtn = async () => {
+    const res = await deleteUser(token, userId);
+    if (res === 204) {
+      toastDispatch({ type: 'SUCCESS', payload: 'User has been deleted successfully' });
+      navigate('login');
+      dispatch(logoutUser());
+    } else {
+      toastDispatch({ type: 'ERROR', payload: 'User was not found, delete fail' });
+    }
   };
 
   return (
@@ -85,6 +100,14 @@ const UserEditForm: React.FC = () => {
         type="submit"
       >
         Update
+      </button>
+
+      <button
+        className="px-[172px] py-[12px] bg-[red] text-white text-xl rounded-3xl rounded-tr-none font-semibold mb-[24px]"
+        type="submit"
+        onClick={handleDeleteBtn}
+      >
+        Delete
       </button>
     </form>
   );
