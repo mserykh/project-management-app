@@ -36,8 +36,6 @@ export const getHttp = async (
   }
 };
 
-const config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
-
 export const postHttp = async (
   url: string,
   payload: Payload,
@@ -45,6 +43,7 @@ export const postHttp = async (
 ): Promise<AxiosResponse<unknown> | void> => {
   const body = { ...payload };
   try {
+    const config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
     const res = await axios.post<Payload, AxiosResponse<unknown, AxiosError>>(url, body, config);
     return res;
   } catch (e) {
@@ -65,6 +64,7 @@ export const putHttp = async (
     ...payload,
   };
   try {
+    const config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
     const res = await axios.put(url, body, config);
     return res;
   } catch (e) {
@@ -74,6 +74,7 @@ export const putHttp = async (
 
 export const deleteHttp = async (url: string): Promise<void | string> => {
   try {
+    const config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
     await axios.delete(url, config);
   } catch (e) {
     throw (e as AxiosError).toJSON();

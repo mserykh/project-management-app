@@ -84,10 +84,6 @@ const CreateUpdateTaskForm = ({
       copyColumns[columnIndex].tasks.push(newTask as unknown as TaskInterface);
     }
     dispatch(updateColumnsData(copyColumns));
-    const newTaskData = await createTask(taskData, boardId, columnId);
-    const newTask = (newTaskData as unknown as Record<string, unknown>).data;
-    copyColumns[columnIndex].tasks.push(newTask as unknown as TaskInterface);
-    dispatch(updateColumnsData(copyColumns));
     reset();
     onClose();
   };

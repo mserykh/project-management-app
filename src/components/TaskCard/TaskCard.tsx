@@ -70,6 +70,7 @@ function TaskCard(props: TaskInterface): JSX.Element {
         className="w-[360px] bg-white rounded-3xl p-6 h-[275px] mb-10"
         ref={ref}
         draggable
+        onClick={() => setIsAddTaskModalOpened(true)}
       >
         <h3 className="overflow-hidden text-ellipsis whitespace-nowrap mb-10">{props.title}</h3>
         <h5 className="overflow-hidden text-ellipsis whitespace-nowrap mb-10">
