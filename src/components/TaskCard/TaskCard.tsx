@@ -73,12 +73,10 @@ function TaskCard(props: TaskInterface): JSX.Element {
         onClick={() => setIsAddTaskModalOpened(true)}
       >
         <h3 className="task__title">{props.title}</h3>
-        <h5 className="task__description">
-          {props.description}
-        </h5>
+        <h5 className="task__description">{props.description}</h5>
         <div className="flex gap-2">
-        <img src={user_image} alt="" />
-        <span className="text-primaryGreen task__username">
+          <img src={user_image} alt="" />
+          <span className="text-primaryGreen task__username">
             &nbsp;{props.userId ? userName(props.userId) : ''}
           </span>
         </div>
