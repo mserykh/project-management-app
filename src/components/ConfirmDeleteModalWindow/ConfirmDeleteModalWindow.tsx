@@ -18,7 +18,7 @@ function ConfirmDeleteModalWindow({ id, title, type }: ConfirmDeleteModalWindowP
   const { dispatch: toastDispatch } = useContext(ToastContext);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const submitDeleteHandler = (): void => {
+  const submitDeleteHandler = async () => {
     switch (type) {
       case 'board':
         deleteBoard(id);
@@ -49,16 +49,14 @@ function ConfirmDeleteModalWindow({ id, title, type }: ConfirmDeleteModalWindowP
         dispatch(updateColumnsData(newColumns));
         break;
       case 'user':
-        async () => {
-          const res = await deleteUser(id);
-          if (res === 204) {
-            toastDispatch({ type: 'SUCCESS', payload: 'User has been deleted successfully' });
-            navigate('/');
-            dispatch(logoutUser());
-          } else {
-            toastDispatch({ type: 'ERROR', payload: 'User was not found, delete fail' });
-          }
-        };
+        const res = await deleteUser(id);
+        if (res === 204) {
+          toastDispatch({ type: 'SUCCESS', payload: 'User has been deleted successfully' });
+          navigate('/');
+          dispatch(logoutUser());
+        } else {
+          toastDispatch({ type: 'ERROR', payload: 'User was not found, delete fail' });
+        }
     }
   };
   return (
@@ -78,7 +76,7 @@ function ConfirmDeleteModalWindow({ id, title, type }: ConfirmDeleteModalWindowP
                 strokeLinejoin="round"
                 strokeWidth="2"
                 d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
+              />
             </svg>
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
               {`Are you sure you want to delete this ${type} '${title}'?`}
