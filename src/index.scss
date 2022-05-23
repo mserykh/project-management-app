@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Nunito:wght@500;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;900&family=Nunito:wght@500;900&display=swap');
 
 @import 'tailwindcss/base';
 
@@ -23,7 +23,7 @@ body {
 }
 
 .caption {
-  @apply font-medium tracking-wider text-purple uppercase;
+  @apply sm:font-semibold tracking-wider text-purple uppercase;
 }
 
 .buttons-wrapper {
@@ -31,21 +31,21 @@ body {
 }
 
 .button {
-  @apply flex gap-x-2 items-center whitespace-nowrap justify-self-start font-semibold text-m h-max py-2 px-4 rounded-full transition;
+  @apply whitespace-nowrap justify-self-start font-semibold text-s sm:text-m h-max py-2 px-4 rounded-full transition;
   &--column {
-    @apply mr-4 bg-primaryPurple hover:bg-white text-white hover:text-primaryPurple rounded-tr-none;
+    @apply mr-4 bg-primaryPurple text-white hover:opacity-70 rounded-tr-none;
   }
   &--board {
-    @apply mr-4 bg-primaryGreen hover:bg-white text-white hover:text-primaryGreen rounded-tr-none;
+    @apply mr-4 bg-primaryGreen text-white rounded-tr-none hover:opacity-70;
   }
   &--back {
-    @apply text-grey hover:underline;
+    @apply text-grey hover:bg-off-white rounded-tr-none underline -ml-4 hover:text-purple;
   }
   &--cancel {
-    @apply whitespace-nowrap text-black font-bold py-2 px-4 rounded-full hover:bg-grey;
+    @apply whitespace-nowrap text-black font-semibold py-2 px-4 rounded-full hover:bg-grey;
   }
   &--task {
-    @apply py-1 -ml-3 text-primaryPurple font-medium text-s hover:bg-white hover:rounded-full;
+    @apply flex items-center gap-2 py-1 -ml-3 text-primaryPurple font-semibold text-s hover:bg-white;
   }
   &--delete {
     @apply bg-red text-white rounded-bl-none;
@@ -56,31 +56,53 @@ body {
   &--update {
     @apply text-white rounded-tr-none;
   }
+  &--signin {
+    @apply bg-primaryViolet text-white rounded-tr-none max-w-full w-full text-center;
+  }
+  &--dropdown {
+    @apply text-xs uppercase font-medium text-black rounded-tr-none max-w-full w-full text-left hover:bg-off-white;
+  }
+  &--logout {
+    @apply text-primaryViolet;
+  }
 }
 
 .header {
   @apply sticky top-0 text-left bg-white z-40 transition-all;
+  &-container {
+    @apply container mx-auto w-full py-6 flex flex-wrap gap-y-6 justify-between items-center;
+  }
+  &__user {
+    @apply text-grey;
+  }
 }
 
 .logo {
   @apply flex gap-4;
   &__text {
-    @apply font-heading font-black uppercase h-11 text-logo;
+    @apply font-heading font-black uppercase h-11 md:text-logo text-l;
+  }
+}
+
+.dropdown {
+  @apply relative self-center;
+  &__content {
+    @apply absolute right-4 mt-3 z-10 flex flex-col justify-start gap-3 p-3 bg-white border-off-white border-2 rounded rounded-tr-none;
   }
 }
 
 .section {
   &__title {
-    @apply text-2xl font-heading font-black;
+    @apply text-l sm:text-xl md:text-2xl font-heading font-black;
     &--main {
       @apply text-3xl;
     }
   }
   &__description {
-    @apply text-s font-medium;
+    @apply sm:text-s font-normal;
   }
   &__header {
-    @apply flex justify-between mx-auto container items-start;
+    @apply flex justify-between mx-auto container items-start flex-col sm:flex-row;
     &--columns {
       @apply xs:min-w-xs sm:min-w-sm md:min-w-md l:min-w-l xl:min-w-xl 2xl:min-w-2xl;
     }
@@ -122,9 +144,9 @@ body {
 }
 
 .column {
-  @apply p-5 w-72 flex flex-col gap-y-4 rounded-3xl bg-off-white overflow-hidden;
+  @apply p-5 w-60 sm:w-72 flex flex-col gap-y-4 rounded-3xl bg-off-white overflow-hidden;
   &__title {
-    @apply font-semibold text-l truncate;
+    @apply font-semibold text-s sm:text-l truncate;
   }
 }
 
@@ -144,13 +166,34 @@ body {
 .task {
   @apply flex flex-col gap-2 bg-white rounded-3xl p-4;
   &__title {
-    @apply font-semibold text-m truncate;
+    @apply font-semibold text-s sm:text-m truncate;
   }
   &__description {
     @apply truncate;
   }
   &__username {
     @apply truncate;
+  }
+  &__username-label {
+    @apply truncate font-semibold;
+  }
+}
+
+.task-modal {
+  &__title {
+    @apply font-semibold text-m;
+  }
+  &__username-label {
+    @apply truncate font-semibold;
+  }
+  &__content-wrapper {
+    @apply flex flex-col gap-4 basis-4/5;
+  }
+  &__assignee-wrapper {
+    @apply flex flex-col gap-3;
+  }
+  &__username-wrapper {
+    @apply flex gap-2;
   }
 }
 
@@ -165,19 +208,16 @@ body {
   @apply pl-6 py-3 w-full text-base border border-solid border-grey rounded-full;
 }
 
+.label {
+  @apply font-semibold;
+}
+
 .input {
   @apply pl-6 py-3 w-full text-base border border-solid border-grey rounded-full;
 }
 
 .footer {
   @apply px-20 text-center text-grey shadow-footer mt-auto;
-  &-container {
-    @apply container mx-auto w-full py-6 flex flex-wrap gap-y-6 justify-between items-center;
-  }
-}
-
-.header {
-  @apply px-20;
   &-container {
     @apply container mx-auto w-full py-6 flex flex-wrap gap-y-6 justify-between items-center;
   }

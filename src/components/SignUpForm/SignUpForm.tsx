@@ -41,7 +41,7 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(formSubmitHandler)}>
+    <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
       <FormElement
         type="text"
         label="name"
@@ -53,9 +53,7 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
           minLength: 5,
         })}
         errorText={'The number of characters must be more than five!'}
-        containerClassName="w-full m-0 float-left  mb-[25px]"
-        inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
-        labelClassName={`inline-block text-base text-[${labelColor}] float-left mb-[12px] font-semibold`}
+        labelClassName={`text-[${labelColor}]`}
       />
       <FormElement
         type="text"
@@ -68,9 +66,7 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
           required: true,
           minLength: 5,
         })}
-        containerClassName="w-full m-0 float-left  mb-[25px]"
-        inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
-        labelClassName={`inline-block text-base text-[${labelColor}] float-left mb-[12px] font-semibold`}
+        labelClassName={`text-[${labelColor}]`}
       />
       <FormElement
         type="password"
@@ -83,8 +79,6 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
           required: true,
           minLength: 8,
         })}
-        containerClassName="w-full m-0 float-left  mb-[25px]"
-        inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
         labelClassName={`inline-block text-base text-[${labelColor}] float-left mb-[12px] font-semibold`}
       />
       <button

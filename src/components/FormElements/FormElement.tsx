@@ -9,8 +9,6 @@ interface FormElementProps {
   errorText: string;
   hasError: boolean;
   inputData: UseFormRegisterReturn;
-  containerClassName: string;
-  inputClassName: string;
   labelClassName: string;
 }
 
@@ -21,24 +19,15 @@ const FormElement = ({
   hasError,
   inputData,
   errorText,
-  containerClassName,
-  inputClassName,
   labelClassName,
 }: FormElementProps) => {
   const textArea = (
     <textarea className="textarea" placeholder={placeholder} {...inputData}></textarea>
   );
-  const input = (
-    <input
-      className={`input ${inputClassName}`}
-      type={type}
-      placeholder={placeholder}
-      {...inputData}
-    />
-  );
+  const input = <input className="input" type={type} placeholder={placeholder} {...inputData} />;
   return (
-    <div className={`${containerClassName} w-full flex flex-col gap-3`}>
-      <label className={labelClassName}>{label}</label>
+    <div className="w-full flex flex-col gap-3">
+      <label className={`label ${labelClassName}`}>{label}</label>
       {type === 'textarea' ? textArea : input}
       {hasError && <ErrorMessageLabel>{errorText}</ErrorMessageLabel>}
     </div>

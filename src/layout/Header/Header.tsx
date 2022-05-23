@@ -37,7 +37,7 @@ const Header = (): JSX.Element => {
           <Button
             onClick={() => setIsModalOpened(true)}
             type="button"
-            className="button button--board"
+            className="button button--board mx-auto"
           >
             {t('add_board_btn')}
           </Button>
@@ -45,25 +45,6 @@ const Header = (): JSX.Element => {
             <AddBoardForm title="" id="" description="" onClose={handleOnClose} />
           </Modal>
           <UserAvatar />
-          <Button
-            onClick={() => {
-              dispatch(logoutUser());
-              navigate('/');
-            }}
-            type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-          >
-            {t('log_out_btn')}
-          </Button>
-          <Button
-            onClick={() => {
-              navigate('/profile-edit');
-            }}
-            type="button"
-            className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full"
-          >
-            {t('edit_profile_btn')}
-          </Button>
           {!isAuthenticated && <NavLink to={'/login'}>Login</NavLink>}
           {!isAuthenticated && <NavLink to={'/signup'}>Registration</NavLink>}
         </>

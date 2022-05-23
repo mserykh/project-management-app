@@ -63,9 +63,7 @@ const UserEditForm: React.FC = () => {
           inputData={register('userName', {
             minLength: 8,
           })}
-          containerClassName="text-xs flex flex-col gap-3"
           labelClassName="form-label mt-2 text-[#AA9BFF]"
-          inputClassName="form-control w-[410px] rounded-3xl border-[#AFB0B9] border-[1px] py-[13px] pl-[24px] focus:outline-0"
         />
         <FormElement
           type="text"
@@ -77,9 +75,7 @@ const UserEditForm: React.FC = () => {
           inputData={register('name', {
             minLength: 5,
           })}
-          containerClassName="text-xs flex flex-col gap-3"
           labelClassName="form-label mt-2 text-[#AA9BFF]"
-          inputClassName="form-control w-[410px] rounded-3xl border-[#AFB0B9] border-[1px] py-[13px] pl-[24px] focus:outline-0"
         />
         <FormElement
           type="password"
@@ -92,9 +88,7 @@ const UserEditForm: React.FC = () => {
             minLength: 8,
             required: true,
           })}
-          containerClassName="text-xs flex flex-col gap-3"
           labelClassName="form-label mt-2 text-[#AA9BFF]"
-          inputClassName="form-control w-[410px] rounded-3xl border-[#AFB0B9] border-[1px] py-[13px] pl-[24px] focus:outline-0"
         />
         <button
           className="px-[172px] py-[12px] bg-[#096CFE] text-white text-xl rounded-3xl rounded-tr-none font-semibold mb-[24px]"

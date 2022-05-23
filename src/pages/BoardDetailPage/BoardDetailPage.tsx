@@ -44,14 +44,14 @@ function BoardDetailPage(): JSX.Element {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <section className="p-6 grid grid-rows-columns gap-x-2 gap-y-6 mx-auto h-columns">
+      <section className="p-3 sm:p-6 grid grid-rows-columns gap-x-2 gap-y-6 mx-auto h-columns">
         <header className="section__header section__header--columns">
           <div className="section__header-inner">
             <h2 className="section__title">{boardData.title}</h2>
             <p className="section__description">{boardData.description}</p>
           </div>
           <Button
-            className="button button--back"
+            className="button--back"
             type="button"
             onClick={() => {
               navigate('/main');

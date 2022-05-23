@@ -21,7 +21,7 @@ interface AddBoardFormProps {
   onClose: () => void;
 }
 
-const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
+const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) => {
   const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -56,13 +56,14 @@ const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
   };
 
   const isSubmitDisabled = (!isDirty && !title) || Object.keys(errors).length > 0;
-  const fieldLabel = title ? 'Update board title' : 'Add board title';
+  const titleLabel = title ? 'Update board title' : 'Add board title';
+  const descriptionLabel = description ? 'Update board description' : 'Add board description';
   const buttonName = title ? 'Update board' : 'Create board';
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
       <FormElement
         type="text"
-        label={fieldLabel}
+        label={titleLabel}
         labelColor={'black'}
         placeholder="Please enter the board title"
         errorText={'The title should contain at least 1 character'}
@@ -72,9 +73,21 @@ const AddBoardForm = ({ onClose, title, id }: AddBoardFormProps) => {
           minLength: 1,
           value: title ? title : '',
         })}
-        containerClassName="w-full m-0 float-left  mb-[25px]"
-        inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
-        labelClassName="inline-block text-base text-[black] float-left mb-[12px] font-semibold"
+        labelClassName=""
+      />
+      <FormElement
+        type="textarea"
+        label={descriptionLabel}
+        labelColor={'black'}
+        placeholder="Please enter the board description"
+        errorText={'The description should contain at least 1 character'}
+        hasError={!!errors?.boardDescription}
+        inputData={register('boardDescription', {
+          required: true,
+          minLength: 1,
+          value: description ? description : '',
+        })}
+        labelClassName=""
       />
       <Button
         className={`button--add${

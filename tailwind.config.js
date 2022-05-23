@@ -46,6 +46,7 @@ module.exports = {
         primaryBlue: '#096CFE',
         primaryGreen: '#1AD993',
         primaryPurple: '#503AE7',
+        primaryViolet: '#832BC1',
         purple: '#AA9BFF',
         'off-white': '#F4F2FF',
         red: '#FF3D3D',
@@ -59,6 +60,7 @@ module.exports = {
         s: '1.125rem',
         m: '1.25rem',
         l: '1.5rem',
+        xl: '2.5rem',
         '2xl': [
           '3rem',
           {

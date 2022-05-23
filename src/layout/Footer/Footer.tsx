@@ -8,24 +8,33 @@ function Footer(): JSX.Element {
         <span>© {new Date().getFullYear()} Copyright</span>
         <ul className="flex flex-wrap gap-x-6 gap-y-4">
           <li>
-            <a href="https://github.com/ssmangilev" className="flex items-center gap-3">
+            <a
+              href="https://github.com/ssmangilev"
+              className="flex items-center gap-3 hover:text-purple"
+            >
               <img src={github} alt="" />
               <span className="sr-only">GitHub</span>
               <span className="whitespace-nowrap">Sergei Mangilev</span>
             </a>
           </li>
           <li>
-            <a href="https://github.com/mserykh" className="flex items-center gap-3">
+            <a
+              href="https://github.com/mserykh"
+              className="flex items-center gap-3 hover:text-purple"
+            >
               <img src={github} alt="" />
               <span className="sr-only">GitHub</span>
               <span className="whitespace-nowrap">Marie Serykh</span>
             </a>
           </li>
           <li>
-            <a href="https://github.com/muhammed03" className="flex items-center gap-3">
+            <a
+              href="https://github.com/muhammed03"
+              className="flex items-center gap-3 hover:text-purple"
+            >
               <img src={github} alt="" />
               <span className="sr-only">GitHub</span>
-              <span className="whitespace-nowrap">Muhammed Abdrahman</span>
+              <span className="xs:whitespace-nowrap">Muhammed Abdrahman</span>
             </a>
           </li>
         </ul>

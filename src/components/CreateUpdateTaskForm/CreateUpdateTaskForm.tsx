@@ -11,6 +11,7 @@ import { updateColumnsData } from '../../redux/reducers/board/boardStateSlice';
 import { getNewOrderNumber } from '../../utils';
 import card_edit from '../../assets/images/card_edit.svg';
 import { useState } from 'react';
+import user_image from '../../assets/images/user_image.svg';
 
 type CreateUpdateTaskFormData = {
   taskTitle: string;
@@ -111,9 +112,7 @@ const CreateUpdateTaskForm = ({
           minLength: 1,
           value: title ? title : '',
         })}
-        containerClassName="w-full m-0 float-left  mb-[25px]"
-        inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
-        labelClassName="inline-block text-base text-[black] float-left mb-[12px] font-semibold"
+        labelClassName=""
       />
       <FormElement
         type="textarea"
@@ -127,9 +126,7 @@ const CreateUpdateTaskForm = ({
           minLength: 10,
           value: description ? description : '',
         })}
-        containerClassName="w-full m-0 float-left  mb-[25px]"
-        inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
-        labelClassName="inline-block text-base text-[black] float-left mb-[12px] font-semibold"
+        labelClassName=""
       />
       <div>
         <Controller
@@ -158,24 +155,22 @@ const CreateUpdateTaskForm = ({
     </form>
   );
   const formReadMode = (
-    <div className="flex">
-      <div>
-        <div>
-          <label htmlFor="task_title">Task title:</label>
-          <h3 id="task_title">{title}</h3>
-        </div>
-        <div>
-          <label htmlFor="task_title">Task Description:</label>
-          <p id="task_description">{description}</p>
-        </div>
-        <div>
-          <label htmlFor="task_user">User:</label>
-          <h5>{userId ? userName(userId) : ''}</h5>
+    <div className="flex justify-between items-start">
+      <div className="task-modal__content-wrapper">
+        <h3 className="task-modal__title">{title}</h3>
+        <p className="task-modal__description">{description}</p>
+        <div className="task-modal__assignee-wrapper">
+          <h5 className="text-primaryGreen task-modal__username-label">Assignee</h5>
+          <div className="task-modal__username-wrapper">
+            <img src={user_image} alt="" />
+            <p className="task-modal__username">{userId ? userName(userId) : ''}</p>
+          </div>
         </div>
       </div>
-      <div>
-        <img src={card_edit} onClick={() => setEditMode(true)}></img>
-      </div>
+      <button onClick={() => setEditMode(true)}>
+        <img src={card_edit} />
+        <span className="sr-only">Edit task</span>
+      </button>
     </div>
   );
 
