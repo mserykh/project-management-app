@@ -50,6 +50,9 @@ body {
   &--delete {
     @apply bg-red text-white rounded-bl-none;
   }
+  &--delete-profile {
+    @apply text-red rounded-bl-none self-end hover:bg-red hover:opacity-70 hover:text-white;
+  }
   &--add {
     @apply text-white rounded-tr-none;
   }

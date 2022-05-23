@@ -6,6 +6,7 @@ import { useAppSelector } from '../../redux/hooks';
 import Modal from '../Modal/Modal';
 import FormElement from '../FormElements/FormElement';
 import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteModalWindow';
+import Button from '../Button/Button';
 
 const UserEditForm: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -20,6 +21,10 @@ const UserEditForm: React.FC = () => {
   } = useForm({
     mode: 'onSubmit',
   });
+
+  const handleClickDelete = () => {
+    setIsModalOpen(true);
+  };
 
   const token = useAppSelector((state) => state.globalStateReducer.token);
   const userId = useAppSelector((state) => state.userReducer.user?.id);
@@ -51,8 +56,14 @@ const UserEditForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <form className="grid grid-cols-2 gap-2" onSubmit={handleSubmit(formSubmitHandler)}>
+    <>
+      <Button className="button--delete-profile" type="button" onClick={handleClickDelete}>
+        Delete Profile
+      </Button>
+      <form
+        className="grid grid-cols-2 grid-rows-3 gap-4"
+        onSubmit={handleSubmit(formSubmitHandler)}
+      >
         <FormElement
           type="text"
           label="New username"
@@ -63,7 +74,7 @@ const UserEditForm: React.FC = () => {
           inputData={register('userName', {
             minLength: 8,
           })}
-          labelClassName="form-label mt-2 text-[#AA9BFF]"
+          labelClassName="text-primaryPurple"
         />
         <FormElement
           type="text"
@@ -75,7 +86,7 @@ const UserEditForm: React.FC = () => {
           inputData={register('name', {
             minLength: 5,
           })}
-          labelClassName="form-label mt-2 text-[#AA9BFF]"
+          labelClassName="text-primaryPurple"
         />
         <FormElement
           type="password"
@@ -88,21 +99,16 @@ const UserEditForm: React.FC = () => {
             minLength: 8,
             required: true,
           })}
-          labelClassName="form-label mt-2 text-[#AA9BFF]"
+          labelClassName="text-primaryPurple"
         />
-        <button
-          className="px-[172px] py-[12px] bg-[#096CFE] text-white text-xl rounded-3xl rounded-tr-none font-semibold mb-[24px]"
+        <Button
+          className="button--column row-start-3 row-end-4 col-start-2 col-end-3 ml-auto"
           type="submit"
         >
-          Update
-        </button>
+          Update profile
+        </Button>
       </form>
-      <button
-        className="px-[172px] py-[12px] bg-[red] text-white text-xl rounded-3xl rounded-tr-none font-semibold mb-[24px]"
-        onClick={() => setIsModalOpen(true)}
-      >
-        Delete
-      </button>
+
       <Modal isOpened={isModalOpen} onClose={handleModalOnclose}>
         <ConfirmDeleteModalWindow
           id={userId ? userId : ''}
@@ -111,7 +117,7 @@ const UserEditForm: React.FC = () => {
           onClose={handleModalOnclose}
         />
       </Modal>
-    </div>
+    </>
   );
 };
 
