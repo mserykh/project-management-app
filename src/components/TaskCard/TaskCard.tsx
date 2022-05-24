@@ -88,7 +88,7 @@ function TaskCard(props: TaskInterface): JSX.Element {
             &nbsp;{props.userId ? userName(props.userId) : ''}
           </span>
         </div>
-        <button className="flex justify-end">
+        <button className="self-end flex items-center justify-center w-8 h-8 hover:bg-off-white hover:rounded-full">
           <img src={card_delete} onClick={() => setIsDeleteModalOpened(true)} />
           <span className="sr-only">Delete the task</span>
         </button>

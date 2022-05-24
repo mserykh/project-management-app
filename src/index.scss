@@ -36,7 +36,7 @@ body {
     @apply mr-4 bg-primaryPurple text-white hover:opacity-70 rounded-tr-none;
   }
   &--board {
-    @apply mr-4 bg-primaryGreen text-white rounded-tr-none hover:opacity-70;
+    @apply bg-primaryGreen text-white rounded-tr-none hover:opacity-70;
   }
   &--back {
     @apply text-grey hover:bg-off-white rounded-tr-none underline -ml-4 hover:text-purple;
@@ -222,6 +222,25 @@ body {
 .footer {
   @apply px-20 text-center text-grey shadow-footer mt-auto;
   &-container {
-    @apply container mx-auto w-full py-6 flex flex-wrap gap-y-6 justify-between items-center;
+    @apply container mx-auto w-full py-6 flex flex-col md:flex-row gap-y-6 justify-between items-center;
+  }
+}
+
+.filter-hover {
+  &--green:hover {
+    filter: brightness(0) saturate(100%) invert(66%) sepia(37%) saturate(914%) hue-rotate(106deg)
+      brightness(98%) contrast(87%);
+  }
+  &--blue:hover {
+    filter: brightness(0) saturate(100%) invert(44%) sepia(95%) saturate(5900%) hue-rotate(210deg)
+      brightness(102%) contrast(102%);
+  }
+  &--purple:hover {
+    filter: brightness(0) saturate(100%) invert(24%) sepia(26%) saturate(6357%) hue-rotate(263deg)
+      brightness(92%) contrast(101%);
+  }
+  &--violet:hover {
+    filter: brightness(0) saturate(100%) invert(74%) sepia(23%) saturate(7050%) hue-rotate(206deg)
+      brightness(102%) contrast(101%);
   }
 }

@@ -43,7 +43,7 @@ const UserAvatar = (): JSX.Element => {
   );
 
   return (
-    <div className="dropdown">
+    <div className="dropdown ml-auto xs:ml-0">
       <div className="flex gap-2 items-center">
         <img src={user_icon} alt="" />
         <span className="hidden sm:block header__user">{username}</span>
@@ -54,7 +54,9 @@ const UserAvatar = (): JSX.Element => {
           alt=""
         />
       </div>
-      {isOpen && <ul className="dropdown__content">{dropdownItems}</ul>}{' '}
+      {isOpen && (
+        <ul className="dropdown__content translate-x-2/4 xs:translate-x-0">{dropdownItems}</ul>
+      )}{' '}
     </div>
   );
 };

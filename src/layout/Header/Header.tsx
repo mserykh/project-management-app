@@ -34,7 +34,7 @@ const Header = (): JSX.Element => {
           <Button
             onClick={() => setIsModalOpened(true)}
             type="button"
-            className="button button--board mx-auto"
+            className="button button--board ml-auto"
           >
             {t('add_board_btn')}
           </Button>
@@ -53,8 +53,8 @@ const Header = (): JSX.Element => {
   return (
     <header className={`header ${isScrolling || isBoardPage ? 'shadow' : 'shadow-none'}`}>
       <div
-        className={`container w-full flex justify-between mx-auto ${
-          isScrolling || isBoardPage ? 'py-5' : 'py-10'
+        className={`container w-full gap-2 grid grid-cols-2 xs:flex xs:flex-rows xs:justify-between mx-auto ${
+          isScrolling || isBoardPage ? 'py-2 xs:py-5' : 'py-4 xs:py-10'
         }`}
       >
         <NavLink to="/">

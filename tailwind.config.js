@@ -35,7 +35,9 @@ module.exports = {
         'board-xl': 'calc((100% - 16px * (5 - 1)) / 5)',
       },
       height: {
-        columns: 'calc(100vh - 174px)',
+        columns: 'calc(100vh - 110px)',
+        l: 'calc(100vh - 212px)',
+        m: 'calc(100vh - 278px)',
       },
       gridTemplateRows: {
         columns: 'max-content',

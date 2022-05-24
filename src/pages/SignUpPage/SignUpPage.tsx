@@ -5,7 +5,7 @@ import SignUpForm from '../../components/SignUpForm/SignUpForm';
 
 const SignUpPage = () => {
   return (
-    <div className="grid md:grid-cols-2 h-[70vh]">
+    <div className="grid md:h-m l:h-l md:grid-cols-2 gap-6 md:gap-0">
       <div className="flex flex-col content-center justify-center">
         <div className="w-[410px] ml-auto mr-auto">
           <div className="mb-[21px]">

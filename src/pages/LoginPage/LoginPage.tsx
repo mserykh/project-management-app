@@ -5,7 +5,7 @@ import Logo from '../../components/Logo/Logo';
 
 const LoginPage = () => {
   return (
-    <section className="grid md:grid-cols-2 gap-6 md:gap-0">
+    <section className="grid md:h-m l:h-l md:grid-cols-2 gap-6 md:gap-0">
       <div className="flex flex-col content-center justify-center max-h-columns">
         <div className="px-6 m-auto">
           <div className="mb-6">
@@ -24,7 +24,7 @@ const LoginPage = () => {
         </div>
       </div>
       <div className="bg-gradient-to-b from-[#832BC1] to-[#503AE7] flex flex-col justify-center items-center gap-6 md:gap-10 p-6">
-        <div className="bg-white px-6 py-6  md:px-14 md:py-10 rounded">
+        <div className="bg-white px-6 py-6  md:px-14 md:py-10 rounded max-w-full">
           <Logo isScrolling={false} isBoardPage={false} />
         </div>
         <div className="text-center section__title text-white">
