@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hooks';
 
 import AppFeatIcon from '../../assets/images/app_feat.svg';
@@ -21,27 +21,27 @@ function WelcomePage(): JSX.Element {
           {!userIsAuthenticated && (
             <>
               {' '}
-              <Link
+              <NavLink
                 to={'/login'}
                 className="2xs:mr-[20px] md:mr-[42px] font-bold text-center text-xl py-[10px] px-[32px] bg-[#832BC1] text-white rounded-[25px] rounded-br-none"
               >
                 Log In
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to={'/signup'}
                 className="font-bold text-center text-xl py-[10px] px-[32px] bg-[#096CFE] text-white rounded-[25px] rounded-tr-none"
               >
                 Sign Up
-              </Link>
+              </NavLink>
             </>
           )}
           {userIsAuthenticated && (
-            <Link
+            <NavLink
               to={'/main'}
               className="font-bold text-center text-xl py-[10px] px-[32px] bg-[#096CFE] text-white rounded-[25px] rounded-tr-none"
             >
               Go to Main page
-            </Link>
+            </NavLink>
           )}
         </div>
         <div className="welcome__container">
