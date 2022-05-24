@@ -47,7 +47,7 @@ const LanguageToggle = (): JSX.Element => {
       <div className={`dropdownBtn flex items-center`}>
         <button
           onClick={handleClickBtn}
-          className={`text-grey font-medium cursor-pointer${isOpen ? ' text-purple' : ''}`}
+          className={`text-gray font-medium cursor-pointer${isOpen ? ' text-purple' : ''}`}
         >
           {language.toUpperCase()}
         </button>

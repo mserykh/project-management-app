@@ -39,10 +39,10 @@ body {
     @apply bg-primaryGreen text-white rounded-tr-none hover:opacity-70;
   }
   &--back {
-    @apply text-grey hover:bg-off-white rounded-tr-none underline -ml-4 hover:text-purple;
+    @apply text-gray hover:bg-off-white rounded-tr-none underline -ml-4 hover:text-purple;
   }
   &--cancel {
-    @apply whitespace-nowrap text-black font-semibold py-2 px-4 rounded-full hover:bg-grey;
+    @apply whitespace-nowrap text-black font-semibold py-2 px-4 rounded-full hover:bg-gray;
   }
   &--task {
     @apply flex items-center gap-2 py-1 -ml-3 text-primaryPurple font-semibold text-s hover:bg-white;
@@ -76,7 +76,7 @@ body {
     @apply container mx-auto w-full py-6 flex flex-wrap gap-y-6 justify-between items-center;
   }
   &__user {
-    @apply text-grey;
+    @apply text-gray;
   }
 }
 
@@ -208,7 +208,7 @@ body {
 }
 
 .textarea {
-  @apply pl-6 py-3 w-full text-base border border-solid border-grey rounded-full;
+  @apply pl-6 py-3 w-full text-base border border-solid border-gray rounded-full;
 }
 
 .label {
@@ -216,11 +216,11 @@ body {
 }
 
 .input {
-  @apply pl-6 py-3 w-full text-base border border-solid border-grey rounded-full;
+  @apply pl-6 py-3 w-full text-base border border-solid border-gray rounded-full;
 }
 
 .footer {
-  @apply px-20 text-center text-grey shadow-footer mt-auto;
+  @apply px-20 text-center text-gray shadow-footer mt-auto;
   &-container {
     @apply container mx-auto w-full py-6 flex flex-col md:flex-row gap-y-6 justify-between items-center;
   }
