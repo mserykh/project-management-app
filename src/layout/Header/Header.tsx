@@ -1,4 +1,4 @@
-import { NavLink, useMatch, useNavigate } from 'react-router-dom';
+import { NavLink, useMatch } from 'react-router-dom';
 import { useScroll } from '../../hooks/useScroll';
 import Button from '../../components/Button/Button';
 import LanguageToggle from '../../components/LanguageToggle/LanguageToggle';
@@ -6,14 +6,11 @@ import Logo from '../../components/Logo/Logo';
 import UserAvatar from '../../components/UserAvatar/UserAvatar';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppSelector } from '../../redux/hooks';
 import Modal from '../../components/Modal/Modal';
 import AddBoardForm from '../../components/AddBoardForm/AddBoardForm';
-import { logoutUser } from '../../redux/user/actions';
 
 const Header = (): JSX.Element => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const boardUrl = useMatch('/board/:boardId');
   const isBoardPage = boardUrl?.pathname === location.pathname;
 
