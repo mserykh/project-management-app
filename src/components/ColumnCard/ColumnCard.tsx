@@ -20,14 +20,19 @@ import { updateColumnsData } from '../../redux/reducers/board/boardStateSlice';
 import { updateColumnData } from '../../redux/reducers/board/boardStateSlice';
 import { updateTask } from '../../redux/actions/task';
 import TaskCard from '../TaskCard/TaskCard';
+import { useTranslation } from 'react-i18next';
 
 function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const columns = boardData.columns;
   const columnIndex = findIndex(boardData.columns, (column) => column.id === id);
   const columnData = boardData.columns[columnIndex];
   const columnId = boardData.columns[columnIndex].id;
+
   const [, dropRef1] = useDrop({
     accept: 'task',
     drop: async (item, monitor) => {
@@ -75,7 +80,6 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
       isOver: monitor.isOver(),
     }),
   });
-  const navigate = useNavigate();
 
   const ref = useRef<HTMLLIElement>(null);
 
@@ -255,7 +259,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
               />
               <div className="buttons-wrapper">
                 <Button className="button--cancel" type="button" onClick={handleCancel}>
-                  Cancel
+                  {t('_BTN_CANCEL_')}
                 </Button>
                 <Button
                   className={`button--update${
@@ -264,7 +268,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
                   type="submit"
                   isDisabled={isSubmitDisabled}
                 >
-                  Ok
+                  OK
                 </Button>
               </div>
             </form>
@@ -278,7 +282,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
             }}
           >
             <img className="" src={task_add}></img>
-            <span>Add task</span>
+            <span>{t('_BTN_ADD_TASK_')}</span>
           </button>
           <button
             onClick={() => {

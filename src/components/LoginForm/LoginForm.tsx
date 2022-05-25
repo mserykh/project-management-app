@@ -7,12 +7,18 @@ import { signIn } from '../../redux/user/actions';
 import { useNavigate } from 'react-router';
 import store from '../../redux/store';
 import Button from '../Button/Button';
+import { useTranslation } from 'react-i18next';
 
 interface LoginFormProps {
   labelColor: string;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { dispatch: toastDispatch } = useContext(ToastContext);
+  const { t } = useTranslation();
+
   const {
     register,
     formState: { errors },
@@ -22,9 +28,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
     mode: 'onSubmit',
     reValidateMode: 'onBlur',
   });
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { dispatch: toastDispatch } = useContext(ToastContext);
 
   const formSubmitHandler: SubmitHandler<FieldValues> = async (values) => {
     const userData = { login: values.username, password: values.password };
@@ -32,10 +35,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
     const isAuthenticated = store.getState().userReducer.isAuthenticated;
     if (isAuthenticated) {
       navigate('/main');
-      toastDispatch({ type: 'SUCCESS', payload: 'You successfully logged in' });
+      toastDispatch({ type: 'SUCCESS', payload: t('_TOAST_LOGGED_IN_') });
       reset();
     } else {
-      toastDispatch({ type: 'ERROR', payload: `Username or password didn't matched` });
+      toastDispatch({ type: 'ERROR', payload: t('_ERR_CREDENTIALS_') });
     }
   };
 
@@ -43,10 +46,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
     <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
       <FormElement
         type="text"
-        label="username"
+        label={t('_LBL_USERNAME_')}
         labelColor={labelColor}
         placeholder="John-Doe"
-        errorText={'The length of full name should be more than five characters!'}
+        errorText={t('_ERR_USERNAME_LENGTH_')}
         hasError={errors?.username}
         inputData={register('username', {
           required: true,
@@ -56,10 +59,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
       />
       <FormElement
         type="password"
-        label="password"
+        label={t('_LBL_PASSWORD_')}
         labelColor={labelColor}
-        placeholder="Min. 8 characters"
-        errorText={'The length of password should be more than eight characters!'}
+        placeholder={t('_LBL_PASSWORD_PLACEHOLDER_')}
+        errorText={t('_ERR_PASSWORD_LENGTH_')}
         hasError={errors?.password}
         inputData={register('password', {
           required: true,
@@ -68,7 +71,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
         labelClassName={`text-${labelColor}`}
       />
       <Button className="button--signin" type="submit">
-        Sign In
+        {t('_BTN_SIGN_IN_')}
       </Button>
     </form>
   );

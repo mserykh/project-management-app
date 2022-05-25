@@ -8,6 +8,7 @@ import { updateBoardsData } from '../../redux/reducers/boards/boardsStateSlice';
 import { cloneDeep } from 'lodash';
 import { useNavigate } from 'react-router';
 import { createBoard } from '../../redux/reducers/boards/ActionsBoards';
+import { useTranslation } from 'react-i18next';
 
 type AddBoardFormData = {
   boardTitle: string;
@@ -25,6 +26,7 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
   const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const {
     register,
     reset,
@@ -56,17 +58,20 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
   };
 
   const isSubmitDisabled = (!isDirty && !title) || Object.keys(errors).length > 0;
-  const titleLabel = title ? 'Update board title' : 'Add board title';
-  const descriptionLabel = description ? 'Update board description' : 'Add board description';
-  const buttonName = title ? 'Update board' : 'Create board';
+
+  const { t } = useTranslation();
+
+  const titleLabel = title ? t('_LBL_UPDATE_BOARD_TITLE_') : t('_LBL_ADD_BOARD_TITLE_');
+  const descriptionLabel = description ? t('_LBL_UPDATE_BOARD_DESC_') : t('_LBL_ADD_BOARD_DESC_');
+  const buttonName = title ? t('_BTN_UPDATE_BOARD_') : t('_BTN_ADD_BOARD_');
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
       <FormElement
         type="text"
         label={titleLabel}
         labelColor={'black'}
-        placeholder="Please enter the board title"
-        errorText={'The title should contain at least 1 character'}
+        placeholder={t('_LBL_BOARD_TITLE_PLACEHOLDER_')}
+        errorText={t('_ERR_TITLE_LENGTH_')}
         hasError={!!errors?.boardTitle}
         inputData={register('boardTitle', {
           required: true,
@@ -79,8 +84,8 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
         type="textarea"
         label={descriptionLabel}
         labelColor={'black'}
-        placeholder="Please enter the board description"
-        errorText={'The description should contain at least 1 character'}
+        placeholder={t('_LBL_BOARD_DESC_PLACEHOLDER_')}
+        errorText={t('_ERR_DESC_LENGTH_')}
         hasError={!!errors?.boardDescription}
         inputData={register('boardDescription', {
           required: true,

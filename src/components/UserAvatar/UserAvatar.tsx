@@ -9,9 +9,12 @@ import { useTranslation } from 'react-i18next';
 
 const UserAvatar = (): JSX.Element => {
   const username = useAppSelector((state) => state.userReducer.user?.login);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const { t } = useTranslation();
+
   const navigate = useNavigate();
 
   const handleClick = (): void => {
@@ -27,7 +30,7 @@ const UserAvatar = (): JSX.Element => {
         type="button"
         className="button--dropdown"
       >
-        {t('edit_profile_btn')}
+        {t('_BTN_EDIT_PROFILE_')}
       </Button>
       <Button
         onClick={() => {
@@ -37,7 +40,7 @@ const UserAvatar = (): JSX.Element => {
         type="button"
         className="button--dropdown button--logout"
       >
-        {t('log_out_btn')}
+        {t('_BTN_LOGOUT_')}
       </Button>
     </>
   );

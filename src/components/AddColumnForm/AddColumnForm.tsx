@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
 import { createColumn } from '../../redux/reducers/board/ActionsBoard';
+import { useTranslation } from 'react-i18next';
 
 export type AddColumnFormData = {
   columnTitle: string;
@@ -41,15 +42,17 @@ const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
     onClose();
   };
 
+  const { t } = useTranslation();
+
   const isSubmitDisabled = !isDirty || Object.keys(errors).length > 0;
   return (
     <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
       <FormElement
         type="text"
-        label="Add column title"
+        label={t('_LBL_ADD_COLUMN_TITLE_')}
         labelColor={'black'}
-        placeholder="Please enter the column title"
-        errorText={'The title should contain at least 1 character'}
+        placeholder={t('_LBL_COLUMN_TITLE_PLACEHOLDER_')}
+        errorText={t('_ERR_TITLE_LENGTH_')}
         hasError={!!errors?.columnTitle}
         inputData={register('columnTitle', {
           required: true,
@@ -64,7 +67,7 @@ const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
         type="submit"
         isDisabled={isSubmitDisabled}
       >
-        Add column
+        {t('_BTN_ADD_COLUMN_')}
       </Button>
     </form>
   );

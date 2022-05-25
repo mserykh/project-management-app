@@ -11,18 +11,22 @@ import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteM
 function BoardCard(props: BoardCardProps): JSX.Element {
   const [isUpdateModalOpened, setIsUpdateModalOpened] = useState<boolean>(false);
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState<boolean>(false);
+
   const handleUpdateModalOnClose = (): void => {
     setIsUpdateModalOpened(false);
   };
+
   const handleDeleteModalOnClose = (): void => {
     setIsDeleteModalOpened(false);
   };
+
   const handleOnClick = (event: SyntheticEvent): void => {
     if ((event.target as Node).nodeName === 'IMG') {
       event.preventDefault();
       event.stopPropagation();
     }
   };
+
   return (
     <li className="board__item hover:shadow-md">
       <NavLink to={`/board/${props.id}`} onClick={handleOnClick} className="board__link">

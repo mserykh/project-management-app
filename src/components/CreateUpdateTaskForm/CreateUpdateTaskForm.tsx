@@ -12,6 +12,7 @@ import { getNewOrderNumber } from '../../utils';
 import card_edit from '../../assets/images/card_edit.svg';
 import { useState } from 'react';
 import user_image from '../../assets/images/user_image.svg';
+import { useTranslation } from 'react-i18next';
 
 type CreateUpdateTaskFormData = {
   taskTitle: string;
@@ -43,11 +44,13 @@ const CreateUpdateTaskForm = ({
   userId,
   readOnly,
 }: CreateUpdateTaskFormProps) => {
-  const isUpdate = () => !!id;
   const users = useAppSelector((state) => state.boardReducer.users);
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
-  const [editMode, setEditMode] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+
+  const [editMode, setEditMode] = useState<boolean>(false);
+
   const {
     register,
     reset,
@@ -88,24 +91,28 @@ const CreateUpdateTaskForm = ({
     reset();
     onClose();
   };
+
   const userName = (userId: string) => {
     if (userId) {
       const userIndex = findIndex(users, (user: UserInterface) => user.id === userId);
       return get(users[userIndex], 'login', 'None');
     }
   };
+
+  const isUpdate = () => !!id;
   const isSubmitDisabled = (!isDirty && !isUpdate()) || Object.keys(errors).length > 0;
-  const fieldLabel = isUpdate() ? `Update task ${title}` : 'Add new task';
-  const buttonName = isUpdate() ? 'Update task' : 'Add new task';
+  const fieldLabel = isUpdate() ? `${t('_LBL_UPDATE_TASK_')} ${title}` : t('_LBL_ADD_TASK_');
+  const buttonName = isUpdate() ? t('_BTN_UPDATE_TASK_') : t('_BTN_ADD_TASK_');
+
   const formEditMode = (
     <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
       <h1 className="form__title">{fieldLabel}</h1>
       <FormElement
         type="text"
-        label="Title *"
+        label={`${t('_LBL_TITLE_')} *`}
         labelColor={'black'}
-        placeholder="Please enter the task title"
-        errorText={'The title should contain at least 1 character'}
+        placeholder={t('_LBL_TASK_TITLE_PLACEHOLDER_')}
+        errorText={t('_ERR_TITLE_LENGTH_')}
         hasError={!!errors?.taskTitle}
         inputData={register('taskTitle', {
           required: true,
@@ -116,10 +123,10 @@ const CreateUpdateTaskForm = ({
       />
       <FormElement
         type="textarea"
-        label="Description *"
+        label={`${t('_LBL_DESC_')} *`}
         labelColor={'black'}
-        placeholder="Please enter the task description"
-        errorText={'The description should contain at least 20 characters'}
+        placeholder={t('_LBL_TASK_DESC_PLACEHOLDER_')}
+        errorText={t('_ERR_DESC_LENGTH_10_')}
         hasError={!!errors?.taskDescription}
         inputData={register('taskDescription', {
           required: true,
@@ -134,7 +141,7 @@ const CreateUpdateTaskForm = ({
           control={control}
           render={({ field }) => (
             <Select<UserInterface>
-              placeholder="Please select an user"
+              placeholder={t('_LBL_USER_SELECT_')}
               options={users}
               getOptionLabel={(user: UserInterface) => user.login}
               getOptionValue={(user: UserInterface) => user.id}
@@ -154,13 +161,14 @@ const CreateUpdateTaskForm = ({
       </Button>
     </form>
   );
+
   const formReadMode = (
     <div className="flex justify-between items-start">
       <div className="task-modal__content-wrapper">
         <h3 className="task-modal__title">{title}</h3>
         <p className="task-modal__description">{description}</p>
         <div className="task-modal__assignee-wrapper">
-          <h5 className="text-primaryGreen task-modal__username-label">Assignee</h5>
+          <h5 className="text-primaryGreen task-modal__username-label">{t('_LBL_ASSIGNEE_')}</h5>
           <div className="task-modal__username-wrapper">
             <img src={user_image} alt="" />
             <p className="task-modal__username">{userId ? userName(userId) : ''}</p>
