@@ -30,7 +30,7 @@ function WelcomePage(): JSX.Element {
                 </NavLink>
                 <NavLink
                   to={'/signup'}
-                  className="font-semibold text-center text-l py-3 px-8 bg-primaryBlue text-white rounded-full rounded-tr-none"
+                  className="font-semibold text-center text-l py-3 px-8 bg-primaryBlue text-white rounded-full rounded-tr-none hover:bg-white hover:text-primaryBlue"
                 >
                   Sign Up
                 </NavLink>
@@ -39,7 +39,7 @@ function WelcomePage(): JSX.Element {
             {userIsAuthenticated && (
               <NavLink
                 to={'/main'}
-                className="font-semibold text-center text-l py-3 px-8 bg-primaryBlue text-white rounded-full rounded-tr-none hover:opacity-70"
+                className="font-semibold text-center text-l py-3 px-8 bg-primaryBlue text-white rounded-full rounded-tr-none hover:bg-white hover:text-primaryBlue"
               >
                 Go to Main page
               </NavLink>

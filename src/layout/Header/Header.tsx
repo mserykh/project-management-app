@@ -3,7 +3,6 @@ import { useScroll } from '../../hooks/useScroll';
 import LanguageToggle from '../../components/LanguageToggle/LanguageToggle';
 import Logo from '../../components/Logo/Logo';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../redux/hooks';
 import AuthorisedButtons from '../../components/AuthorisedButtons';
 
@@ -11,7 +10,6 @@ const Header = (): JSX.Element => {
   const boardUrl = useMatch('/board/:boardId');
   const isBoardPage = boardUrl?.pathname === location.pathname;
 
-  const { t } = useTranslation();
   const isScrolling = useScroll();
 
   const token = useAppSelector((state) => state.globalStateReducer.token);
