@@ -108,15 +108,16 @@ const UserEditForm: React.FC = () => {
           Update profile
         </Button>
       </form>
-
-      <Modal isOpened={isModalOpen} onClose={handleModalOnclose}>
-        <ConfirmDeleteModalWindow
-          id={userId ? userId : ''}
-          title={'profile'}
-          type="user"
-          onClose={handleModalOnclose}
-        />
-      </Modal>
+      {isModalOpen && (
+        <Modal onClose={handleModalOnclose}>
+          <ConfirmDeleteModalWindow
+            id={userId ? userId : ''}
+            title={'profile'}
+            type="user"
+            onClose={handleModalOnclose}
+          />
+        </Modal>
+      )}
     </>
   );
 };

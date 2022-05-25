@@ -57,22 +57,26 @@ function BoardCard(props: BoardCardProps): JSX.Element {
           }`}</p>
         </div>
       </NavLink>
-      <Modal isOpened={isUpdateModalOpened} onClose={handleUpdateModalOnClose}>
-        <AddBoardForm
-          onClose={handleUpdateModalOnClose}
-          title={props.title}
-          id={props.id}
-          description={props.description}
-        />
-      </Modal>
-      <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
-        <ConfirmDeleteModalWindow
-          title={props.title}
-          type="board"
-          id={props.id}
-          onClose={handleDeleteModalOnClose}
-        />
-      </Modal>
+      {isUpdateModalOpened && (
+        <Modal onClose={handleUpdateModalOnClose}>
+          <AddBoardForm
+            onClose={handleUpdateModalOnClose}
+            title={props.title}
+            id={props.id}
+            description={props.description}
+          />
+        </Modal>
+      )}
+      {isDeleteModalOpened && (
+        <Modal onClose={handleDeleteModalOnClose}>
+          <ConfirmDeleteModalWindow
+            title={props.title}
+            type="board"
+            id={props.id}
+            onClose={handleDeleteModalOnClose}
+          />
+        </Modal>
+      )}
     </li>
   );
 }

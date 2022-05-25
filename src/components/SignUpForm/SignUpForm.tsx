@@ -36,7 +36,7 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
     } else {
       toastDispatch({
         type: 'ERROR',
-        payload: 'User already exist',
+        payload: 'User already exists',
       });
     }
   };

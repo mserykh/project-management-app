@@ -306,22 +306,26 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
           ))}
         </ul>
       </li>
-      <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
-        <ConfirmDeleteModalWindow
-          title={title}
-          type="column"
-          id={id}
-          onClose={handleDeleteModalOnClose}
-        />
-      </Modal>
-      <Modal isOpened={isAddTaskModalOpened} onClose={handleAddTaskModalOnClose}>
-        <CreateUpdateTaskForm
-          onClose={handleAddTaskModalOnClose}
-          columnId={id}
-          boardId={boardId}
-          readOnly={false}
-        />
-      </Modal>
+      {isDeleteModalOpened && (
+        <Modal onClose={handleDeleteModalOnClose}>
+          <ConfirmDeleteModalWindow
+            title={title}
+            type="column"
+            id={id}
+            onClose={handleDeleteModalOnClose}
+          />
+        </Modal>
+      )}
+      {isAddTaskModalOpened && (
+        <Modal onClose={handleAddTaskModalOnClose}>
+          <CreateUpdateTaskForm
+            onClose={handleAddTaskModalOnClose}
+            columnId={id}
+            boardId={boardId}
+            readOnly={false}
+          />
+        </Modal>
+      )}
     </>
   );
 }

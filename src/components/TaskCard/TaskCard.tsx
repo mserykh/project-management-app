@@ -93,26 +93,30 @@ function TaskCard(props: TaskInterface): JSX.Element {
           <span className="sr-only">Delete the task</span>
         </button>
       </div>
-      <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
-        <ConfirmDeleteModalWindow
-          title={props.title}
-          type="task"
-          id={props.id ? props.id : ''}
-          onClose={handleDeleteModalOnClose}
-        />
-      </Modal>
-      <Modal isOpened={isAddTaskModalOpened} onClose={handleAddTaskModalOnClose}>
-        <CreateUpdateTaskForm
-          onClose={handleAddTaskModalOnClose}
-          columnId={props.columnId as string}
-          boardId={props.boardId as string}
-          title={props.title}
-          description={props.description}
-          id={props.id}
-          userId={props.userId}
-          readOnly={true}
-        />
-      </Modal>
+      {isDeleteModalOpened && (
+        <Modal onClose={handleDeleteModalOnClose}>
+          <ConfirmDeleteModalWindow
+            title={props.title}
+            type="task"
+            id={props.id ? props.id : ''}
+            onClose={handleDeleteModalOnClose}
+          />
+        </Modal>
+      )}
+      {isAddTaskModalOpened && (
+        <Modal onClose={handleAddTaskModalOnClose}>
+          <CreateUpdateTaskForm
+            onClose={handleAddTaskModalOnClose}
+            columnId={props.columnId as string}
+            boardId={props.boardId as string}
+            title={props.title}
+            description={props.description}
+            id={props.id}
+            userId={props.userId}
+            readOnly={true}
+          />
+        </Modal>
+      )}
     </li>
   );
 }

@@ -73,9 +73,11 @@ function BoardDetailPage(): JSX.Element {
           >
             Add a column
           </Button>
-          <Modal isOpened={isModalOpened} onClose={handleOnClose}>
-            <AddColumnForm onClose={handleOnClose} id={id} />
-          </Modal>
+          {isModalOpened && (
+            <Modal onClose={handleOnClose}>
+              <AddColumnForm onClose={handleOnClose} id={id} />
+            </Modal>
+          )}
         </section>
       </section>
     </DndProvider>

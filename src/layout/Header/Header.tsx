@@ -1,14 +1,11 @@
 import { NavLink, useMatch } from 'react-router-dom';
 import { useScroll } from '../../hooks/useScroll';
-import Button from '../../components/Button/Button';
 import LanguageToggle from '../../components/LanguageToggle/LanguageToggle';
 import Logo from '../../components/Logo/Logo';
-import UserAvatar from '../../components/UserAvatar/UserAvatar';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '../../redux/hooks';
-import Modal from '../../components/Modal/Modal';
-import AddBoardForm from '../../components/AddBoardForm/AddBoardForm';
+import AuthorisedButtons from '../../components/AuthorisedButtons';
 
 const Header = (): JSX.Element => {
   const boardUrl = useMatch('/board/:boardId');
@@ -19,7 +16,6 @@ const Header = (): JSX.Element => {
 
   const token = useAppSelector((state) => state.globalStateReducer.token);
   const userId = useAppSelector((state) => state.userReducer.user?.id);
-  const isAuthenticated = useAppSelector((state) => state.userReducer.isAuthenticated);
 
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
 
@@ -27,27 +23,8 @@ const Header = (): JSX.Element => {
     setIsModalOpened(false);
   };
 
-  const AuthorisedButtons = (): JSX.Element => {
-    if (userId && token) {
-      return (
-        <>
-          <Button
-            onClick={() => setIsModalOpened(true)}
-            type="button"
-            className="button button--board ml-auto"
-          >
-            {t('add_board_btn')}
-          </Button>
-          <Modal isOpened={isModalOpened} onClose={handleOnClose}>
-            <AddBoardForm title="" id="" description="" onClose={handleOnClose} />
-          </Modal>
-          <UserAvatar />
-          {!isAuthenticated && <NavLink to={'/login'}>Login</NavLink>}
-          {!isAuthenticated && <NavLink to={'/signup'}>Registration</NavLink>}
-        </>
-      );
-    }
-    return <></>;
+  const openModal = (): void => {
+    setIsModalOpened(true);
   };
 
   return (
@@ -60,7 +37,13 @@ const Header = (): JSX.Element => {
         <NavLink to="/">
           <Logo isScrolling={isScrolling} isBoardPage={isBoardPage} />
         </NavLink>
-        <AuthorisedButtons />
+        {token && userId && (
+          <AuthorisedButtons
+            isModalOpened={isModalOpened}
+            handleOpen={openModal}
+            handleClose={handleOnClose}
+          />
+        )}
         <LanguageToggle />
       </div>
     </header>
