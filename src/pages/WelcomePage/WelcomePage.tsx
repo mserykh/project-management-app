@@ -52,7 +52,7 @@ function WelcomePage(): JSX.Element {
             <ul className="welcome__cards">
               <li className="welcome__card">
                 <div className="welcome__card-container">
-                  <h4 className="welcome__card-title">{t('Application features')}</h4>
+                  <h4 className="welcome__card-title">{t('_LBL_MAIN_FEATURES_')}</h4>
                   <p className="welcome__card-text">
                     Lörem ipsum fogyr nism syledes den intravalig tet. Geosade exos dint.
                     Närvaropeng öjins. Syskade alogi nära. Oling rer, oaktat odat i ningen tills
