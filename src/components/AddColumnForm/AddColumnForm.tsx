@@ -55,13 +55,11 @@ const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
           required: true,
           minLength: 1,
         })}
-        containerClassName="w-full m-0 float-left  mb-[25px]"
-        inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
-        labelClassName="inline-block text-base text-[black] float-left mb-[12px] font-semibold"
+        labelClassName="inline-block text-base text-black float-left mb-3 font-semibold"
       />
       <Button
         className={`button--add${
-          isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
+          isSubmitDisabled ? ' bg-gray' : ' bg-primaryGreen hover:opacity-70'
         }`}
         type="submit"
         isDisabled={isSubmitDisabled}

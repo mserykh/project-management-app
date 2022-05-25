@@ -4,6 +4,7 @@ import { ToastContext } from '../../contexts/ToastContext';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { registerUser } from '../../redux/user/actions';
 import { useNavigate } from 'react-router';
+import Button from '../Button/Button';
 
 interface SignUpFormProps {
   labelColor: string;
@@ -35,13 +36,13 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
     } else {
       toastDispatch({
         type: 'ERROR',
-        payload: 'User already exist',
+        payload: 'User already exists',
       });
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(formSubmitHandler)}>
+    <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
       <FormElement
         type="text"
         label="name"
@@ -53,9 +54,7 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
           minLength: 5,
         })}
         errorText={'The number of characters must be more than five!'}
-        containerClassName="w-full m-0 float-left  mb-[25px]"
-        inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
-        labelClassName={`inline-block text-base text-[${labelColor}] float-left mb-[12px] font-semibold`}
+        labelClassName={`text-${labelColor}`}
       />
       <FormElement
         type="text"
@@ -68,9 +67,7 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
           required: true,
           minLength: 5,
         })}
-        containerClassName="w-full m-0 float-left  mb-[25px]"
-        inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
-        labelClassName={`inline-block text-base text-[${labelColor}] float-left mb-[12px] font-semibold`}
+        labelClassName={`text-${labelColor}`}
       />
       <FormElement
         type="password"
@@ -83,16 +80,11 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
           required: true,
           minLength: 8,
         })}
-        containerClassName="w-full m-0 float-left  mb-[25px]"
-        inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
-        labelClassName={`inline-block text-base text-[${labelColor}] float-left mb-[12px] font-semibold`}
+        labelClassName={`inline-block text-base text-${labelColor} float-left mb-3 font-semibold`}
       />
-      <button
-        className="px-[172px] py-[12px] bg-[#096CFE] text-white text-xl rounded-3xl rounded-tr-none font-semibold mb-[24px]"
-        type="submit"
-      >
-        Sign In
-      </button>
+      <Button className="button--signup" type="submit">
+        Sign Up
+      </Button>
     </form>
   );
 };

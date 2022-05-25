@@ -251,8 +251,6 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
                   minLength: 1,
                   value: title || '',
                 })}
-                containerClassName="w-full m-0 float-left"
-                inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
                 labelClassName="hidden"
               />
               <div className="buttons-wrapper">
@@ -261,7 +259,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
                 </Button>
                 <Button
                   className={`button--update${
-                    isSubmitDisabled ? ' bg-gray-300' : ' bg-primaryGreen hover:bg-emerald-600'
+                    isSubmitDisabled ? ' bg-gray' : ' bg-primaryGreen hover:opacity-70'
                   }`}
                   type="submit"
                   isDisabled={isSubmitDisabled}
@@ -308,22 +306,26 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
           ))}
         </ul>
       </li>
-      <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
-        <ConfirmDeleteModalWindow
-          title={title}
-          type="column"
-          id={id}
-          onClose={handleDeleteModalOnClose}
-        />
-      </Modal>
-      <Modal isOpened={isAddTaskModalOpened} onClose={handleAddTaskModalOnClose}>
-        <CreateUpdateTaskForm
-          onClose={handleAddTaskModalOnClose}
-          columnId={id}
-          boardId={boardId}
-          readOnly={false}
-        />
-      </Modal>
+      {isDeleteModalOpened && (
+        <Modal onClose={handleDeleteModalOnClose}>
+          <ConfirmDeleteModalWindow
+            title={title}
+            type="column"
+            id={id}
+            onClose={handleDeleteModalOnClose}
+          />
+        </Modal>
+      )}
+      {isAddTaskModalOpened && (
+        <Modal onClose={handleAddTaskModalOnClose}>
+          <CreateUpdateTaskForm
+            onClose={handleAddTaskModalOnClose}
+            columnId={id}
+            boardId={boardId}
+            readOnly={false}
+          />
+        </Modal>
+      )}
     </>
   );
 }

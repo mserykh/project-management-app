@@ -6,6 +6,7 @@ import { ToastContext } from '../../contexts/ToastContext';
 import { signIn } from '../../redux/user/actions';
 import { useNavigate } from 'react-router';
 import store from '../../redux/store';
+import Button from '../Button/Button';
 
 interface LoginFormProps {
   labelColor: string;
@@ -39,7 +40,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(formSubmitHandler)}>
+    <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
       <FormElement
         type="text"
         label="username"
@@ -51,9 +52,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
           required: true,
           minLength: 5,
         })}
-        containerClassName="w-full m-0 float-left  mb-[25px]"
-        inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
-        labelClassName={`inline-block text-base text-[${labelColor}] float-left mb-[12px] font-semibold`}
+        labelClassName={`text-${labelColor}`}
       />
       <FormElement
         type="password"
@@ -66,16 +65,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
           required: true,
           minLength: 8,
         })}
-        containerClassName="w-full m-0 float-left  mb-[25px]"
-        inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
-        labelClassName={`inline-block text-base text-[${labelColor}] float-left mb-[12px] font-semibold`}
+        labelClassName={`text-${labelColor}`}
       />
-      <button
-        className="px-[172px] py-[12px] bg-[#832BC1] text-white text-xl rounded-3xl rounded-tr-none font-semibold mb-[24px]"
-        type="submit"
-      >
+      <Button className="button--signin" type="submit">
         Sign In
-      </button>
+      </Button>
     </form>
   );
 };
