@@ -11,5 +11,5 @@ test('Welcome Page rendering', () => {
       <WelcomePage />
     </Provider>
   );
-  expect(getByText(/welcome page/i)).toBeInTheDocument();
+  expect(getByText(/our team/i)).toBeInTheDocument();
 });
