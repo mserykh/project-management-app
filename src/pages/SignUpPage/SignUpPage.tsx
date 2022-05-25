@@ -20,7 +20,7 @@ const SignUpPage = () => {
           </span>
         </div>
       </div>
-      <div className="bg-gradient-to-b from-[#096CFE] to-[#ABFFE0]"></div>
+      <div className="bg-gradient-to-b from-[#096CFE] to-[#ABFFE0]" />
     </div>
   );
 };
