@@ -13,13 +13,13 @@ import { updateColumn } from '../../redux/reducers/board/ActionsBoard';
 import CreateUpdateTaskForm from '../CreateUpdateTaskForm/CreateUpdateTaskForm';
 import { findIndex, get, cloneDeep, isNil, orderBy } from 'lodash';
 import { ColumnInterface, TaskInterface } from '../../types';
-import TaskCard from '../TaskCard/TaskCard';
 import FormElement from '../FormElements/FormElement';
 import { DragSourceMonitor, DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd';
 import { getNewOrderNumber, moveColumn } from '../../utils';
 import { updateColumnsData } from '../../redux/reducers/board/boardStateSlice';
 import { updateColumnData } from '../../redux/reducers/board/boardStateSlice';
 import { updateTask } from '../../redux/actions/task';
+import TaskCard from '../TaskCard/TaskCard';
 
 function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element {
   const dispatch = useAppDispatch();
@@ -223,22 +223,22 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
       <li
         ref={ref}
         key={id}
-        className={`overflow-auto w-72 bg-purple-100 ${
-          isDragging ? 'opacity-0' : 'cursor-grab opacity-100'
-        } rounded-3xl p-4`}
+        className={`column ${isDragging ? 'opacity-0' : 'cursor-grab opacity-100'}`}
       >
-        <div className="">
+        <header className="column__header transition">
           {!isUpdateInputOpened && (
-            <h3
-              ref={dragRef}
-              onClick={handleUpdateColumnTitle}
-              className={`w-[256px] h-[80px] font-['Inter'] not-italic text-[32px] leading-[125%]`}
-            >
-              {title}
-            </h3>
+            <>
+              <h3 ref={dragRef} onClick={handleUpdateColumnTitle} className="column__title">
+                {title}
+              </h3>
+              <p className="caption">{`${tasks.length} ${tasks.length > 1 ? 'tasks' : 'task'}`}</p>
+            </>
           )}
           {isUpdateInputOpened && !isDragging && (
-            <form onSubmit={handleSubmit(formSubmitHandler)}>
+            <form
+              className="form items-baselinetransition"
+              onSubmit={handleSubmit(formSubmitHandler)}
+            >
               <FormElement
                 type="text"
                 label="Add column title"
@@ -251,48 +251,48 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
                   minLength: 1,
                   value: title || '',
                 })}
-                containerClassName="w-full m-0 float-left  mb-[25px]"
+                containerClassName="w-full m-0 float-left"
                 inputClassName="border w-full text-base border-solid border-[#AFB0B9] rounded-[999px] pl-23 focus:outline-0 pl-[24px] py-[11px]"
-                labelClassName={`inline-block text-base text-[black] float-left mb-[12px] font-semibold`}
+                labelClassName="hidden"
               />
-              <Button
-                className={`ml-auto whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr${
-                  isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
-                }`}
-                type="submit"
-                isDisabled={isSubmitDisabled}
-              >
-                Ok
-              </Button>
-              <Button
-                className={`ml-auto whitespace-nowrap text-white font-bold py-2 px-4 rounded-full rounded-tr bg-gray-200 hover:bg-gray-400`}
-                type="button"
-                onClick={handleCancel}
-              >
-                Cancel
-              </Button>
+              <div className="buttons-wrapper">
+                <Button className="button--cancel" type="button" onClick={handleCancel}>
+                  Cancel
+                </Button>
+                <Button
+                  className={`button--update${
+                    isSubmitDisabled ? ' bg-gray-300' : ' bg-primaryGreen hover:bg-emerald-600'
+                  }`}
+                  type="submit"
+                  isDisabled={isSubmitDisabled}
+                >
+                  Ok
+                </Button>
+              </div>
             </form>
           )}
-        </div>
-        <div className="flex justify-between mb-2">
-          <div
-            className="flex gap-2"
+        </header>
+        <div className="flex items-center justify-between">
+          <button
+            className="button button--task"
             onClick={() => {
               setIsAddTaskModalOpened(true);
             }}
           >
-            <img className="inline-block" src={task_add}></img>
-            <span className="font-['Inter'] not-italic text-[#503ae7] text-[16px] leading-[150%]">
-              Add task
-            </span>
-          </div>
-          <img
-            className="inline-block"
-            src={card_delete}
-            onClick={() => setIsDeleteModalOpened(true)}
-          ></img>
+            <img className="" src={task_add}></img>
+            <span>Add task</span>
+          </button>
+          <button
+            onClick={() => {
+              setIsDeleteModalOpened(true);
+            }}
+            className="flex items-center justify-center w-8 h-8 hover:bg-white hover:rounded-full"
+          >
+            <img src={card_delete} alt="" />
+            <span className="sr-only">Delete the column</span>
+          </button>
         </div>
-        <div className="flex flex-col justify-center items-center">
+        <ul className="tasks-list">
           {orderBy(tasks, ['order'], ['asc']).map((el: TaskInterface) => (
             <TaskCard
               key={`${el.id}${el.order}`}
@@ -306,10 +306,15 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
               moveTaskHandler={moveTaskHandler}
             />
           ))}
-        </div>
+        </ul>
       </li>
       <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
-        <ConfirmDeleteModalWindow title={title} type="column" id={id} />
+        <ConfirmDeleteModalWindow
+          title={title}
+          type="column"
+          id={id}
+          onClose={handleDeleteModalOnClose}
+        />
       </Modal>
       <Modal isOpened={isAddTaskModalOpened} onClose={handleAddTaskModalOnClose}>
         <CreateUpdateTaskForm
