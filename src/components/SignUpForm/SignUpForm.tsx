@@ -4,6 +4,7 @@ import { ToastContext } from '../../contexts/ToastContext';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { registerUser } from '../../redux/user/actions';
 import { useNavigate } from 'react-router';
+import Button from '../Button/Button';
 
 interface SignUpFormProps {
   labelColor: string;
@@ -53,7 +54,7 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
           minLength: 5,
         })}
         errorText={'The number of characters must be more than five!'}
-        labelClassName={`text-[${labelColor}]`}
+        labelClassName={`text-${labelColor}`}
       />
       <FormElement
         type="text"
@@ -66,7 +67,7 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
           required: true,
           minLength: 5,
         })}
-        labelClassName={`text-[${labelColor}]`}
+        labelClassName={`text-${labelColor}`}
       />
       <FormElement
         type="password"
@@ -79,14 +80,11 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
           required: true,
           minLength: 8,
         })}
-        labelClassName={`inline-block text-base text-[${labelColor}] float-left mb-[12px] font-semibold`}
+        labelClassName={`inline-block text-base text-${labelColor} float-left mb-3 font-semibold`}
       />
-      <button
-        className="px-[172px] py-[12px] bg-[#096CFE] text-white text-xl rounded-3xl rounded-tr-none font-semibold mb-[24px]"
-        type="submit"
-      >
-        Sign In
-      </button>
+      <Button className="button--signup" type="submit">
+        Sign Up
+      </Button>
     </form>
   );
 };

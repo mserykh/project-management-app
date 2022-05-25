@@ -52,7 +52,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
           required: true,
           minLength: 5,
         })}
-        labelClassName={`text-[${labelColor}]`}
+        labelClassName={`text-${labelColor}`}
       />
       <FormElement
         type="password"
@@ -65,7 +65,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
           required: true,
           minLength: 8,
         })}
-        labelClassName={`text-[${labelColor}]`}
+        labelClassName={`text-${labelColor}`}
       />
       <Button className="button--signin" type="submit">
         Sign In

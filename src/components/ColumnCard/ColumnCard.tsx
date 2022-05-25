@@ -259,7 +259,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
                 </Button>
                 <Button
                   className={`button--update${
-                    isSubmitDisabled ? ' bg-gray-300' : ' bg-primaryGreen hover:bg-emerald-600'
+                    isSubmitDisabled ? ' bg-gray' : ' bg-primaryGreen hover:opacity-70'
                   }`}
                   type="submit"
                   isDisabled={isSubmitDisabled}

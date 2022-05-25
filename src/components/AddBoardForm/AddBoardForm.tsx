@@ -91,7 +91,7 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
       />
       <Button
         className={`button--add${
-          isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
+          isSubmitDisabled ? ' bg-gray' : ' bg-primaryGreen hover:opacity-70'
         }`}
         type="submit"
         isDisabled={isSubmitDisabled}

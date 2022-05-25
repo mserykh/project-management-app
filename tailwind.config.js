@@ -1,6 +1,27 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
+    spacing: {
+      '0': '0',
+      '1': '4px',
+      '2': '8px',
+      '3': '12px',
+      '4': '16px',
+      '5': '20px',
+      '6': '24px',
+      '7': '28px',
+      '8': '32px',
+      '10': '40px',
+      '11': '44px',
+      '12': '48px',
+      '14': '56px',
+      '16': '64px',
+      '20': '80px',
+      '60': '240px',
+      '72': '288px',
+      '135': '135px',
+      '410': '410px',
+    },
     screens: {
       '2xs': '320px',
       xs: '480px',
@@ -12,6 +33,7 @@ module.exports = {
     },
     extend: {
       width: {
+        '1/3': '33.3%',
         'board-xs': 'calc((100% - 16px * (1 - 1)) / 1)',
         'board-s': 'calc((100% - 16px * (2 - 1)) / 2)',
         'board-m': 'calc((100% - 16px * (3 - 1)) / 3)',
@@ -28,6 +50,9 @@ module.exports = {
         '2xl': '1440px',
       },
       maxWidth: {
+        'input': '410px',
+        'welcome': '1280px',
+        'out-team': '1024px',
         'board-xs': 'calc((100% - 16px * (1 - 1)) / 1)',
         'board-s': 'calc((100% - 16px * (2 - 1)) / 2)',
         'board-m': 'calc((100% - 16px * (3 - 1)) / 3)',
@@ -51,6 +76,7 @@ module.exports = {
         primaryViolet: '#832BC1',
         purple: '#AA9BFF',
         'off-white': '#F4F2FF',
+        'light-green': '#ABFFE0',
         red: '#FF3D3D',
       },
       fontFamily: {

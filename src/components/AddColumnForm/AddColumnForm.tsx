@@ -55,11 +55,11 @@ const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
           required: true,
           minLength: 1,
         })}
-        labelClassName="inline-block text-base text-[black] float-left mb-[12px] font-semibold"
+        labelClassName="inline-block text-base text-black float-left mb-3 font-semibold"
       />
       <Button
         className={`button--add${
-          isSubmitDisabled ? ' bg-gray-300' : ' bg-emerald-400 hover:bg-emerald-600'
+          isSubmitDisabled ? ' bg-gray' : ' bg-primaryGreen hover:opacity-70'
         }`}
         type="submit"
         isDisabled={isSubmitDisabled}
