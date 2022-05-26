@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { NavLink } from 'react-router-dom';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import Logo from '../../components/Logo/Logo';
 
@@ -14,9 +14,9 @@ const LoginPage = () => {
           <LoginForm labelColor="primaryViolet" />
           <span className="block text-left text-large">
             Not registered yet?&nbsp;
-            <a href="/signup" className="text-primaryViolet font-semibold">
+            <NavLink to="/signup" className="text-primaryViolet font-semibold">
               Create an Account
-            </a>
+            </NavLink>
           </span>
         </div>
       </div>
