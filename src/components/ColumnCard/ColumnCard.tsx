@@ -235,7 +235,9 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
               <h3 ref={dragRef} onClick={handleUpdateColumnTitle} className="column__title">
                 {title}
               </h3>
-              <p className="caption">{`${tasks.length} ${tasks.length > 1 ? 'tasks' : 'task'}`}</p>
+              <p className="caption">{`${tasks.length} ${t('_LBL_TASK_', {
+                count: tasks.length,
+              })}`}</p>{' '}
             </>
           )}
           {isUpdateInputOpened && !isDragging && (

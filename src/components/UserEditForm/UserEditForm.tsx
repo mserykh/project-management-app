@@ -52,7 +52,7 @@ const UserEditForm: React.FC = () => {
         toastDispatch({ type: 'SUCCESS', payload: t('_TOAST_USER_UPDATED_') });
         break;
       case 404:
-        toastDispatch({ type: 'ERROR', payload: `User wasn't founded!, update` });
+        toastDispatch({ type: 'ERROR', payload: t('_ERR_USER_NOT_UPDATED_') });
         break;
       default:
         return;

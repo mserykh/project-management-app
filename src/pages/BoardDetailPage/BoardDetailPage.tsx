@@ -20,7 +20,7 @@ function BoardDetailPage(): JSX.Element {
   const { t } = useTranslation();
 
   if (!urlParams.id) {
-    toast.error(`This board does not exist or something went wrong`);
+    toast.error(t('_ERR_BOARD_DOES_NOT_EXIST_'));
     navigate('/404');
   }
   const id = urlParams.id as string;
