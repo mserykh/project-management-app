@@ -30,8 +30,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
     await dispatch(signIn(userData));
     const isAuthenticated = store.getState().userReducer.isAuthenticated;
     if (isAuthenticated) {
-      navigate('/main');
-      toastDispatch({ type: 'SUCCESS', payload: 'You successfully logged in' });
+      navigate('/');
       reset();
     } else {
       toastDispatch({ type: 'ERROR', payload: `Username or password didn't matched` });
