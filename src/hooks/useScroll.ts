@@ -5,7 +5,7 @@ export const useScroll = (): boolean => {
 
   useEffect(() => {
     const collapseHeader = (): void => {
-      if (window.scrollY > 25) {
+      if (window.scrollY > 0) {
         setIsScrolling(true);
       } else {
         setIsScrolling(false);

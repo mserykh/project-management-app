@@ -88,31 +88,35 @@ function TaskCard(props: TaskInterface): JSX.Element {
             &nbsp;{props.userId ? userName(props.userId) : ''}
           </span>
         </div>
-        <button className="flex justify-end">
+        <button className="self-end flex items-center justify-center w-8 h-8 hover:bg-off-white hover:rounded-full">
           <img src={card_delete} onClick={() => setIsDeleteModalOpened(true)} />
           <span className="sr-only">Delete the task</span>
         </button>
       </div>
-      <Modal isOpened={isDeleteModalOpened} onClose={handleDeleteModalOnClose}>
-        <ConfirmDeleteModalWindow
-          title={props.title}
-          type="task"
-          id={props.id ? props.id : ''}
-          onClose={handleDeleteModalOnClose}
-        />
-      </Modal>
-      <Modal isOpened={isAddTaskModalOpened} onClose={handleAddTaskModalOnClose}>
-        <CreateUpdateTaskForm
-          onClose={handleAddTaskModalOnClose}
-          columnId={props.columnId as string}
-          boardId={props.boardId as string}
-          title={props.title}
-          description={props.description}
-          id={props.id}
-          userId={props.userId}
-          readOnly={true}
-        />
-      </Modal>
+      {isDeleteModalOpened && (
+        <Modal onClose={handleDeleteModalOnClose}>
+          <ConfirmDeleteModalWindow
+            title={props.title}
+            type="task"
+            id={props.id ? props.id : ''}
+            onClose={handleDeleteModalOnClose}
+          />
+        </Modal>
+      )}
+      {isAddTaskModalOpened && (
+        <Modal onClose={handleAddTaskModalOnClose}>
+          <CreateUpdateTaskForm
+            onClose={handleAddTaskModalOnClose}
+            columnId={props.columnId as string}
+            boardId={props.boardId as string}
+            title={props.title}
+            description={props.description}
+            id={props.id}
+            userId={props.userId}
+            readOnly={true}
+          />
+        </Modal>
+      )}
     </li>
   );
 }

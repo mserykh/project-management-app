@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { ChevronDownIcon } from '@heroicons/react/solid';
 import { useAppSelector } from '../../redux/hooks';
 import { useDispatch } from 'react-redux';
 import { updateLanguage } from '../../redux/reducers/globalStateSlice';
+import user_options from '../../assets/images/user_options.svg';
 
 enum LanguageDropdownItem {
   EN = 'en',
@@ -36,26 +36,29 @@ const LanguageToggle = (): JSX.Element => {
     .filter((item: LanguageDropdownItem) => item !== language)
     .map((item: LanguageDropdownItem) => (
       <li key={item}>
-        <button className="dropdownItem cursor-pointer" onClick={handleClickDropdown}>
+        <button className="button button--dropdown" onClick={handleClickDropdown}>
           {item.toUpperCase()}
         </button>
       </li>
     ));
 
   return (
-    <div className="dropdown">
-      <div className="dropdownBtn flex items-center">
-        <button onClick={handleClickBtn} className="cursor-pointer">
+    <div className="dropdown ml-auto xs:ml-0">
+      <div className={`dropdownBtn flex items-center`}>
+        <button
+          onClick={handleClickBtn}
+          className={`text-gray font-medium cursor-pointer${isOpen ? ' text-purple' : ''}`}
+        >
           {language.toUpperCase()}
         </button>
-        <ChevronDownIcon
+        <img
           onClick={handleClickBtn}
-          data-testid="toggle"
-          className="-mr-1 ml-2 h-5 w-5 cursor-pointer"
-          aria-hidden="true"
+          className="p-2 cursor-pointer hover:bg-off-white hover:rounded-full"
+          src={user_options}
+          alt=""
         />
       </div>
-      {isOpen && <ul className="dropdownContent">{dropdownItems}</ul>}
+      {isOpen && <ul className="dropdown__content">{dropdownItems}</ul>}
     </div>
   );
 };

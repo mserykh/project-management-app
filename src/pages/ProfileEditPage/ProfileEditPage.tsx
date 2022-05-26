@@ -3,13 +3,15 @@ import UserEditForm from '../../components/UserEditForm/UserEditForm';
 
 function ProfileEditPage(): JSX.Element {
   return (
-    <div className="pt-[50px] pl-[82px]">
-      <h3 className="text-5xl">User Profile</h3>
-      <div className="pt-[36px] flex flex-col">
-        <h4>Edit user profile</h4>
-        <UserEditForm />
-      </div>
-    </div>
+    <main className="container mx-auto">
+      <section className="p-3 sm:p-6 grid grid-rows-columns gap-x-2 gap-y-6 mx-auto">
+        <h2 className="section__title">User Profile</h2>
+        <h3 className="section__description">Edit user profile</h3>
+        <div className="flex flex-col">
+          <UserEditForm />
+        </div>
+      </section>
+    </main>
   );
 }
 

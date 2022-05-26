@@ -15,122 +15,122 @@ function WelcomePage(): JSX.Element {
   const userIsAuthenticated = useAppSelector((state) => state.userReducer.isAuthenticated);
 
   return (
-    <main className="h-auto p-0 relative">
-      <div className="welcome">
-        <div className="routes-container">
-          {!userIsAuthenticated && (
-            <>
-              {' '}
+    <main>
+      <section className="welcome">
+        <div className="container py-12 mx-auto">
+          <div className="welcome__buttons">
+            {!userIsAuthenticated && (
+              <>
+                {' '}
+                <NavLink
+                  to={'/login'}
+                  className="font-semibold text-center text-l py-3 px-8 text-white rounded-full rounded-br-none hover:text-primaryBlue"
+                >
+                  Log In
+                </NavLink>
+                <NavLink
+                  to={'/signup'}
+                  className="font-semibold text-center text-l py-3 px-8 bg-primaryBlue text-white rounded-full rounded-tr-none hover:bg-white hover:text-primaryBlue"
+                >
+                  Sign Up
+                </NavLink>
+              </>
+            )}
+            {userIsAuthenticated && (
               <NavLink
-                to={'/login'}
-                className="2xs:mr-[20px] md:mr-[42px] font-bold text-center text-xl py-[10px] px-[32px] bg-[#832BC1] text-white rounded-[25px] rounded-br-none"
+                to={'/main'}
+                className="font-semibold text-center text-l py-3 px-8 bg-primaryBlue text-white rounded-full rounded-tr-none hover:bg-white hover:text-primaryBlue"
               >
-                Log In
+                Go to Main page
               </NavLink>
-              <NavLink
-                to={'/signup'}
-                className="font-bold text-center text-xl py-[10px] px-[32px] bg-[#096CFE] text-white rounded-[25px] rounded-tr-none"
-              >
-                Sign Up
-              </NavLink>
-            </>
-          )}
-          {userIsAuthenticated && (
-            <NavLink
-              to={'/main'}
-              className="font-bold text-center text-xl py-[10px] px-[32px] bg-[#096CFE] text-white rounded-[25px] rounded-tr-none"
-            >
-              Go to Main page
-            </NavLink>
-          )}
-        </div>
-        <div className="welcome__container">
-          <h1 className="welcome__title">New approach to handle your tasks and projects</h1>
-          <div className="welcome__card">
-            <div className="welcome__card-container">
-              <h4 className="welcome__card-title">Application features</h4>
-              <p className="welcome__card-text">
-                Lörem ipsum fogyr nism syledes den intravalig tet. Geosade exos dint. Närvaropeng
-                öjins. Syskade alogi nära. Oling rer, oaktat odat i ningen tills bejide. Kanade
-                nyskapet.{' '}
-              </p>
-            </div>
-            <img alt="icon" src={AppFeatIcon} className="welcome__card-img" />
+            )}
           </div>
-          <div className="welcome__card">
-            <img alt="icon" src={AboutIcon} className="welcome__card-img" />
-            <div className="welcome__card-container">
-              <h4 className="welcome__card-title">About react course</h4>
-              <p className="welcome__card-text">
-                Lörem ipsum fogyr nism syledes den intravalig tet. Geosade exos dint. Närvaropeng
-                öjins. Syskade alogi nära. Oling rer, oaktat odat i ningen tills bejide. Kanade
-                nyskapet.{' '}
-              </p>
-            </div>
+          <div className="welcome__container">
+            <h1 className="welcome__title">New approach to handle your tasks and projects</h1>
+            <ul className="welcome__cards">
+              <li className="welcome__card">
+                <div className="welcome__card-container">
+                  <h4 className="welcome__card-title">Application features</h4>
+                  <p className="welcome__card-text">
+                    Lörem ipsum fogyr nism syledes den intravalig tet. Geosade exos dint.
+                    Närvaropeng öjins. Syskade alogi nära. Oling rer, oaktat odat i ningen tills
+                    bejide. Kanade nyskapet.
+                  </p>
+                </div>
+                <img alt="icon" src={AppFeatIcon} className="welcome__card-img" />
+              </li>
+              <li className="welcome__card">
+                <img alt="icon" src={AboutIcon} className="welcome__card-img" />
+                <div className="welcome__card-container">
+                  <h4 className="welcome__card-title">About react course</h4>
+                  <p className="welcome__card-text">
+                    Lörem ipsum fogyr nism syledes den intravalig tet. Geosade exos dint.
+                    Närvaropeng öjins. Syskade alogi nära. Oling rer, oaktat odat i ningen tills
+                    bejide. Kanade nyskapet.
+                  </p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
-      <div className="our-team">
-        <div className="our-team__container">
-          <h2 className="our-team__title">Our team</h2>
-          <div className="our-team__members-container">
-            <div className="our-team__member">
-              <div className="our-team__member-img-wrapper bg-[#1AD993] 2xs:rounded-tr-none">
-                <img alt="icon" src={MemberIcon} className="our-team__member-img" />
-              </div>
-              <h4 className="our-team__member-title">Sergei Mangilev</h4>
-              <p className="our-team__member-text">
-                Lörem ipsum fogyr nism syledes den intravalig tet. Geosade exos dint. Närvaropeng
-                öjins.
-              </p>
-              <div className="our-team__socials">
-                <a className="our-team__social">
-                  <img alt="icon" src={SmallGithubGrIcon} />
-                </a>
-                <a className="our-team__social">
-                  <img alt="icon" src={SmallLinkedinGrIcon} />
-                </a>
-              </div>
-            </div>
-            <div className="our-team__member">
-              <div className="our-team__member-img-wrapper bg-[#096CFE] 2xs:rounded-br-none">
-                <img alt="icon" src={MemberIcon} className="our-team__member-img" />
-              </div>
-              <h4 className="our-team__member-title">Marie Serykh</h4>
-              <p className="our-team__member-text">
-                Lörem ipsum fogyr nism syledes den intravalig tet. Geosade exos dint. Närvaropeng
-                öjins.
-              </p>
-              <div className="our-team__socials">
-                <a className="our-team__social">
-                  <img alt="icon" src={SmallGithubBlIcon} />
-                </a>
-                <a className="our-team__social">
-                  <img alt="icon" src={SmallLinkedinBlIcon} />
-                </a>
-              </div>
-            </div>
-            <div className="our-team__member">
-              <div className="our-team__member-img-wrapper bg-[#832BC1] 2xs:rounded-tl-none">
-                <img alt="icon" src={MemberIcon} className="our-team__member-img" />
-              </div>
-              <h4 className="our-team__member-title">Muhammed Abdrahman</h4>
-              <p className="our-team__member-text">
-                Lörem ipsum fogyr nism syledes den intravalig tet. Geosade exos dint. Närvaropeng
-                öjins.
-              </p>
-              <div className="our-team__socials">
-                <a className="our-team__social">
-                  <img alt="icon" src={SmallGithubPrIcon} />
-                </a>
-                <a className="our-team__social">
-                  <img alt="icon" src={SmallLinkedinPrIcon} />
-                </a>
-              </div>
-            </div>
+      </section>
+      <section className="our-team">
+        <div className="container mx-auto">
+          <div className="our-team__container">
+            <h2 className="our-team__title">Our team</h2>
+            <ul className="our-team__members-container">
+              <li className="our-team__member">
+                <div className="our-team__member-img-wrapper bg-primaryGreen 2xs:rounded-tr-none">
+                  <img alt="icon" src={MemberIcon} className="our-team__member-img" />
+                </div>
+                <h4 className="our-team__member-title">Sergei Mangilev</h4>
+                <p className="our-team__member-text">Team lead, Front-End Developer</p>
+                <div className="our-team__socials">
+                  <a href="https://github.com/ssmangilev" className="our-team__social">
+                    <img alt="icon" src={SmallGithubGrIcon} />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/sergei-mangilev"
+                    className="our-team__social"
+                  >
+                    <img alt="icon" src={SmallLinkedinGrIcon} />
+                  </a>
+                </div>
+              </li>
+              <li className="our-team__member">
+                <div className="our-team__member-img-wrapper bg-primaryBlue 2xs:rounded-br-none">
+                  <img alt="icon" src={MemberIcon} className="our-team__member-img" />
+                </div>
+                <h4 className="our-team__member-title">Marie Serykh</h4>
+                <p className="our-team__member-text">Front-End Developer</p>
+                <div className="our-team__socials">
+                  <a href="https://github.com/mserykh" className="our-team__social">
+                    <img alt="icon" src={SmallGithubBlIcon} />
+                  </a>
+                  <a href="https://www.linkedin.com/in/mariaserykh/" className="our-team__social">
+                    <img alt="icon" src={SmallLinkedinBlIcon} />
+                  </a>
+                </div>
+              </li>
+              <li className="our-team__member">
+                <div className="our-team__member-img-wrapper bg-primaryViolet 2xs:rounded-tl-none">
+                  <img alt="icon" src={MemberIcon} className="our-team__member-img" />
+                </div>
+                <h4 className="our-team__member-title">Muhammed Abdrahman</h4>
+                <p className="our-team__member-text">Front-End Developer</p>
+                <div className="our-team__socials">
+                  <a href="https://github.com/muhammed03" className="our-team__social">
+                    <img alt="icon" src={SmallGithubPrIcon} />
+                  </a>
+                  <a href="https://github.com/muhammed03" className="our-team__social">
+                    <img alt="icon" src={SmallLinkedinPrIcon} />
+                  </a>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
+      </section>
     </main>
   );
 }
