@@ -2,11 +2,11 @@ import React, { FC } from 'react';
 
 import './style.scss';
 
-interface SpinnerProps {
+interface LoaderProps {
   text: string;
 }
 
-const Spinner: FC<SpinnerProps> = ({ text }) => {
+const Loader: FC<LoaderProps> = ({ text }) => {
   return (
     <div className="spinner">
       <div className="loadingio-spinner-ellipsis-57ekl48z0o3">
@@ -18,9 +18,9 @@ const Spinner: FC<SpinnerProps> = ({ text }) => {
           <div />
         </div>
       </div>
-      <span>{text}</span>
+      <span className="text-center font-medium">{text}</span>
     </div>
   );
 };
 
-export default Spinner;
+export default Loader;
