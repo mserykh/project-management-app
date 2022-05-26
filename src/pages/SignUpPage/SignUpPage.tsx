@@ -12,12 +12,12 @@ const SignUpPage = () => {
       <div className="flex flex-col content-center justify-center">
         <div className="w-full max-w-input ml-auto mr-auto">
           <div className="mb-6">
-            <h2 className="section__title text-primaryBlue">Sign Up</h2>
+            <h2 className="section__title text-primaryBlue">{t('_LBL_SIGN_UP_')}</h2>
           </div>
           <SignUpForm labelColor="primaryBlue" />
           <span className="block text-left text-large">
-            {t('_LBL_REGISTERED_')}
-            <a href="" className="text-primaryBlue font-semibold">
+            {t('_LBL_REGISTERED_')}&nbsp;
+            <a href="/login" className="text-primaryBlue font-semibold">
               {t('_LINK_SING_IN_')}
             </a>
           </span>
