@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import FormElement from '../FormElements/FormElement';
 import { ToastContext } from '../../contexts/ToastContext';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { registerUser } from '../../redux/user/actions';
 import { useNavigate } from 'react-router';
 import Button from '../Button/Button';
+import MiniLoader from '../../components/Loader/MiniLoader';
 
 interface SignUpFormProps {
   labelColor: string;
@@ -23,9 +24,13 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
   const { dispatch: toastDispatch } = useContext(ToastContext);
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+
   const formSubmitHandler: SubmitHandler<FieldValues> = async (values) => {
+    setLoading(true);
     const userData = { name: values.name, login: values.username, password: values.password };
     const res = await registerUser(userData);
+    setLoading(false);
     if (res.status === 201) {
       toastDispatch({
         type: 'SUCCESS',
@@ -84,6 +89,7 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
       />
       <Button className="button--signup" type="submit">
         Sign Up
+        {loading && <MiniLoader />}
       </Button>
     </form>
   );

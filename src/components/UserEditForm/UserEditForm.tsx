@@ -7,9 +7,11 @@ import Modal from '../Modal/Modal';
 import FormElement from '../FormElements/FormElement';
 import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteModalWindow';
 import Button from '../Button/Button';
+import MiniLoader from '../../components/Loader/MiniLoader';
 
 const UserEditForm: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const handleModalOnclose = (): void => {
     setIsModalOpen(false);
   };
@@ -31,6 +33,7 @@ const UserEditForm: React.FC = () => {
   const { dispatch: toastDispatch } = useContext(ToastContext);
 
   const formSubmitHandler: SubmitHandler<FieldValues> = async (values) => {
+    setLoading(true);
     const userData = await getUserData(token, userId);
     const userName = values.userName === '' ? userData.login : values.userName;
     const name = values.name === '' ? userData.name : values.name;
@@ -41,6 +44,7 @@ const UserEditForm: React.FC = () => {
       password,
     };
     const resStatus = await updateUser(userId, userUpdateData, token);
+    setLoading(false);
 
     switch (resStatus) {
       case 200:
@@ -106,6 +110,7 @@ const UserEditForm: React.FC = () => {
           type="submit"
         >
           Update profile
+          {loading && <MiniLoader />}
         </Button>
       </form>
       {isModalOpen && (
