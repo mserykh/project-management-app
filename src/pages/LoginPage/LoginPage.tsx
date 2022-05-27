@@ -18,7 +18,7 @@ const LoginPage = () => {
           <span className="block text-left text-large">
             {t('_LBL_NOT_REGISTERED_')}&nbsp;
             <NavLink to="/signup" className="text-primaryViolet font-semibold">
-            {t('_LINK_CREATE_ACCOUNT_')}
+              {t('_LINK_CREATE_ACCOUNT_')}
             </NavLink>
           </span>
         </div>

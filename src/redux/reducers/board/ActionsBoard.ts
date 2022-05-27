@@ -13,7 +13,6 @@ import { ColumnInterface, UserInterface } from '../../../types';
 import { getNewOrderNumber } from '../../../utils';
 import i18n from '../../../n18i';
 import { errorHandler } from '../../utils';
-import { useTranslation } from 'react-i18next';
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
