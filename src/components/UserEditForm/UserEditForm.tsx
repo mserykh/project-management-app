@@ -82,7 +82,7 @@ const UserEditForm: React.FC = () => {
           errorText={t('_ERR_USERNAME_LENGTH_')}
           hasError={errors?.userName}
           inputData={register('userName', {
-            minLength: 8,
+            minLength: 5,
           })}
           labelClassName="text-primaryPurple"
         />

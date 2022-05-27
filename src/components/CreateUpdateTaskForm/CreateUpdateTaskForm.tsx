@@ -18,8 +18,10 @@ type CreateUpdateTaskFormData = {
   taskTitle: string;
   taskDescription: string;
   files?: FileInterface[];
-  userId?: string;
+  userOption: UserOption;
 };
+
+type UserOption = { value: string; label: string };
 
 interface CreateUpdateTaskFormProps {
   title?: string;
@@ -45,6 +47,10 @@ const CreateUpdateTaskForm = ({
   readOnly,
 }: CreateUpdateTaskFormProps) => {
   const users = useAppSelector((state) => state.boardReducer.users);
+  const usersOptions = users.map((user) => ({
+    value: user.id,
+    label: user.login,
+  })) as unknown as UserOption[];
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -63,17 +69,20 @@ const CreateUpdateTaskForm = ({
   });
 
   const formSubmitHandler = async (data: CreateUpdateTaskFormData): Promise<void> => {
+    debugger;
     const columnIndex = boardData.columns.findIndex(
       (column: ColumnInterface) => column.id === columnId
     );
+
     const copyColumns = cloneDeep(boardData.columns);
     const taskData: TaskInterface = {
       title: data.taskTitle,
       description: data.taskDescription,
-      userId: get(data, 'userId.id'),
+      userId: get(data, 'userOption.value'),
       done: false,
       order: getNewOrderNumber(boardData.columns[columnIndex].tasks),
     };
+
     if (!!id) {
       taskData.boardId = boardId;
       taskData.columnId = columnId;
@@ -81,7 +90,7 @@ const CreateUpdateTaskForm = ({
       const taskIndex = findIndex(copyColumns[columnIndex].tasks, (task) => task.id === id);
       copyColumns[columnIndex].tasks[taskIndex].description = taskData.description;
       copyColumns[columnIndex].tasks[taskIndex].title = taskData.title;
-      copyColumns[columnIndex].tasks[taskIndex].userId = get(data, 'userId.id');
+      copyColumns[columnIndex].tasks[taskIndex].userId = get(data, 'userOption.value');
     } else {
       const newTaskData = await createTask(taskData, boardId, columnId);
       const newTask = (newTaskData as unknown as Record<string, unknown>).data;
@@ -101,9 +110,10 @@ const CreateUpdateTaskForm = ({
 
   const isUpdate = () => !!id;
   const isSubmitDisabled = (!isDirty && !isUpdate()) || Object.keys(errors).length > 0;
+
   const fieldLabel = isUpdate() ? `${t('_LBL_UPDATE_TASK_')} ${title}` : t('_LBL_ADD_TASK_');
   const buttonName = isUpdate() ? t('_BTN_UPDATE_TASK_') : t('_BTN_ADD_TASK_');
-
+  debugger;
   const formEditMode = (
     <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
       <h1 className="form__title">{fieldLabel}</h1>
@@ -137,17 +147,19 @@ const CreateUpdateTaskForm = ({
       />
       <div>
         <Controller
-          name="userId"
+          name="userOption"
           control={control}
-          render={({ field }) => (
-            <Select<UserInterface>
-              placeholder={t('_LBL_USER_SELECT_')}
-              options={users}
-              getOptionLabel={(user: UserInterface) => user.login}
-              getOptionValue={(user: UserInterface) => user.id}
-              onChange={field.onChange}
-            />
-          )}
+          defaultValue={usersOptions.find((o) => o.value === userId)}
+          render={({ field }) => {
+            return (
+              <Select
+                placeholder={t('_LBL_USER_SELECT_')}
+                options={usersOptions}
+                onChange={field.onChange}
+                value={field.value}
+              />
+            );
+          }}
         ></Controller>
       </div>
       <Button
@@ -161,7 +173,7 @@ const CreateUpdateTaskForm = ({
       </Button>
     </form>
   );
-
+  debugger;
   const formReadMode = (
     <div className="flex justify-between items-start">
       <div className="task-modal__content-wrapper">
@@ -170,8 +182,8 @@ const CreateUpdateTaskForm = ({
         <div className="task-modal__assignee-wrapper">
           <h5 className="text-primaryGreen task-modal__username-label">{t('_LBL_ASSIGNEE_')}</h5>
           <div className="task-modal__username-wrapper">
-            <img src={user_image} alt="" />
-            <p className="task-modal__username">{userId ? userName(userId) : ''}</p>
+            {userId && <img src={user_image} alt="" />}
+            <p className="task-modal__username">{userId ? userName(userId) : 'No assignee'}</p>
           </div>
         </div>
       </div>
