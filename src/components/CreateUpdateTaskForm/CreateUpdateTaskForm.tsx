@@ -69,7 +69,6 @@ const CreateUpdateTaskForm = ({
   });
 
   const formSubmitHandler = async (data: CreateUpdateTaskFormData): Promise<void> => {
-    debugger;
     const columnIndex = boardData.columns.findIndex(
       (column: ColumnInterface) => column.id === columnId
     );
@@ -113,7 +112,7 @@ const CreateUpdateTaskForm = ({
 
   const fieldLabel = isUpdate() ? `${t('_LBL_UPDATE_TASK_')} ${title}` : t('_LBL_ADD_TASK_');
   const buttonName = isUpdate() ? t('_BTN_UPDATE_TASK_') : t('_BTN_ADD_TASK_');
-  debugger;
+
   const formEditMode = (
     <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
       <h1 className="form__title">{fieldLabel}</h1>
@@ -173,7 +172,7 @@ const CreateUpdateTaskForm = ({
       </Button>
     </form>
   );
-  debugger;
+
   const formReadMode = (
     <div className="flex justify-between items-start">
       <div className="task-modal__content-wrapper">
