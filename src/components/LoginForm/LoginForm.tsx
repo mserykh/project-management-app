@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import FormElement from '../FormElements/FormElement';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../redux/hooks';
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router';
 import store from '../../redux/store';
 import Button from '../Button/Button';
 import { useTranslation } from 'react-i18next';
+import MiniLoader from '../../components/Loader/MiniLoader';
 
 interface LoginFormProps {
   labelColor: string;
@@ -29,12 +30,16 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
     reValidateMode: 'onBlur',
   });
 
+  const [loading, setLoading] = useState(false);
+
   const formSubmitHandler: SubmitHandler<FieldValues> = async (values) => {
+    setLoading(true);
     const userData = { login: values.username, password: values.password };
     await dispatch(signIn(userData));
+    setLoading(false);
     const isAuthenticated = store.getState().userReducer.isAuthenticated;
     if (isAuthenticated) {
-      navigate('/main');
+      navigate('/');
       toastDispatch({ type: 'SUCCESS', payload: t('_TOAST_LOGGED_IN_') });
       reset();
     } else {
@@ -70,8 +75,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
         })}
         labelClassName={`text-${labelColor}`}
       />
-      <Button className="button--signin" type="submit">
+      <Button className="button--signin" type="submit" isDisabled={loading}>
         {t('_BTN_SIGN_IN_')}
+        {loading && <MiniLoader />}
       </Button>
     </form>
   );

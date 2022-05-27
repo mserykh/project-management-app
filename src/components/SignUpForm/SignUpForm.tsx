@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import FormElement from '../FormElements/FormElement';
 import { ToastContext } from '../../contexts/ToastContext';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
@@ -6,6 +6,7 @@ import { registerUser } from '../../redux/user/actions';
 import { useNavigate } from 'react-router';
 import Button from '../Button/Button';
 import { useTranslation } from 'react-i18next';
+import MiniLoader from '../../components/Loader/MiniLoader';
 
 interface SignUpFormProps {
   labelColor: string;
@@ -26,9 +27,13 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
     reValidateMode: 'onBlur',
   });
 
+  const [loading, setLoading] = useState(false);
+
   const formSubmitHandler: SubmitHandler<FieldValues> = async (values) => {
+    setLoading(true);
     const userData = { name: values.name, login: values.username, password: values.password };
     const res = await registerUser(userData);
+    setLoading(false);
     if (res.status === 201) {
       toastDispatch({
         type: 'SUCCESS',
@@ -85,8 +90,9 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
         })}
         labelClassName={`inline-block text-base text-${labelColor} float-left mb-3 font-semibold`}
       />
-      <Button className="button--signup" type="submit">
+      <Button className="button--signup" type="submit" isDisabled={loading}>
         {t('_BTN_SIGN_UP_')}
+        {loading && <MiniLoader />}
       </Button>
     </form>
   );

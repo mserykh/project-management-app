@@ -8,6 +8,7 @@ import FormElement from '../FormElements/FormElement';
 import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteModalWindow';
 import Button from '../Button/Button';
 import { useTranslation } from 'react-i18next';
+import MiniLoader from '../../components/Loader/MiniLoader';
 
 const UserEditForm: React.FC = () => {
   const token = useAppSelector((state) => state.globalStateReducer.token);
@@ -16,6 +17,8 @@ const UserEditForm: React.FC = () => {
   const { t } = useTranslation();
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const [loading, setLoading] = useState(false);
 
   const handleModalOnclose = (): void => {
     setIsModalOpen(false);
@@ -35,6 +38,7 @@ const UserEditForm: React.FC = () => {
   };
 
   const formSubmitHandler: SubmitHandler<FieldValues> = async (values) => {
+    setLoading(true);
     const userData = await getUserData(token, userId);
     const userName = values.userName === '' ? userData.login : values.userName;
     const name = values.name === '' ? userData.name : values.name;
@@ -46,6 +50,7 @@ const UserEditForm: React.FC = () => {
     };
 
     const resStatus = await updateUser(userId, userUpdateData, token);
+    setLoading(false);
 
     switch (resStatus) {
       case 200:
@@ -109,8 +114,10 @@ const UserEditForm: React.FC = () => {
         <Button
           className="button--column row-start-3 row-end-4 col-start-2 col-end-3 ml-auto"
           type="submit"
+          isDisabled={loading}
         >
           {t('_BTN_UPDATE_PROFILE_')}
+          {loading && <MiniLoader />}
         </Button>
       </form>
       {isModalOpen && (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-
+import { NavLink } from 'react-router-dom';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import Logo from '../../components/Logo/Logo';
 
@@ -17,9 +17,9 @@ const LoginPage = () => {
           <LoginForm labelColor="primaryViolet" />
           <span className="block text-left text-large">
             {t('_LBL_NOT_REGISTERED_')}&nbsp;
-            <a href="/signup" className="text-primaryViolet font-semibold">
-              {t('_LINK_CREATE_ACCOUNT_')}
-            </a>
+            <NavLink to="/signup" className="text-primaryViolet font-semibold">
+            {t('_LINK_CREATE_ACCOUNT_')}
+            </NavLink>
           </span>
         </div>
       </div>

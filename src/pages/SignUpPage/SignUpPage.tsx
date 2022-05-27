@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
-
 import SignUpForm from '../../components/SignUpForm/SignUpForm';
 
 const SignUpPage = () => {
@@ -17,9 +17,9 @@ const SignUpPage = () => {
           <SignUpForm labelColor="primaryBlue" />
           <span className="block text-left text-large">
             {t('_LBL_REGISTERED_')}&nbsp;
-            <a href="/login" className="text-primaryBlue font-semibold">
+            <NavLink to="/login" className="text-primaryBlue font-semibold">
               {t('_LINK_SING_IN_')}
-            </a>
+            </NavLink>
           </span>
         </div>
       </div>
