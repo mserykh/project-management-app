@@ -10,9 +10,11 @@ import SmallGithubPrIcon from '../../assets/images/github-small-3.svg';
 import SmallLinkedinGrIcon from '../../assets/images/linkedin-small-1.svg';
 import SmallLinkedinBlIcon from '../../assets/images/linkedin-small-2.svg';
 import SmallLinkedinPrIcon from '../../assets/images/linkedin-small-3.svg';
+import { useTranslation } from 'react-i18next';
 
 function WelcomePage(): JSX.Element {
   const userIsAuthenticated = useAppSelector((state) => state.userReducer.isAuthenticated);
+  const { t } = useTranslation();
 
   return (
     <main>
@@ -26,13 +28,13 @@ function WelcomePage(): JSX.Element {
                   to={'/login'}
                   className="font-semibold text-center text-l py-3 px-8 text-white rounded-full rounded-br-none hover:text-primaryBlue"
                 >
-                  Log In
+                  {t('_BTN_SIGN_IN_')}
                 </NavLink>
                 <NavLink
                   to={'/signup'}
                   className="font-semibold text-center text-l py-3 px-8 bg-primaryBlue text-white rounded-full rounded-tr-none hover:bg-white hover:text-primaryBlue"
                 >
-                  Sign Up
+                  {t('_BTN_SIGN_UP_')}
                 </NavLink>
               </>
             )}
@@ -41,16 +43,16 @@ function WelcomePage(): JSX.Element {
                 to={'/main'}
                 className="font-semibold text-center text-l py-3 px-8 bg-primaryBlue text-white rounded-full rounded-tr-none hover:bg-white hover:text-primaryBlue"
               >
-                Go to Main page
+                {t('_BTN_TO_MAIN_PAGE_')}
               </NavLink>
             )}
           </div>
           <div className="welcome__container">
-            <h1 className="welcome__title">New approach to handle your tasks and projects</h1>
+            <h1 className="welcome__title">{t('_LBL_MAIN_LEAD_')}</h1>
             <ul className="welcome__cards">
               <li className="welcome__card">
                 <div className="welcome__card-container">
-                  <h4 className="welcome__card-title">Application features</h4>
+                  <h4 className="welcome__card-title">{t('_LBL_MAIN_FEATURES_')}</h4>
                   <p className="welcome__card-text">
                     Lörem ipsum fogyr nism syledes den intravalig tet. Geosade exos dint.
                     Närvaropeng öjins. Syskade alogi nära. Oling rer, oaktat odat i ningen tills
@@ -62,7 +64,7 @@ function WelcomePage(): JSX.Element {
               <li className="welcome__card">
                 <img alt="icon" src={AboutIcon} className="welcome__card-img" />
                 <div className="welcome__card-container">
-                  <h4 className="welcome__card-title">About react course</h4>
+                  <h4 className="welcome__card-title">{t('_LBL_MAIN_ABOUT_COURSE_')}</h4>
                   <p className="welcome__card-text">
                     Lörem ipsum fogyr nism syledes den intravalig tet. Geosade exos dint.
                     Närvaropeng öjins. Syskade alogi nära. Oling rer, oaktat odat i ningen tills
@@ -77,7 +79,7 @@ function WelcomePage(): JSX.Element {
       <section className="our-team">
         <div className="container mx-auto">
           <div className="our-team__container">
-            <h2 className="our-team__title">Our team</h2>
+            <h2 className="our-team__title">{t('_LBL_OUR_TEAM_')}</h2>
             <ul className="our-team__members-container">
               <li className="our-team__member">
                 <div className="our-team__member-img-wrapper bg-primaryGreen 2xs:rounded-tr-none">

@@ -16,10 +16,11 @@ const AuthorisedButtons = ({
   handleClose,
 }: AuthorisedButtonsProps): JSX.Element => {
   const { t } = useTranslation();
+
   return (
     <>
       <Button onClick={handleOpen} type="button" className="button button--board ml-auto">
-        {t('add_board_btn')}
+        {t('_BTN_ADD_BOARD_')}
       </Button>
       {isModalOpened && (
         <Modal onClose={handleClose}>

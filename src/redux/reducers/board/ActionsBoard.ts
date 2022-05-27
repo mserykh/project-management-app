@@ -74,7 +74,8 @@ export const createColumn = createAsyncThunk(
         columnPayload.navigate
       );
       if ((response as AxiosResponse).status === 201) {
-        toast.success('A new column has been added');
+        const toastText = i18n.t('_TOAST_NEW_COLUMN_');
+        toast.success(toastText);
         thunkAPI.dispatch(fetchBoard(columnPayload.boardId));
       }
     } catch (e) {
@@ -100,8 +101,8 @@ export const updateColumn = createAsyncThunk(
         }
       );
       if ((response as AxiosResponse).status === 200) {
-        toast.success('A column has been updated');
-        // thunkAPI.dispatch(fetchBoard(columnPayload.boardId));
+        const toastText = i18n.t('_TOAST_COLUMN_UPDATED_');
+        toast.success(toastText);
       }
     } catch (e) {
       if (errorHandler(e as Record<string, unknown>)) {
@@ -134,9 +135,15 @@ export const changeColumnsOrder = createAsyncThunk(
   async ({ draggingColumn, changedColumns, draggedColumn }: changeColumnsOrderPayload) => {
     try {
       runGenerator(changeColumnsOrderGenerator(draggingColumn, changedColumns, draggedColumn));
-      toast.success('A column has been updated');
+      const toastText = i18n.t('_TOAST_COLUMN_UPDATED_');
+      toast.success(toastText);
     } catch (e) {
-      console.error(e);
+      if (errorHandler(e as Record<string, unknown>)) {
+        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+          type: i18n.t('_TYPE_COLUMN_'),
+        });
+        toast.error(error);
+      }
     }
   }
 );
@@ -158,7 +165,8 @@ export const deleteColumn = createAsyncThunk(
   async ({ title, columnId, boardId }: DeleteColumnPayload) => {
     try {
       await deleteHttp(`${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`);
-      toast.success(`A ${title} column has been deleted`);
+      const toastText = i18n.t('_TOAST_COLUMN_DELETED_', { title: title });
+      toast.success(toastText);
     } catch (e) {
       if (errorHandler(e as Record<string, unknown>)) {
         const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
@@ -177,7 +185,8 @@ export const deleteTask = createAsyncThunk(
       await deleteHttp(
         `${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}/${TASKS_ENDPOINT}/${taskId}`
       );
-      toast.success(`A ${title} task has been deleted`);
+      const toastText = i18n.t('_TOAST_TASK_DELETED_', { title: title });
+      toast.success(toastText);
       thunkAPI.dispatch(fetchBoard(boardId));
     } catch (e) {
       if (errorHandler(e as Record<string, unknown>)) {

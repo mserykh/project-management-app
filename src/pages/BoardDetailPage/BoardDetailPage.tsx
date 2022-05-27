@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import AddColumnForm from '../../components/AddColumnForm/AddColumnForm';
@@ -13,17 +14,17 @@ import { fetchBoard, getAllUsers } from '../../redux/reducers/board/ActionsBoard
 import { ColumnInterface } from '../../types';
 
 function BoardDetailPage(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const { boardData, loading } = useAppSelector((state) => state.boardReducer);
   const urlParams = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   if (!urlParams.id) {
-    toast.error(`This board does not exist or something went wrong`);
+    toast.error(t('_ERR_BOARD_DOES_NOT_EXIST_'));
     navigate('/404');
   }
   const id = urlParams.id as string;
-
-  const dispatch = useAppDispatch();
-  const { boardData, loading } = useAppSelector((state) => state.boardReducer);
 
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
 
@@ -62,7 +63,7 @@ function BoardDetailPage(): JSX.Element {
               }}
               isDisabled={false}
             >
-              Go to boards list
+              {t('_BTN_GO_TO_BOARDS_LIST_')}
             </Button>
           </header>
           <section className="columns-list">
@@ -75,7 +76,7 @@ function BoardDetailPage(): JSX.Element {
               }}
               isDisabled={false}
             >
-              Add a column
+              {t('_BTN_ADD_COLUMN_')}
             </Button>
             {isModalOpened && (
               <Modal onClose={handleOnClose}>

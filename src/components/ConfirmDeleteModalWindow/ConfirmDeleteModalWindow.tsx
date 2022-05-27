@@ -12,6 +12,7 @@ import { deleteUser } from '../UserEditForm/UserEditAction';
 import { logoutUser } from '../../redux/user/actions';
 import { useContext } from 'react';
 import { ToastContext } from '../../contexts/ToastContext';
+import { useTranslation } from 'react-i18next';
 
 function ConfirmDeleteModalWindow({
   id,
@@ -24,6 +25,8 @@ function ConfirmDeleteModalWindow({
   const { dispatch: toastDispatch } = useContext(ToastContext);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const submitDeleteHandler = async () => {
     switch (type) {
       case 'board':
@@ -57,19 +60,20 @@ function ConfirmDeleteModalWindow({
       case 'user':
         const res = await deleteUser(id);
         if (res === 204) {
-          toastDispatch({ type: 'SUCCESS', payload: 'User has been deleted successfully' });
+          toastDispatch({ type: 'SUCCESS', payload: t('_TOAST_USER_DELETED_') });
           navigate('/');
           dispatch(logoutUser());
         } else {
-          toastDispatch({ type: 'ERROR', payload: 'User was not found, delete fail' });
+          toastDispatch({ type: 'ERROR', payload: t('ERR_USER_NOT_DELETED_') });
         }
     }
   };
+
   return (
     <div className="relative w-full h-full md:h-auto">
       <div className="p-6 gap-6 flex flex-col items-center">
         <img src={warning} alt="" />
-        <h3 className="text-m">{`Are you sure you want to delete this ${type} '${title}'?`}</h3>
+        <p className="text-m">{`${t('_LBL_SURE_TO_DELETE_')} ${type} '${title}'?`}</p>
         <div className="buttons-wrapper">
           <button
             data-modal-toggle="popup-modal"
@@ -77,7 +81,7 @@ function ConfirmDeleteModalWindow({
             className="button button--cancel"
             onClick={onClose}
           >
-            No, cancel
+            {t('_BTN_NO_CANCEL_')}
           </button>
           <button
             data-modal-toggle="popup-modal"
@@ -85,7 +89,7 @@ function ConfirmDeleteModalWindow({
             className="button button--delete"
             onClick={submitDeleteHandler}
           >
-            Yes, I am sure
+            {t('_BTN_YES_IM_SURE_')}
           </button>
         </div>
       </div>

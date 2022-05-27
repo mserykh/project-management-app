@@ -5,6 +5,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { registerUser } from '../../redux/user/actions';
 import { useNavigate } from 'react-router';
 import Button from '../Button/Button';
+import { useTranslation } from 'react-i18next';
 import MiniLoader from '../../components/Loader/MiniLoader';
 
 interface SignUpFormProps {
@@ -12,6 +13,10 @@ interface SignUpFormProps {
 }
 
 const SignUpForm = ({ labelColor }: SignUpFormProps) => {
+  const { dispatch: toastDispatch } = useContext(ToastContext);
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const {
     register,
     formState: { errors },
@@ -21,8 +26,6 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
     mode: 'onSubmit',
     reValidateMode: 'onBlur',
   });
-  const { dispatch: toastDispatch } = useContext(ToastContext);
-  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
 
@@ -34,14 +37,14 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
     if (res.status === 201) {
       toastDispatch({
         type: 'SUCCESS',
-        payload: 'User has been successfully created',
+        payload: t('_TOAST_USER_CREATED_'),
       });
       reset();
       navigate('/login');
     } else {
       toastDispatch({
         type: 'ERROR',
-        payload: 'User already exists',
+        payload: t('_ERR_USER_EXISTS_'),
       });
     }
   };
@@ -50,23 +53,23 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
     <form onSubmit={handleSubmit(formSubmitHandler)} className="form">
       <FormElement
         type="text"
-        label="name"
+        label={t('_LBL_NAME_')}
         labelColor={labelColor}
         placeholder="John doe"
         hasError={errors?.name}
         inputData={register('name', {
-          required: 'Enter your name',
+          required: t('_LBL_NAME_PLACEHOLDER_'),
           minLength: 5,
         })}
-        errorText={'The number of characters must be more than five!'}
+        errorText={t('_ERR_NAME_LENGTH_')}
         labelClassName={`text-${labelColor}`}
       />
       <FormElement
         type="text"
-        label="Username"
+        label={t('_LBL_USERNAME_')}
         labelColor={labelColor}
         placeholder="John-Doe_01"
-        errorText={'The number of characters must be more than five!'}
+        errorText={t('_ERR_USERNAME_LENGTH_')}
         hasError={errors?.username}
         inputData={register('username', {
           required: true,
@@ -76,10 +79,10 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
       />
       <FormElement
         type="password"
-        label="Password"
+        label={t('_LBL_PASSWORD_')}
         labelColor={labelColor}
-        placeholder="Min. 8 characters"
-        errorText={'The number of characters must be more than eight!'}
+        placeholder={t('_LBL_PASSWORD_PLACEHOLDER_')}
+        errorText={t('_ERR_PASSWORD_LENGTH_')}
         hasError={errors?.password}
         inputData={register('password', {
           required: true,
@@ -87,8 +90,8 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
         })}
         labelClassName={`inline-block text-base text-${labelColor} float-left mb-3 font-semibold`}
       />
-      <Button className="button--signup" type="submit">
-        Sign Up
+      <Button className="button--signup" type="submit" isDisabled={loading}>
+        {t('_BTN_SIGN_UP_')}
         {loading && <MiniLoader />}
       </Button>
     </form>
