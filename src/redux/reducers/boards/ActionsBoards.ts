@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { BACKEND_URL, BOARDS_ENDPOINT } from '../../constants';
 import { postHttp } from '../../../api/api';
-import { BoardInterface } from '../../../types';
 import i18n from '../../../n18i';
 import { errorHandler } from '../../utils';
 import { logoutUser } from '../../user/actions';
@@ -55,7 +54,7 @@ export const createBoard = createAsyncThunk(
         toast.success(`A new board ${boardPayload.title} has been added`);
       }
       const responseData = (response as AxiosResponse).data;
-      return responseData as BoardInterface;
+      return responseData;
     } catch (e) {
       if ((e as AxiosError)?.response?.status === 401) {
         const logOut = logoutUser();

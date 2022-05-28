@@ -2,7 +2,7 @@ import { ConfirmDeleteModalWindowProps } from './types';
 import { deleteBoard } from '../../redux/actions/board';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { updateBoardsData } from '../../redux/reducers/boards/boardsStateSlice';
-import { BoardInterface, ColumnInterface, TaskInterface } from '../../types';
+import { ColumnInterface, TaskInterface } from '../../types';
 import { deleteColumn, deleteTask } from '../../redux/reducers/board/ActionsBoard';
 import { updateColumnsData } from '../../redux/reducers/board/boardStateSlice';
 import { findIndex, cloneDeep } from 'lodash';
@@ -12,6 +12,7 @@ import { logoutUser } from '../../redux/user/actions';
 import { useContext } from 'react';
 import { ToastContext } from '../../contexts/ToastContext';
 import { useTranslation } from 'react-i18next';
+import BoardCardProps from '../BoardCard/types';
 
 function ConfirmDeleteModalWindow({
   id,
@@ -29,7 +30,7 @@ function ConfirmDeleteModalWindow({
     switch (type) {
       case 'board':
         deleteBoard(dispatch, id);
-        const boards: BoardInterface[] = boardsData.filter((board) => board.id !== id);
+        const boards: BoardCardProps[] = boardsData.filter((board) => board.id !== id);
         dispatch(updateBoardsData(boards));
         break;
       case 'column':

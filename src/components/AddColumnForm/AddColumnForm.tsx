@@ -18,7 +18,6 @@ interface AddColumnFormProps {
 const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const {
     register,
     reset,
@@ -35,7 +34,6 @@ const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
         boardId: id,
         title: data.columnTitle,
         columns: boardData.columns,
-        navigate: navigate,
       })
     );
     reset();

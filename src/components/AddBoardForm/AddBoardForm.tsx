@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { updateBoard } from '../../redux/actions/board';
-import { BoardInterface } from '../../types';
 import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
@@ -8,6 +7,7 @@ import { updateBoardsData } from '../../redux/reducers/boards/boardsStateSlice';
 import { cloneDeep } from 'lodash';
 import { createBoard } from '../../redux/reducers/boards/ActionsBoards';
 import { useTranslation } from 'react-i18next';
+import BoardCardProps from '../BoardCard/types';
 
 type AddBoardFormData = {
   boardTitle: string;
@@ -39,9 +39,10 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
     if (title && id) {
       updateBoard(dispatch, data.boardTitle, data.boardDescription, id);
       const newBoards = cloneDeep(boardsData);
-      const boards: BoardInterface[] = newBoards.map((board) => {
+      const boards: BoardCardProps[] = newBoards.map((board) => {
         if (board.id === id) {
           board['title'] = data.boardTitle;
+          board['description'] = data.boardDescription;
         }
         return board;
       });

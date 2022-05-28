@@ -19,7 +19,6 @@ import { AppDispatch } from '../../store';
 export type ColumnPayload = {
   title: string;
   columns?: ColumnInterface[];
-  navigate?: (url: string) => void;
   boardId: string;
   columnId?: string;
   order?: number;
