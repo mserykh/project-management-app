@@ -33,7 +33,7 @@ export const boardsStateSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchAllBoards.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.boardsData = payload as BoardInterface[];
+      state.boardsData = payload as unknown as BoardInterface[];
       state.error = '';
     });
     builder.addCase(fetchAllBoards.rejected, (state, { payload }) => {

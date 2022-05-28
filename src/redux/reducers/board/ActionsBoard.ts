@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   BACKEND_URL,
@@ -13,23 +13,34 @@ import { ColumnInterface, UserInterface } from '../../../types';
 import { getNewOrderNumber } from '../../../utils';
 import i18n from '../../../n18i';
 import { errorHandler } from '../../utils';
+import { logoutUser } from '../../user/actions';
+import { AppDispatch } from '../../store';
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
-export const fetchBoard = createAsyncThunk('boardState/fetchBoard', async (id: string) => {
-  const token = localStorage.getItem('token') || '';
-  try {
-    const response = await axios.get(`${BOARDS_URL}/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
-    return response.data;
-  } catch (e) {
-    return e;
+export const fetchBoard = createAsyncThunk(
+  'boardState/fetchBoard',
+  async (id: string, thunkAPI) => {
+    debugger;
+    const token = localStorage.getItem('token') || '';
+    try {
+      const response = await axios.get(`${BOARDS_URL}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      return response.data;
+    } catch (e) {
+      if ((e as AxiosError)?.response?.status === 401) {
+        const logOut = logoutUser();
+        logOut(thunkAPI.dispatch as AppDispatch);
+        return {};
+      }
+      return e;
+    }
   }
-});
+);
 
 export type ColumnPayload = {
   title: string;

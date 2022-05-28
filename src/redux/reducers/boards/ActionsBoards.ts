@@ -6,6 +6,8 @@ import { postHttp } from '../../../api/api';
 import { BoardInterface } from '../../../types';
 import i18n from '../../../n18i';
 import { errorHandler } from '../../utils';
+import { logoutUser } from '../../user/actions';
+import { AppDispatch } from '../../store';
 
 type BoardPayload = {
   title: string;
@@ -15,7 +17,7 @@ type BoardPayload = {
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
-export const fetchAllBoards = createAsyncThunk('boardsState/fetchAll', async () => {
+export const fetchAllBoards = createAsyncThunk('boardsState/fetchAll', async (_, thunkAPI) => {
   const token = localStorage.getItem('token') || '';
   try {
     const response = await axios.get(BOARDS_URL, {
@@ -24,6 +26,10 @@ export const fetchAllBoards = createAsyncThunk('boardsState/fetchAll', async () 
         'Content-Type': 'application/json',
       },
     });
+    if ((response as AxiosResponse).status === 401) {
+      const logOut = logoutUser();
+      logOut(thunkAPI.dispatch as AppDispatch);
+    }
     const responseData = response.data;
     return responseData;
   } catch (e) {
