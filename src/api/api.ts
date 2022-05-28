@@ -49,7 +49,7 @@ export const postHttp = async (
   } catch (e) {
     if ((e as AxiosError).response?.status === 401) {
       if (navigate) {
-        navigate('/login');
+        navigate('/signin');
       }
     }
     throw (e as AxiosError).toJSON();

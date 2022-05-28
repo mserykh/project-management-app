@@ -18,7 +18,7 @@ const Loader: FC<LoaderProps> = ({ text }) => {
           <div />
         </div>
       </div>
-      <span className="text-center font-medium">{text}</span>
+      <span className="font-heading text-center font-bold">{text}</span>
     </div>
   );
 };

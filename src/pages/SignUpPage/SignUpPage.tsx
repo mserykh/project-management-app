@@ -17,7 +17,7 @@ const SignUpPage = () => {
           <SignUpForm labelColor="primaryBlue" />
           <span className="block text-left text-large">
             {t('_LBL_REGISTERED_')}&nbsp;
-            <NavLink to="/login" className="text-primaryBlue font-semibold">
+            <NavLink to="/signin" className="text-primaryBlue font-semibold">
               {t('_LINK_SING_IN_')}
             </NavLink>
           </span>
