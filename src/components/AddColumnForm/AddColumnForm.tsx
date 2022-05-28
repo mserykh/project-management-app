@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { useNavigate } from 'react-router';
 import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
 import { createColumn } from '../../redux/reducers/board/ActionsBoard';

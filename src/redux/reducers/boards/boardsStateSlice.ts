@@ -3,7 +3,6 @@ import { createBoard, fetchAllBoards } from './ActionsBoards';
 import { AxiosError } from 'axios';
 
 import { boardsStateInterface } from './types';
-import { BoardInterface } from '../../../types';
 import BoardCardProps from '../../../components/BoardCard/types';
 
 const initialState: boardsStateInterface = {
