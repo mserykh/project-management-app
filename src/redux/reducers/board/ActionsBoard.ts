@@ -16,12 +16,39 @@ import { errorHandler } from '../../utils';
 import { logoutUser } from '../../user/actions';
 import { AppDispatch } from '../../store';
 
+export type ColumnPayload = {
+  title: string;
+  columns?: ColumnInterface[];
+  navigate?: (url: string) => void;
+  boardId: string;
+  columnId?: string;
+  order?: number;
+};
+
+type changeColumnsOrderPayload = {
+  draggingColumn: ColumnPayload;
+  changedColumns: ColumnPayload[];
+  draggedColumn: ColumnPayload;
+};
+
+type DeleteColumnPayload = {
+  title: string;
+  boardId: string;
+  columnId: string;
+};
+
+type DeleteTaskPayload = {
+  title: string;
+  taskId: string;
+  boardId: string;
+  columnId: string;
+};
+
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
 
 export const fetchBoard = createAsyncThunk(
   'boardState/fetchBoard',
   async (id: string, thunkAPI) => {
-    debugger;
     const token = localStorage.getItem('token') || '';
     try {
       const response = await axios.get(`${BOARDS_URL}/${id}`, {
@@ -42,47 +69,17 @@ export const fetchBoard = createAsyncThunk(
   }
 );
 
-export type ColumnPayload = {
-  title: string;
-  columns?: ColumnInterface[];
-  navigate?: (url: string) => void;
-  boardId: string;
-  columnId?: string;
-  order?: number;
-};
-
-type changeColumnsOrderPayload = {
-  draggingColumn: ColumnPayload;
-  changedColumns: ColumnPayload[];
-  draggedColumn: ColumnPayload;
-};
-
-type DeleteColumnPayload = {
-  title: string;
-  boardId: string;
-  columnId: string;
-  navigate: (url: string) => void;
-};
-
-type DeleteTaskPayload = {
-  title: string;
-  taskId: string;
-  boardId: string;
-  columnId: string;
-  navigate: (url: string) => void;
-};
-
 export const createColumn = createAsyncThunk(
   'boardState/createColumn',
   async (columnPayload: ColumnPayload, thunkAPI) => {
     try {
       const response = await postHttp(
+        thunkAPI.dispatch as AppDispatch,
         `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}`,
         {
           title: columnPayload.title,
           order: getNewOrderNumber(columnPayload.columns as ColumnInterface[]),
-        },
-        columnPayload.navigate
+        }
       );
       if ((response as AxiosResponse).status === 201) {
         const toastText = i18n.t('_TOAST_NEW_COLUMN_');
@@ -102,9 +99,10 @@ export const createColumn = createAsyncThunk(
 
 export const updateColumn = createAsyncThunk(
   'boardState/updateColumn',
-  async (columnPayload: ColumnPayload) => {
+  async (columnPayload: ColumnPayload, thunkAPI) => {
     try {
       const response = await putHttp(
+        thunkAPI.dispatch as AppDispatch,
         `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}/${columnPayload.columnId}`,
         {
           title: columnPayload.title,
@@ -126,9 +124,13 @@ export const updateColumn = createAsyncThunk(
   }
 );
 
-const updateColumnOrder = async (columnPayload: ColumnPayload): Promise<void> => {
+const updateColumnOrder = async (
+  dispatch: AppDispatch,
+  columnPayload: ColumnPayload
+): Promise<void> => {
   try {
     await putHttp(
+      dispatch,
       `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}/${columnPayload.columnId}`,
       {
         title: columnPayload.title,
@@ -143,9 +145,19 @@ const updateColumnOrder = async (columnPayload: ColumnPayload): Promise<void> =>
 
 export const changeColumnsOrder = createAsyncThunk(
   'boardState/changeColumnsOrder',
-  async ({ draggingColumn, changedColumns, draggedColumn }: changeColumnsOrderPayload) => {
+  async (
+    { draggingColumn, changedColumns, draggedColumn }: changeColumnsOrderPayload,
+    thunkAPI
+  ) => {
     try {
-      runGenerator(changeColumnsOrderGenerator(draggingColumn, changedColumns, draggedColumn));
+      runGenerator(
+        changeColumnsOrderGenerator(
+          thunkAPI.dispatch as AppDispatch,
+          draggingColumn,
+          changedColumns,
+          draggedColumn
+        )
+      );
       const toastText = i18n.t('_TOAST_COLUMN_UPDATED_');
       toast.success(toastText);
     } catch (e) {
@@ -160,22 +172,26 @@ export const changeColumnsOrder = createAsyncThunk(
 );
 
 function* changeColumnsOrderGenerator(
+  dispatch: AppDispatch,
   draggingColumn: ColumnPayload,
   changedColumns: ColumnPayload[],
   draggedColumn: ColumnPayload
 ) {
-  yield updateColumnOrder(draggingColumn);
+  yield updateColumnOrder(dispatch, draggingColumn);
   for (const changedColumn of changedColumns) {
-    yield updateColumnOrder(changedColumn);
+    yield updateColumnOrder(dispatch, changedColumn);
   }
-  yield updateColumnOrder(draggedColumn);
+  yield updateColumnOrder(dispatch, draggedColumn);
 }
 
 export const deleteColumn = createAsyncThunk(
   'boardState/deleteColumn',
-  async ({ title, columnId, boardId }: DeleteColumnPayload) => {
+  async ({ title, columnId, boardId }: DeleteColumnPayload, thunkAPI) => {
     try {
-      await deleteHttp(`${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`);
+      await deleteHttp(
+        thunkAPI.dispatch as AppDispatch,
+        `${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`
+      );
       const toastText = i18n.t('_TOAST_COLUMN_DELETED_', { title: title });
       toast.success(toastText);
     } catch (e) {
@@ -194,6 +210,7 @@ export const deleteTask = createAsyncThunk(
   async ({ title, taskId, columnId, boardId }: DeleteTaskPayload, thunkAPI) => {
     try {
       await deleteHttp(
+        thunkAPI.dispatch as AppDispatch,
         `${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}/${TASKS_ENDPOINT}/${taskId}`
       );
       const toastText = i18n.t('_TOAST_TASK_DELETED_', { title: title });
@@ -212,7 +229,7 @@ export const deleteTask = createAsyncThunk(
 
 export const getAllUsers = createAsyncThunk(
   'boardState/getAllUsers',
-  async (): Promise<UserInterface[] | string | void> => {
+  async (_, thunkAPI): Promise<UserInterface[] | string | void> => {
     const token = localStorage.getItem('token') || '';
     try {
       const response = await axios.get(`${BACKEND_URL}/${USERS_ENDPOINT}`, {
@@ -224,6 +241,12 @@ export const getAllUsers = createAsyncThunk(
       const data = response.data;
       return data;
     } catch (e) {
+      if ((e as AxiosError)?.response?.status === 401) {
+        const logOut = logoutUser();
+        logOut(thunkAPI.dispatch as AppDispatch);
+        const errorText = i18n.t('_ERR_SERVER_CODE_401_');
+        toast.error(errorText);
+      }
       if (errorHandler(e as Record<string, unknown>)) {
         const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
           type: i18n.t('_TYPE_TASK_'),

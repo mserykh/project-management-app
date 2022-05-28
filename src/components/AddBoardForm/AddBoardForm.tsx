@@ -6,7 +6,6 @@ import FormElement from '../FormElements/FormElement';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { updateBoardsData } from '../../redux/reducers/boards/boardsStateSlice';
 import { cloneDeep } from 'lodash';
-import { useNavigate } from 'react-router';
 import { createBoard } from '../../redux/reducers/boards/ActionsBoards';
 import { useTranslation } from 'react-i18next';
 
@@ -25,7 +24,6 @@ interface AddBoardFormProps {
 const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) => {
   const boardsData = useAppSelector((state) => state.boardsReducer.boardsData);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const {
     register,
@@ -39,7 +37,7 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
 
   const formSubmitHandler = (data: AddBoardFormData): void => {
     if (title && id) {
-      updateBoard(data.boardTitle, data.boardDescription, id);
+      updateBoard(dispatch, data.boardTitle, data.boardDescription, id);
       const newBoards = cloneDeep(boardsData);
       const boards: BoardInterface[] = newBoards.map((board) => {
         if (board.id === id) {
@@ -52,7 +50,7 @@ const AddBoardForm = ({ onClose, title, id, description }: AddBoardFormProps) =>
       onClose();
       return;
     }
-    dispatch(createBoard({ title: data.boardTitle, description: data.boardDescription, navigate }));
+    dispatch(createBoard({ title: data.boardTitle, description: data.boardDescription }));
     reset();
     onClose();
   };

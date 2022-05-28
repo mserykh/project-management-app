@@ -28,6 +28,6 @@ export const errorHandler = (error: Record<string, unknown>): string | void => {
     case 524:
     case 525:
     case 526:
-      return '_ERR_SERVER_CODE_UNHANDLETED_';
+      return '_ERR_SERVER_CODE_UNHANDLED_';
   }
 };

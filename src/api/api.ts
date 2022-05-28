@@ -1,4 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { AppDispatch } from '../redux/store';
+import { logoutUser } from '../redux/user/actions';
 
 type BoardPayload = {
   title: string;
@@ -20,6 +22,7 @@ type TaskPayload = {
 export type Payload = BoardPayload | ColumnPayload | TaskPayload;
 
 export const getHttp = async (
+  dispatch: AppDispatch,
   url: string,
   query: Record<string, unknown>,
   params?: Record<string, unknown>
@@ -32,14 +35,17 @@ export const getHttp = async (
   try {
     await axios.get(urlWithQuery, params);
   } catch (e) {
+    if ((e as AxiosError)?.response?.status === 401) {
+      dispatch(logoutUser());
+    }
     throw (e as AxiosError).toJSON();
   }
 };
 
 export const postHttp = async (
+  dispatch: AppDispatch,
   url: string,
-  payload: Payload,
-  navigate?: (url: string) => void
+  payload: Payload
 ): Promise<AxiosResponse<unknown> | void> => {
   const body = { ...payload };
   try {
@@ -47,16 +53,15 @@ export const postHttp = async (
     const res = await axios.post<Payload, AxiosResponse<unknown, AxiosError>>(url, body, config);
     return res;
   } catch (e) {
-    if ((e as AxiosError).response?.status === 401) {
-      if (navigate) {
-        navigate('/signin');
-      }
+    if ((e as AxiosError)?.response?.status === 401) {
+      dispatch(logoutUser());
     }
     throw (e as AxiosError).toJSON();
   }
 };
 
 export const putHttp = async (
+  dispatch: AppDispatch,
   url: string,
   payload: Record<string, unknown>
 ): Promise<AxiosResponse<string, unknown> | void | string> => {
@@ -68,15 +73,21 @@ export const putHttp = async (
     const res = await axios.put(url, body, config);
     return res;
   } catch (e) {
+    if ((e as AxiosError)?.response?.status === 401) {
+      dispatch(logoutUser());
+    }
     throw (e as AxiosError).toJSON();
   }
 };
 
-export const deleteHttp = async (url: string): Promise<void | string> => {
+export const deleteHttp = async (dispatch: AppDispatch, url: string): Promise<void | string> => {
   try {
     const config = { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } };
     await axios.delete(url, config);
   } catch (e) {
+    if ((e as AxiosError)?.response?.status === 401) {
+      dispatch(logoutUser());
+    }
     throw (e as AxiosError).toJSON();
   }
 };

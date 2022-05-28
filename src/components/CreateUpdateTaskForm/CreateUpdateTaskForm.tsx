@@ -85,13 +85,13 @@ const CreateUpdateTaskForm = ({
     if (!!id) {
       taskData.boardId = boardId;
       taskData.columnId = columnId;
-      await updateTask(taskData, boardId, columnId, id);
+      await updateTask(dispatch, taskData, boardId, columnId, id);
       const taskIndex = findIndex(copyColumns[columnIndex].tasks, (task) => task.id === id);
       copyColumns[columnIndex].tasks[taskIndex].description = taskData.description;
       copyColumns[columnIndex].tasks[taskIndex].title = taskData.title;
       copyColumns[columnIndex].tasks[taskIndex].userId = get(data, 'userOption.value');
     } else {
-      const newTaskData = await createTask(taskData, boardId, columnId);
+      const newTaskData = await createTask(dispatch, taskData, boardId, columnId);
       const newTask = (newTaskData as unknown as Record<string, unknown>).data;
       copyColumns[columnIndex].tasks.push(newTask as unknown as TaskInterface);
     }

@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { BACKEND_URL, BOARDS_ENDPOINT } from '../../constants';
@@ -12,7 +12,6 @@ import { AppDispatch } from '../../store';
 type BoardPayload = {
   title: string;
   description: string;
-  navigate: (url: string) => void;
 };
 
 const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
@@ -26,13 +25,15 @@ export const fetchAllBoards = createAsyncThunk('boardsState/fetchAll', async (_,
         'Content-Type': 'application/json',
       },
     });
-    if ((response as AxiosResponse).status === 401) {
-      const logOut = logoutUser();
-      logOut(thunkAPI.dispatch as AppDispatch);
-    }
     const responseData = response.data;
     return responseData;
   } catch (e) {
+    if ((e as AxiosError)?.response?.status === 401) {
+      const logOut = logoutUser();
+      logOut(thunkAPI.dispatch as AppDispatch);
+      const errorText = i18n.t('_ERR_SERVER_CODE_401_');
+      toast.error(errorText);
+    }
     if (errorHandler(e as Record<string, unknown>)) {
       const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
         type: i18n.t('_TYPE_BOARD_'),
@@ -44,22 +45,24 @@ export const fetchAllBoards = createAsyncThunk('boardsState/fetchAll', async (_,
 
 export const createBoard = createAsyncThunk(
   'boardsState/createBoard',
-  async (boardPayload: BoardPayload) => {
+  async (boardPayload: BoardPayload, thunkAPI) => {
     try {
-      const response = await postHttp(
-        `${BOARDS_URL}`,
-        {
-          title: boardPayload.title,
-          description: boardPayload.description,
-        },
-        boardPayload.navigate
-      );
+      const response = await postHttp(thunkAPI.dispatch as AppDispatch, `${BOARDS_URL}`, {
+        title: boardPayload.title,
+        description: boardPayload.description,
+      });
       if ((response as AxiosResponse).status === 201) {
         toast.success(`A new board ${boardPayload.title} has been added`);
       }
       const responseData = (response as AxiosResponse).data;
       return responseData as BoardInterface;
     } catch (e) {
+      if ((e as AxiosError)?.response?.status === 401) {
+        const logOut = logoutUser();
+        logOut(thunkAPI.dispatch as AppDispatch);
+        const errorText = i18n.t('_ERR_SERVER_CODE_401_');
+        toast.error(errorText);
+      }
       if (errorHandler(e as Record<string, unknown>)) {
         const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
           type: i18n.t('_TYPE_BOARD_'),

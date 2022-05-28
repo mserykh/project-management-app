@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { ToastContext } from '../../contexts/ToastContext';
 import { getUserData, updateUser } from './UserEditAction';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import Modal from '../Modal/Modal';
 import FormElement from '../FormElements/FormElement';
 import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteModalWindow';
@@ -14,6 +14,7 @@ const UserEditForm: React.FC = () => {
   const token = useAppSelector((state) => state.globalStateReducer.token);
   const userId = useAppSelector((state) => state.userReducer.user?.id);
   const { dispatch: toastDispatch } = useContext(ToastContext);
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -39,7 +40,7 @@ const UserEditForm: React.FC = () => {
 
   const formSubmitHandler: SubmitHandler<FieldValues> = async (values) => {
     setLoading(true);
-    const userData = await getUserData(token, userId);
+    const userData = await getUserData(dispatch, token, userId);
     const userName = values.userName === '' ? userData.login : values.userName;
     const name = values.name === '' ? userData.name : values.name;
     const password = values.password;
@@ -49,7 +50,7 @@ const UserEditForm: React.FC = () => {
       password,
     };
 
-    const resStatus = await updateUser(userId, userUpdateData, token);
+    const resStatus = await updateUser(dispatch, userId, userUpdateData, token);
     setLoading(false);
 
     switch (resStatus) {

@@ -6,18 +6,20 @@ import { ColumnInterface, TaskInterface } from '../../types';
 import { BOARDS_ENDPOINT } from '../constants';
 import { BACKEND_URL } from '../constants';
 import { errorHandler } from '../utils';
+import { AppDispatch } from '../../redux/store';
 
 export type BoardResponse = {
   data: ColumnInterface;
 };
 
 export const getAllTasks = async (
+  dispatch: AppDispatch,
   boardId: string,
   columnId: string
 ): Promise<AxiosResponse<unknown, unknown> | void | string> => {
   const URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}/${boardId}/columns/${columnId}/tasks`;
   try {
-    const res = await getHttp(URL, {});
+    const res = await getHttp(dispatch, URL, {});
     return res;
   } catch (e) {
     if (errorHandler(e as Record<string, unknown>)) {
@@ -30,13 +32,14 @@ export const getAllTasks = async (
 };
 
 export const createTask = async (
+  dispatch: AppDispatch,
   data: TaskInterface,
   boardId: string,
   columnId: string
 ): Promise<AxiosResponse<unknown, unknown> | void | string> => {
   const URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}/${boardId}/columns/${columnId}/tasks`;
   try {
-    return await postHttp(URL, data);
+    return await postHttp(dispatch, URL, data);
   } catch (e) {
     if (errorHandler(e as Record<string, unknown>)) {
       const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
@@ -48,6 +51,7 @@ export const createTask = async (
 };
 
 export const updateTask = async (
+  dispatch: AppDispatch,
   data: TaskInterface,
   boardId: string,
   columnId: string,
@@ -55,7 +59,7 @@ export const updateTask = async (
 ): Promise<AxiosResponse<string, unknown> | void | string> => {
   const URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}/${boardId}/columns/${columnId}/tasks`;
   try {
-    await putHttp(`${URL}/${id}`, { ...data });
+    await putHttp(dispatch, `${URL}/${id}`, { ...data });
   } catch (e) {
     if (errorHandler(e as Record<string, unknown>)) {
       const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {

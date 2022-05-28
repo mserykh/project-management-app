@@ -10,10 +10,8 @@ import WelcomePage from './pages/WelcomePage/WelcomePage';
 import ProfileEditPage from './pages/ProfileEditPage/ProfileEditPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 import SignInPage from './pages/SignInPage/SignInPage';
-import { useAppDispatch, useAppSelector } from './redux/hooks';
+import { useAppDispatch } from './redux/hooks';
 import { auth } from './redux/user/actions';
-import { useSelector } from 'react-redux';
-import { RootState } from './redux/store';
 
 const App = (): JSX.Element => {
   const dispatch = useAppDispatch();

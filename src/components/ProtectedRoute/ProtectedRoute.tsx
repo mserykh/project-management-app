@@ -12,7 +12,7 @@ const ProtectedRoute = (): JSX.Element => {
     if (userIsAuthenticated) {
       dispatch(auth());
     }
-  }, [location, userIsAuthenticated]);
+  }, [dispatch, location, userIsAuthenticated]);
 
   if (!userIsAuthenticated) {
     return <Navigate to="/" replace />;
