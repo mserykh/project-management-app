@@ -1,21 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { NavLink, useMatch, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../redux/hooks';
+import { NavLink } from 'react-router-dom';
 import SigninForm from '../../components/SignInForm/SignInForm';
 import Logo from '../../components/Logo/Logo';
 
 const SignInPage = () => {
-  const navigate = useNavigate();
-  const signinPageUrl = useMatch('/signin');
-  const isSigninPage = signinPageUrl?.pathname === location.pathname;
-
-  const isAuthenticated = useAppSelector((state) => state.userReducer.isAuthenticated);
-
-  if (isAuthenticated && isSigninPage) {
-    navigate('/main');
-  }
-
   const { t } = useTranslation();
 
   return (
