@@ -19,8 +19,8 @@ export const getBoard = async (
   try {
     await getHttp(dispatch, `${BACKEND_URL}/${BOARDS_ENDPOINT}`, { title });
   } catch (e) {
-    if (errorHandler(e as Record<string, unknown>)) {
-      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+    if (errorHandler(e as Record<string, AxiosResponse>)) {
+      const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
         type: i18n.t('_TYPE_BOARD_'),
       });
       toast.error(error);
@@ -37,8 +37,8 @@ export const updateBoard = async (
   try {
     await putHttp(dispatch, `${BACKEND_URL}/${BOARDS_ENDPOINT}/${id}`, { title, description });
   } catch (e) {
-    if (errorHandler(e as Record<string, unknown>)) {
-      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+    if (errorHandler(e as Record<string, AxiosResponse>)) {
+      const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
         type: i18n.t('_TYPE_BOARD_'),
       });
       toast.error(error);
@@ -50,9 +50,9 @@ export const deleteBoard = async (dispatch: AppDispatch, id: string): Promise<vo
   try {
     await deleteHttp(dispatch, `${BACKEND_URL}/${BOARDS_ENDPOINT}/${id}`);
   } catch (e) {
-    errorHandler(e as Record<string, unknown>);
-    if (errorHandler(e as Record<string, unknown>)) {
-      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+    errorHandler(e as Record<string, AxiosResponse>);
+    if (errorHandler(e as Record<string, AxiosResponse>)) {
+      const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
         type: i18n.t('_TYPE_BOARD_'),
       });
       toast.error(error);

@@ -22,8 +22,8 @@ export const getAllTasks = async (
     const res = await getHttp(dispatch, URL, {});
     return res;
   } catch (e) {
-    if (errorHandler(e as Record<string, unknown>)) {
-      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+    if (errorHandler(e as Record<string, AxiosResponse>)) {
+      const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
         type: i18n.t('_TYPE_TASK_'),
       });
       toast.error(error);
@@ -41,8 +41,8 @@ export const createTask = async (
   try {
     return await postHttp(dispatch, URL, data);
   } catch (e) {
-    if (errorHandler(e as Record<string, unknown>)) {
-      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+    if (errorHandler(e as Record<string, AxiosResponse>)) {
+      const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
         type: i18n.t('_TYPE_TASK_'),
       });
       toast.error(error);
@@ -61,8 +61,8 @@ export const updateTask = async (
   try {
     await putHttp(dispatch, `${URL}/${id}`, { ...data });
   } catch (e) {
-    if (errorHandler(e as Record<string, unknown>)) {
-      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+    if (errorHandler(e as Record<string, AxiosResponse>)) {
+      const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
         type: i18n.t('_TYPE_TASK_'),
       });
       toast.error(error);

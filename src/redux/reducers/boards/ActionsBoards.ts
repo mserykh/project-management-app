@@ -33,8 +33,8 @@ export const fetchAllBoards = createAsyncThunk('boardsState/fetchAll', async (_,
       const errorText = i18n.t('_ERR_SERVER_CODE_401_');
       toast.error(errorText);
     }
-    if (errorHandler(e as Record<string, unknown>)) {
-      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+    if (errorHandler(e as Record<string, AxiosResponse>)) {
+      const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
         type: i18n.t('_TYPE_BOARD_'),
       });
       toast.error(error);
@@ -62,8 +62,8 @@ export const createBoard = createAsyncThunk(
         const errorText = i18n.t('_ERR_SERVER_CODE_401_');
         toast.error(errorText);
       }
-      if (errorHandler(e as Record<string, unknown>)) {
-        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+      if (errorHandler(e as Record<string, AxiosResponse>)) {
+        const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
           type: i18n.t('_TYPE_BOARD_'),
         });
         toast.error(error);
