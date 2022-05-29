@@ -8,7 +8,6 @@ import { logoutUser } from '../../redux/user/actions';
 import { useTranslation } from 'react-i18next';
 
 const UserAvatar = (): JSX.Element => {
-  const username = useAppSelector((state) => state.userReducer.user?.login);
   const dispatch = useAppDispatch();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
