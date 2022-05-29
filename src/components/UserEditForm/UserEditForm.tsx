@@ -101,7 +101,7 @@ const UserEditForm: React.FC = () => {
         />
         <FormElement
           type="password"
-          label={t('_LBL_PASSWORD_')}
+          label={t('_LBL_PASSWORD_SUBMIT_')}
           placeholder={t('_LBL_PASSWORD_PLACEHOLDER_')}
           labelColor="#AA9BFF"
           errorText={t('_ERR_PASSWORD_LENGTH_')}

@@ -26,6 +26,7 @@ const UserAvatar = (): JSX.Element => {
       <Button
         onClick={() => {
           navigate('/profile-edit');
+          setIsOpen(() => !isOpen);
         }}
         type="button"
         className="button--dropdown"
@@ -35,7 +36,7 @@ const UserAvatar = (): JSX.Element => {
       <Button
         onClick={() => {
           dispatch(logoutUser());
-          navigate('/');
+          setIsOpen(() => !isOpen);
         }}
         type="button"
         className="button--dropdown button--logout"
@@ -48,8 +49,7 @@ const UserAvatar = (): JSX.Element => {
   return (
     <div className="dropdown ml-auto xs:ml-0">
       <div className="flex gap-2 items-center">
-        <img src={user_icon} alt="" />
-        <span className="hidden sm:block header__user">{username}</span>
+        <img className={`${isOpen ? 'filter--violet' : ''}`} src={user_icon} alt="" />
         <img
           onClick={handleClick}
           className="p-2 cursor-pointer hover:bg-off-white hover:rounded-full"
