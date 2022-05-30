@@ -9,18 +9,17 @@ import configureStore from 'redux-mock-store';
 test('Header rendering without crashing', () => {
   const initialState = {
     userReducer: { isAuthenticated: true, user: { id: 'testuser' } },
-    globalStateReducer: { token: 'test' },
+    globalStateReducer: { token: 'test', language: 'ru' },
   };
   const mockStore = configureStore();
   const store = mockStore(initialState);
-  const screen = render(
+  render(
     <BrowserRouter>
       <Provider store={store}>
         <Header />
       </Provider>
     </BrowserRouter>
   );
-  screen.debug();
 });
 /* 
 test('Language change', () => {

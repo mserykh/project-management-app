@@ -5,7 +5,10 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 test('renders without crashing', () => {
-  const initialState = { userReducer: { isAuthenticated: false } };
+  const initialState = {
+    userReducer: { isAuthenticated: false },
+    globalStateReducer: { token: 'test', language: 'ru' },
+  };
   const mockStore = configureStore();
   const store = mockStore(initialState);
   render(
@@ -18,7 +21,10 @@ test('renders without crashing', () => {
 });
 
 test('Collapsed header', () => {
-  const initialState = { userReducer: { isAuthenticated: false } };
+  const initialState = {
+    userReducer: { isAuthenticated: false },
+    globalStateReducer: { token: 'test', language: 'ru' },
+  };
   const mockStore = configureStore();
   const store = mockStore(initialState);
   render(
