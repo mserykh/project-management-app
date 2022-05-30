@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppDispatch } from '../../redux/hooks';
 import user_icon from '../../assets/images/user_icon.svg';
 import user_options from '../../assets/images/user_options.svg';
 import { useState } from 'react';
