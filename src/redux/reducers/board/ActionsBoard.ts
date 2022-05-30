@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   BACKEND_URL,
@@ -13,28 +13,12 @@ import { ColumnInterface, UserInterface } from '../../../types';
 import { getNewOrderNumber } from '../../../utils';
 import i18n from '../../../n18i';
 import { errorHandler } from '../../utils';
-
-const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
-
-export const fetchBoard = createAsyncThunk('boardState/fetchBoard', async (id: string) => {
-  const token = localStorage.getItem('token') || '';
-  try {
-    const response = await axios.get(`${BOARDS_URL}/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
-    return response.data;
-  } catch (e) {
-    return e;
-  }
-});
+import { logoutUser } from '../../user/actions';
+import { AppDispatch } from '../../store';
 
 export type ColumnPayload = {
   title: string;
   columns?: ColumnInterface[];
-  navigate?: (url: string) => void;
   boardId: string;
   columnId?: string;
   order?: number;
@@ -50,7 +34,6 @@ type DeleteColumnPayload = {
   title: string;
   boardId: string;
   columnId: string;
-  navigate: (url: string) => void;
 };
 
 type DeleteTaskPayload = {
@@ -58,20 +41,49 @@ type DeleteTaskPayload = {
   taskId: string;
   boardId: string;
   columnId: string;
-  navigate: (url: string) => void;
 };
+
+const BOARDS_URL = `${BACKEND_URL}/${BOARDS_ENDPOINT}`;
+
+export const fetchBoard = createAsyncThunk(
+  'boardState/fetchBoard',
+  async (id: string, thunkAPI) => {
+    const token = localStorage.getItem('token') || '';
+    try {
+      const response = await axios.get(`${BOARDS_URL}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      return response.data;
+    } catch (e) {
+      if ((e as AxiosError)?.response?.status === 401) {
+        const logOut = logoutUser();
+        logOut(thunkAPI.dispatch as AppDispatch);
+        return {};
+      }
+      if (errorHandler(e as Record<string, AxiosResponse>)) {
+        const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
+          type: i18n.t('_TYPE_COLUMN_'),
+        });
+        toast.error(error);
+      }
+    }
+  }
+);
 
 export const createColumn = createAsyncThunk(
   'boardState/createColumn',
   async (columnPayload: ColumnPayload, thunkAPI) => {
     try {
       const response = await postHttp(
+        thunkAPI.dispatch as AppDispatch,
         `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}`,
         {
           title: columnPayload.title,
           order: getNewOrderNumber(columnPayload.columns as ColumnInterface[]),
-        },
-        columnPayload.navigate
+        }
       );
       if ((response as AxiosResponse).status === 201) {
         const toastText = i18n.t('_TOAST_NEW_COLUMN_');
@@ -79,8 +91,8 @@ export const createColumn = createAsyncThunk(
         thunkAPI.dispatch(fetchBoard(columnPayload.boardId));
       }
     } catch (e) {
-      if (errorHandler(e as Record<string, unknown>)) {
-        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+      if (errorHandler(e as Record<string, AxiosResponse>)) {
+        const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
           type: i18n.t('_TYPE_COLUMN_'),
         });
         toast.error(error);
@@ -91,9 +103,10 @@ export const createColumn = createAsyncThunk(
 
 export const updateColumn = createAsyncThunk(
   'boardState/updateColumn',
-  async (columnPayload: ColumnPayload) => {
+  async (columnPayload: ColumnPayload, thunkAPI) => {
     try {
       const response = await putHttp(
+        thunkAPI.dispatch as AppDispatch,
         `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}/${columnPayload.columnId}`,
         {
           title: columnPayload.title,
@@ -105,8 +118,8 @@ export const updateColumn = createAsyncThunk(
         toast.success(toastText);
       }
     } catch (e) {
-      if (errorHandler(e as Record<string, unknown>)) {
-        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+      if (errorHandler(e as Record<string, AxiosResponse>)) {
+        const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
           type: i18n.t('_TYPE_COLUMN_'),
         });
         toast.error(error);
@@ -115,9 +128,13 @@ export const updateColumn = createAsyncThunk(
   }
 );
 
-const updateColumnOrder = async (columnPayload: ColumnPayload): Promise<void> => {
+const updateColumnOrder = async (
+  dispatch: AppDispatch,
+  columnPayload: ColumnPayload
+): Promise<void> => {
   try {
     await putHttp(
+      dispatch,
       `${BOARDS_URL}/${columnPayload.boardId}/${COLUMNS_ENDPOINT}/${columnPayload.columnId}`,
       {
         title: columnPayload.title,
@@ -132,14 +149,24 @@ const updateColumnOrder = async (columnPayload: ColumnPayload): Promise<void> =>
 
 export const changeColumnsOrder = createAsyncThunk(
   'boardState/changeColumnsOrder',
-  async ({ draggingColumn, changedColumns, draggedColumn }: changeColumnsOrderPayload) => {
+  async (
+    { draggingColumn, changedColumns, draggedColumn }: changeColumnsOrderPayload,
+    thunkAPI
+  ) => {
     try {
-      runGenerator(changeColumnsOrderGenerator(draggingColumn, changedColumns, draggedColumn));
+      runGenerator(
+        changeColumnsOrderGenerator(
+          thunkAPI.dispatch as AppDispatch,
+          draggingColumn,
+          changedColumns,
+          draggedColumn
+        )
+      );
       const toastText = i18n.t('_TOAST_COLUMN_UPDATED_');
       toast.success(toastText);
     } catch (e) {
-      if (errorHandler(e as Record<string, unknown>)) {
-        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+      if (errorHandler(e as Record<string, AxiosResponse>)) {
+        const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
           type: i18n.t('_TYPE_COLUMN_'),
         });
         toast.error(error);
@@ -149,27 +176,33 @@ export const changeColumnsOrder = createAsyncThunk(
 );
 
 function* changeColumnsOrderGenerator(
+  dispatch: AppDispatch,
   draggingColumn: ColumnPayload,
   changedColumns: ColumnPayload[],
   draggedColumn: ColumnPayload
 ) {
-  yield updateColumnOrder(draggingColumn);
+  yield updateColumnOrder(dispatch, draggingColumn);
   for (const changedColumn of changedColumns) {
-    yield updateColumnOrder(changedColumn);
+    yield updateColumnOrder(dispatch, changedColumn);
   }
-  yield updateColumnOrder(draggedColumn);
+  yield updateColumnOrder(dispatch, draggedColumn);
 }
 
 export const deleteColumn = createAsyncThunk(
   'boardState/deleteColumn',
-  async ({ title, columnId, boardId }: DeleteColumnPayload) => {
+  async ({ title, columnId, boardId }: DeleteColumnPayload, thunkAPI) => {
     try {
-      await deleteHttp(`${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`);
-      const toastText = i18n.t('_TOAST_COLUMN_DELETED_', { title: title });
-      toast.success(toastText);
+      const response = await deleteHttp(
+        thunkAPI.dispatch as AppDispatch,
+        `${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}`
+      );
+      if ((response as AxiosResponse).status === 204) {
+        const toastText = i18n.t('_TOAST_COLUMN_DELETED_', { title: title });
+        toast.success(toastText);
+      }
     } catch (e) {
-      if (errorHandler(e as Record<string, unknown>)) {
-        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+      if (errorHandler(e as Record<string, AxiosResponse>)) {
+        const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
           type: i18n.t('_TYPE_COLUMN_'),
         });
         toast.error(error);
@@ -182,15 +215,18 @@ export const deleteTask = createAsyncThunk(
   'boardState/deleteTask',
   async ({ title, taskId, columnId, boardId }: DeleteTaskPayload, thunkAPI) => {
     try {
-      await deleteHttp(
+      const response = await deleteHttp(
+        thunkAPI.dispatch as AppDispatch,
         `${BOARDS_URL}/${boardId}/${COLUMNS_ENDPOINT}/${columnId}/${TASKS_ENDPOINT}/${taskId}`
       );
-      const toastText = i18n.t('_TOAST_TASK_DELETED_', { title: title });
-      toast.success(toastText);
-      thunkAPI.dispatch(fetchBoard(boardId));
+      if ((response as AxiosResponse).status === 204) {
+        thunkAPI.dispatch(fetchBoard(boardId));
+        const toastText = i18n.t('_TOAST_TASK_DELETED_', { title: title });
+        toast.success(toastText);
+      }
     } catch (e) {
-      if (errorHandler(e as Record<string, unknown>)) {
-        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+      if (errorHandler(e as Record<string, AxiosResponse>)) {
+        const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
           type: i18n.t('_TYPE_TASK_'),
         });
         toast.error(error);
@@ -201,7 +237,7 @@ export const deleteTask = createAsyncThunk(
 
 export const getAllUsers = createAsyncThunk(
   'boardState/getAllUsers',
-  async (): Promise<UserInterface[] | string | void> => {
+  async (_, thunkAPI): Promise<UserInterface[] | string | void> => {
     const token = localStorage.getItem('token') || '';
     try {
       const response = await axios.get(`${BACKEND_URL}/${USERS_ENDPOINT}`, {
@@ -213,8 +249,14 @@ export const getAllUsers = createAsyncThunk(
       const data = response.data;
       return data;
     } catch (e) {
-      if (errorHandler(e as Record<string, unknown>)) {
-        const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+      if ((e as AxiosError)?.response?.status === 401) {
+        const logOut = logoutUser();
+        logOut(thunkAPI.dispatch as AppDispatch);
+        const errorText = i18n.t('_ERR_SERVER_CODE_401_');
+        toast.error(errorText);
+      }
+      if (errorHandler(e as Record<string, AxiosResponse>)) {
+        const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
           type: i18n.t('_TYPE_TASK_'),
         });
         toast.error(error);

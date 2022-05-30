@@ -6,17 +6,21 @@ import { BOARDS_ENDPOINT } from '../constants';
 import { BACKEND_URL } from '../constants';
 import { errorHandler } from '../utils';
 import { toast } from 'react-toastify';
+import { AppDispatch } from '../store';
 
 export type BoardResponse = {
   data: ColumnInterface;
 };
 
-export const getBoard = async (title: string): Promise<AxiosResponse<unknown, unknown> | void> => {
+export const getBoard = async (
+  dispatch: AppDispatch,
+  title: string
+): Promise<AxiosResponse<unknown, unknown> | void> => {
   try {
-    await getHttp(`${BACKEND_URL}/${BOARDS_ENDPOINT}`, { title });
+    await getHttp(dispatch, `${BACKEND_URL}/${BOARDS_ENDPOINT}`, { title });
   } catch (e) {
-    if (errorHandler(e as Record<string, unknown>)) {
-      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+    if (errorHandler(e as Record<string, AxiosResponse>)) {
+      const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
         type: i18n.t('_TYPE_BOARD_'),
       });
       toast.error(error);
@@ -25,15 +29,16 @@ export const getBoard = async (title: string): Promise<AxiosResponse<unknown, un
 };
 
 export const updateBoard = async (
+  dispatch: AppDispatch,
   title: string,
   description: string,
   id: string
 ): Promise<AxiosResponse<string, unknown> | void | string> => {
   try {
-    await putHttp(`${BACKEND_URL}/${BOARDS_ENDPOINT}/${id}`, { title, description });
+    await putHttp(dispatch, `${BACKEND_URL}/${BOARDS_ENDPOINT}/${id}`, { title, description });
   } catch (e) {
-    if (errorHandler(e as Record<string, unknown>)) {
-      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+    if (errorHandler(e as Record<string, AxiosResponse>)) {
+      const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
         type: i18n.t('_TYPE_BOARD_'),
       });
       toast.error(error);
@@ -41,13 +46,13 @@ export const updateBoard = async (
   }
 };
 
-export const deleteBoard = async (id: string): Promise<void | string> => {
+export const deleteBoard = async (dispatch: AppDispatch, id: string): Promise<void | string> => {
   try {
-    await deleteHttp(`${BACKEND_URL}/${BOARDS_ENDPOINT}/${id}`);
+    await deleteHttp(dispatch, `${BACKEND_URL}/${BOARDS_ENDPOINT}/${id}`);
   } catch (e) {
-    errorHandler(e as Record<string, unknown>);
-    if (errorHandler(e as Record<string, unknown>)) {
-      const error = i18n.t(errorHandler(e as Record<string, unknown>) as string, {
+    errorHandler(e as Record<string, AxiosResponse>);
+    if (errorHandler(e as Record<string, AxiosResponse>)) {
+      const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
         type: i18n.t('_TYPE_BOARD_'),
       });
       toast.error(error);

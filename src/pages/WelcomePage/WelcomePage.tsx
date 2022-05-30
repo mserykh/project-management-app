@@ -25,7 +25,7 @@ function WelcomePage(): JSX.Element {
               <>
                 {' '}
                 <NavLink
-                  to={'/login'}
+                  to={'/signin'}
                   className="font-semibold text-center text-l py-3 px-8 text-white rounded-full rounded-br-none hover:text-primaryBlue"
                 >
                   {t('_BTN_SIGN_IN_')}
@@ -53,11 +53,7 @@ function WelcomePage(): JSX.Element {
               <li className="welcome__card">
                 <div className="welcome__card-container">
                   <h4 className="welcome__card-title">{t('_LBL_MAIN_FEATURES_')}</h4>
-                  <p className="welcome__card-text">
-                    Lörem ipsum fogyr nism syledes den intravalig tet. Geosade exos dint.
-                    Närvaropeng öjins. Syskade alogi nära. Oling rer, oaktat odat i ningen tills
-                    bejide. Kanade nyskapet.
-                  </p>
+                  <p className="welcome__card-text">{t('_TEXT_ABOUT_APP_')}</p>
                 </div>
                 <img alt="icon" src={AppFeatIcon} className="welcome__card-img" />
               </li>
@@ -65,11 +61,7 @@ function WelcomePage(): JSX.Element {
                 <img alt="icon" src={AboutIcon} className="welcome__card-img" />
                 <div className="welcome__card-container">
                   <h4 className="welcome__card-title">{t('_LBL_MAIN_ABOUT_COURSE_')}</h4>
-                  <p className="welcome__card-text">
-                    Lörem ipsum fogyr nism syledes den intravalig tet. Geosade exos dint.
-                    Närvaropeng öjins. Syskade alogi nära. Oling rer, oaktat odat i ningen tills
-                    bejide. Kanade nyskapet.
-                  </p>
+                  <p className="welcome__card-text">{t('_TEXT_ABOUT_COURSE_')}</p>
                 </div>
               </li>
             </ul>

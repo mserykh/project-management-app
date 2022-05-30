@@ -40,7 +40,7 @@ const SignUpForm = ({ labelColor }: SignUpFormProps) => {
         payload: t('_TOAST_USER_CREATED_'),
       });
       reset();
-      navigate('/login');
+      navigate('/signin');
     } else {
       toastDispatch({
         type: 'ERROR',

@@ -1,7 +1,7 @@
-import { BoardInterface } from '../../../types';
+import BoardCardProps from '../../../components/BoardCard/types';
 
 export interface boardsStateInterface {
-  boardsData: BoardInterface[] | [];
+  boardsData: BoardCardProps[] | [];
   loading: boolean;
   deleteModalOpen: boolean;
   updateModalOpen: boolean;

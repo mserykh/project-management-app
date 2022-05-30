@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import { AddColumnFormData } from '../AddColumnForm/AddColumnForm';
 import Button from '../Button/Button';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { useNavigate } from 'react-router';
 import { updateColumn } from '../../redux/reducers/board/ActionsBoard';
 import CreateUpdateTaskForm from '../CreateUpdateTaskForm/CreateUpdateTaskForm';
 import { findIndex, get, cloneDeep, isNil, orderBy } from 'lodash';
@@ -25,7 +24,6 @@ import { useTranslation } from 'react-i18next';
 function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const columns = boardData.columns;
@@ -69,6 +67,7 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
           userId: copyTaskData.userId,
         };
         await updateTask(
+          dispatch,
           copyTaskForApi,
           boardData.id,
           boardData.columns[oldColumnIndex].id,
@@ -165,8 +164,8 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
     copyTasks[hoverIndex] = copyHoverTaskData;
     copyBoardData.columns[columnIndex].tasks = copyTasks;
     dispatch(updateColumnsData(copyBoardData.columns));
-    await updateTask(hoverTaskData, boardData.id, columnId, prevItem[0].id as string);
-    await updateTask(dragTaskData, boardData.id, columnId, dragItem.id as string);
+    await updateTask(dispatch, hoverTaskData, boardData.id, columnId, prevItem[0].id as string);
+    await updateTask(dispatch, dragTaskData, boardData.id, columnId, dragItem.id as string);
   };
 
   const handleDeleteModalOnClose = (): void => {
@@ -204,7 +203,6 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
           columnId: id,
           boardId: boardData.id,
           order: order,
-          navigate: navigate,
         })
       );
       dispatch(

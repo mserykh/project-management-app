@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import jwt_decode from 'jwt-decode';
 
 import { setUser } from './userSlice';
@@ -8,6 +8,18 @@ import { BACKEND_URL } from '../constants';
 import { toast } from 'react-toastify';
 import i18n from '../../n18i';
 import { errorHandler } from '../utils';
+
+type DecodedJWT = {
+  userId: string;
+  login: string;
+  exp: number;
+};
+
+interface RegisterUserState {
+  name: string;
+  login: string;
+  password: string;
+}
 
 function checkIsTokenExpired(expDate: number) {
   return Date.now() > expDate * 1000;
@@ -40,8 +52,8 @@ export const signIn =
       dispatch(setUserData(decoded, token));
       localStorage.setItem('token', token);
     } catch (err) {
-      if (errorHandler(err as Record<string, unknown>)) {
-        const error = i18n.t(errorHandler(err as Record<string, unknown>) as string, {
+      if (errorHandler(err as Record<string, AxiosResponse>)) {
+        const error = i18n.t(errorHandler(err as Record<string, AxiosResponse>) as string, {
           type: i18n.t('_TYPE_USER_'),
         });
         toast.error(error);
@@ -61,8 +73,8 @@ export const auth = () => async (dispatch: AppDispatch, getState: () => RootStat
       dispatch(setUserData(decoded, token));
     }
   } catch (err) {
-    if (errorHandler(err as Record<string, unknown>)) {
-      const error = i18n.t(errorHandler(err as Record<string, unknown>) as string, {
+    if (errorHandler(err as Record<string, AxiosResponse>)) {
+      const error = i18n.t(errorHandler(err as Record<string, AxiosResponse>) as string, {
         type: i18n.t('_TYPE_USER_'),
       });
       toast.error(error);
@@ -85,15 +97,3 @@ export const logoutUser = () => (dispatch: AppDispatch) => {
   dispatch(setUser(null, false));
   localStorage.setItem('token', '');
 };
-
-type DecodedJWT = {
-  userId: string;
-  login: string;
-  exp: number;
-};
-
-interface RegisterUserState {
-  name: string;
-  login: string;
-  password: string;
-}

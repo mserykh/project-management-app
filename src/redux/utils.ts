@@ -1,5 +1,8 @@
-export const errorHandler = (error: Record<string, unknown>): string | void => {
-  const code = error.status;
+import { AxiosResponse } from 'axios';
+
+export const errorHandler = (error: Record<string, AxiosResponse>): string | void => {
+  const errorResponse = error.response;
+  const code = errorResponse.status;
   switch (code) {
     case 401:
       return `_ERR_SERVER_CODE_401_`;
@@ -28,6 +31,6 @@ export const errorHandler = (error: Record<string, unknown>): string | void => {
     case 524:
     case 525:
     case 526:
-      return '_ERR_SERVER_CODE_UNHANDLETED_';
+      return '_ERR_SERVER_CODE_UNHANDLED_';
   }
 };
