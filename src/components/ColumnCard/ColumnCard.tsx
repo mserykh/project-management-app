@@ -245,10 +245,10 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
             >
               <FormElement
                 type="text"
-                label="Add column title"
+                label={t('_LBL_ADD_COLUMN_TITLE_')}
                 labelColor={'black'}
-                placeholder="Please enter the column title"
-                errorText={'The title should contain at least 1 character'}
+                placeholder={t('_LBL_COLUMN_TITLE_PLACEHOLDER_')}
+                errorText={t('_ERR_TITLE_LENGTH_')}
                 hasError={!!errors?.columnTitle}
                 inputData={register('columnTitle', {
                   required: true,
