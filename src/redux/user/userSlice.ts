@@ -13,9 +13,15 @@ export interface UserState {
   isAuthenticated: boolean;
 }
 
+function getUserFromLocalStorage(): User | null {
+  const userStr = localStorage.getItem('user');
+  const user = userStr ? JSON.parse(userStr) : null;
+  return user;
+}
+
 const initialState: UserState = {
-  user: null,
-  isAuthenticated: false,
+  user: getUserFromLocalStorage(),
+  isAuthenticated: !!getUserFromLocalStorage(),
 };
 
 const userSlice = createSlice({
@@ -34,9 +40,20 @@ const userSlice = createSlice({
         };
       },
     },
+    updateUserData: {
+      reducer(state: UserState, action: PayloadAction<User>) {
+        const user = action.payload as User;
+        state.user = user;
+      },
+      prepare(user: User) {
+        return {
+          payload: user,
+        };
+      },
+    },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, updateUserData } = userSlice.actions;
 
 export default userSlice.reducer;

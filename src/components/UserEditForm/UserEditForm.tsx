@@ -9,6 +9,7 @@ import ConfirmDeleteModalWindow from '../ConfirmDeleteModalWindow/ConfirmDeleteM
 import Button from '../Button/Button';
 import { useTranslation } from 'react-i18next';
 import MiniLoader from '../../components/Loader/MiniLoader';
+import { updateUserData } from '../../redux/user/userSlice';
 
 const UserEditForm: React.FC = () => {
   const token = useAppSelector((state) => state.globalStateReducer.token);
@@ -49,12 +50,13 @@ const UserEditForm: React.FC = () => {
       name,
       password,
     };
-
     const resStatus = await updateUser(dispatch, userId, userUpdateData, token);
     setLoading(false);
 
     switch (resStatus) {
       case 200:
+        localStorage.setItem('user', JSON.stringify({ id: userId, login: userUpdateData.login }));
+        dispatch(updateUserData({ id: userId as string, login: userUpdateData.login }));
         toastDispatch({ type: 'SUCCESS', payload: t('_TOAST_USER_UPDATED_') });
         break;
       case 404:
