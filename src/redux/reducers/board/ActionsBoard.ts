@@ -142,8 +142,12 @@ const updateColumnOrder = async (
       }
     );
   } catch (e) {
-    console.error(e);
-    toast.error(`An error ${e}`);
+    if (errorHandler(e as Record<string, AxiosResponse>)) {
+      const error = i18n.t(errorHandler(e as Record<string, AxiosResponse>) as string, {
+        type: i18n.t('_TYPE_COLUMN_'),
+      });
+      toast.error(error);
+    }
   }
 };
 
