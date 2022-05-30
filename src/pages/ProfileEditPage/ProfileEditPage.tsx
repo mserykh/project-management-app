@@ -11,8 +11,8 @@ function ProfileEditPage(): JSX.Element {
   return (
     <main className="container mx-auto">
       <section className="p-3 sm:p-6 grid grid-rows-columns gap-x-2 gap-y-6 mx-auto">
-        <h2 className="section__title">{`${t('_LBL_PROFILE_')} ${userName} `}</h2>
-        <h3 className="section__description">{t('_BTN_EDIT_PROFILE_')}</h3>
+        <h2 className="section__title">{t('_LBL_PROFILE_')}</h2>
+        <h3 className="section__description">{`${t('_LBL_YOUR_USERNAME_')}: ${userName}`}</h3>
         <div className="flex flex-col">
           <UserEditForm />
         </div>

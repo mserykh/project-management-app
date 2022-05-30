@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import LoginForm from '../../components/LoginForm/LoginForm';
+import SigninForm from '../../components/SignInForm/SignInForm';
 import Logo from '../../components/Logo/Logo';
 
-const LoginPage = () => {
+const SignInPage = () => {
   const { t } = useTranslation();
 
   return (
@@ -14,7 +14,7 @@ const LoginPage = () => {
           <div className="mb-6">
             <h2 className="section__title text-primaryViolet">{t('_BTN_SIGN_IN_')}</h2>
           </div>
-          <LoginForm labelColor="primaryViolet" />
+          <SigninForm labelColor="primaryViolet" />
           <span className="block text-left text-large">
             {t('_LBL_NOT_REGISTERED_')}&nbsp;
             <NavLink to="/signup" className="text-primaryViolet font-semibold">
@@ -36,4 +36,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignInPage;

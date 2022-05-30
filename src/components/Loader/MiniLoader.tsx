@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 
 const MiniLoader: FC = () => {
   return (
-    <div className="inline relative top-[4px]">
+    <div className="inline relative top-1">
       <div
         style={{ borderTopColor: 'transparent' }}
-        className="w-6 h-6 border-2 border-[#1bd993] border-solid rounded-full animate-spin ml-4 inline-block"
+        className="w-6 h-6 border-2 border-primaryGreen border-solid rounded-full animate-spin ml-4 inline-block"
       ></div>
     </div>
   );

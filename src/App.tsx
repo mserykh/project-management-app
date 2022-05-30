@@ -9,7 +9,7 @@ import Page404 from './pages/Page404/Page404';
 import WelcomePage from './pages/WelcomePage/WelcomePage';
 import ProfileEditPage from './pages/ProfileEditPage/ProfileEditPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
-import LoginPage from './pages/LoginPage/LoginPage';
+import SignInPage from './pages/SignInPage/SignInPage';
 import { useAppDispatch } from './redux/hooks';
 import { auth } from './redux/user/actions';
 
@@ -31,7 +31,7 @@ const App = (): JSX.Element => {
         </Route>
         <Route path="*" element={<Page404 />} />
         <Route path="signup" element={<SignUpPage />} />
-        <Route path="login" element={<LoginPage />} />
+        <Route path="signin" element={<SignInPage />} />
       </Route>
       <Route path="*" element={<Page404 />} />
     </Routes>

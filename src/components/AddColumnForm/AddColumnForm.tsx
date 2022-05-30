@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { useNavigate } from 'react-router';
 import Button from '../Button/Button';
 import FormElement from '../FormElements/FormElement';
 import { createColumn } from '../../redux/reducers/board/ActionsBoard';
@@ -18,7 +17,6 @@ interface AddColumnFormProps {
 const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
   const boardData = useAppSelector((state) => state.boardReducer.boardData);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const {
     register,
     reset,
@@ -35,7 +33,6 @@ const AddColumnForm = ({ onClose, id }: AddColumnFormProps) => {
         boardId: id,
         title: data.columnTitle,
         columns: boardData.columns,
-        navigate: navigate,
       })
     );
     reset();

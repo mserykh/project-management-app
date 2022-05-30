@@ -8,13 +8,13 @@ import { useNavigate } from 'react-router';
 import store from '../../redux/store';
 import Button from '../Button/Button';
 import { useTranslation } from 'react-i18next';
-import MiniLoader from '../../components/Loader/MiniLoader';
+import MiniLoader from '../Loader/MiniLoader';
 
-interface LoginFormProps {
+interface SignInFormProps {
   labelColor: string;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
+const SignInForm: React.FC<SignInFormProps> = ({ labelColor }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { dispatch: toastDispatch } = useContext(ToastContext);
@@ -39,7 +39,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
     setLoading(false);
     const isAuthenticated = store.getState().userReducer.isAuthenticated;
     if (isAuthenticated) {
-      navigate('/');
+      navigate('/main');
       toastDispatch({ type: 'SUCCESS', payload: t('_TOAST_LOGGED_IN_') });
       reset();
     } else {
@@ -83,4 +83,4 @@ const LoginForm: React.FC<LoginFormProps> = ({ labelColor }) => {
   );
 };
 
-export default LoginForm;
+export default SignInForm;
