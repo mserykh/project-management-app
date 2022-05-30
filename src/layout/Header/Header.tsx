@@ -28,7 +28,7 @@ const Header = (): JSX.Element => {
   return (
     <header className={`header ${isScrolling || isBoardPage ? 'shadow' : 'shadow-none'}`}>
       <div
-        className={`container w-full gap-2 grid grid-cols-2 xs:flex xs:flex-rows xs:justify-between mx-auto ${
+        className={`container w-full gap-2 grid grid-cols-2 xs:gap-x-4 xs:flex xs:flex-rows xs:justify-between mx-auto ${
           isScrolling || isBoardPage ? 'py-2 xs:py-5' : 'py-4 xs:py-10'
         }`}
       >
