@@ -190,13 +190,16 @@ body {
     @apply truncate font-semibold;
   }
   &__content-wrapper {
-    @apply flex flex-col gap-4 basis-4/5;
+    @apply flex flex-col gap-4 w-full overflow-auto max-h-modal-content;
   }
   &__assignee-wrapper {
     @apply flex flex-col gap-3;
   }
   &__username-wrapper {
     @apply flex gap-2;
+  }
+  &__username {
+    @apply break-words break-all;
   }
 }
 

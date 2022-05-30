@@ -51,7 +51,8 @@ export const createBoard = createAsyncThunk(
         description: boardPayload.description,
       });
       if ((response as AxiosResponse).status === 201) {
-        toast.success(`A new board ${boardPayload.title} has been added`);
+        const text = i18n.t('_TOAST_NEW_BOARD_', { title: boardPayload.title });
+        toast.success(text);
       }
       const responseData = (response as AxiosResponse).data;
       return responseData;

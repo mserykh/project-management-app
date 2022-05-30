@@ -28,7 +28,6 @@ function MainPage(): JSX.Element {
                 {boardsData && boardsData.length}
               </p>
             </div>
-            <input className="inline-block" type="text" placeholder="Enter text here"></input>
           </header>
           <ul className="boards-list">
             {boardsData &&
