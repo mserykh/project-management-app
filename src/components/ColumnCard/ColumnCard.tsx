@@ -230,7 +230,12 @@ function ColumnCard({ id, title, order, boardId }: ColumnCardProps): JSX.Element
         <header className="column__header transition">
           {!isUpdateInputOpened && (
             <>
-              <h3 ref={dragRef} onClick={handleUpdateColumnTitle} className="column__title">
+              <h3
+                ref={dragRef}
+                onClick={handleUpdateColumnTitle}
+                className="column__title"
+                title={title}
+              >
                 {title}
               </h3>
               <p className="caption">{`${tasks.length} ${t('_LBL_TASK_', {
