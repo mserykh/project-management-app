@@ -84,7 +84,7 @@ function WelcomePage(): JSX.Element {
                     <img alt="icon" src={SmallGithubGrIcon} />
                   </a>
                   <a
-                    href="https://www.linkedin.com/in/sergei-mangilev"
+                    href="https://www.linkedin.com/in/sergei-mangilev-678b6487/"
                     className="our-team__social"
                   >
                     <img alt="icon" src={SmallLinkedinGrIcon} />
@@ -116,7 +116,10 @@ function WelcomePage(): JSX.Element {
                   <a href="https://github.com/muhammed03" className="our-team__social">
                     <img alt="icon" src={SmallGithubPrIcon} />
                   </a>
-                  <a href="https://github.com/muhammed03" className="our-team__social">
+                  <a
+                    href="https://www.linkedin.com/in/muhammed-abdrahman-185277175/"
+                    className="our-team__social"
+                  >
                     <img alt="icon" src={SmallLinkedinPrIcon} />
                   </a>
                 </div>

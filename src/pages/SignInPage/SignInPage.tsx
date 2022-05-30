@@ -1,13 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 import SigninForm from '../../components/SignInForm/SignInForm';
 import Logo from '../../components/Logo/Logo';
+import { useAppSelector } from '../../redux/hooks';
 
 const SignInPage = () => {
   const { t } = useTranslation();
-
-  return (
+  const userIsAuthenticated = useAppSelector((state) => state.userReducer.isAuthenticated);
+  return !userIsAuthenticated ? (
     <section className="grid md:h-m l:h-l md:grid-cols-2 gap-6 md:gap-0">
       <div className="flex flex-col content-center justify-center max-h-columns">
         <div className="w-full max-w-input ml-auto mr-auto">
@@ -33,6 +34,8 @@ const SignInPage = () => {
         </div>
       </div>
     </section>
+  ) : (
+    <Navigate to="/main" replace />
   );
 };
 
