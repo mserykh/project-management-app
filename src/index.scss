@@ -256,7 +256,7 @@ body {
   }
 
   &__buttons {
-    @apply ml-auto;
+    @apply flex justify-end flex-wrap gap-3;
   }
 
   &__title {
