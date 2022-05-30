@@ -26,13 +26,13 @@ function WelcomePage(): JSX.Element {
                 {' '}
                 <NavLink
                   to={'/signin'}
-                  className="font-semibold text-center text-l py-3 px-8 text-white rounded-full rounded-br-none hover:text-primaryBlue"
+                  className="block font-semibold text-center text-l py-3 px-8 text-white rounded-full rounded-br-none hover:text-primaryBlue"
                 >
                   {t('_BTN_SIGN_IN_')}
                 </NavLink>
                 <NavLink
                   to={'/signup'}
-                  className="font-semibold text-center text-l py-3 px-8 bg-primaryBlue text-white rounded-full rounded-tr-none hover:bg-white hover:text-primaryBlue"
+                  className="block font-semibold text-center text-l py-3 px-8 bg-primaryBlue text-white rounded-full rounded-tr-none hover:bg-white hover:text-primaryBlue"
                 >
                   {t('_BTN_SIGN_UP_')}
                 </NavLink>
