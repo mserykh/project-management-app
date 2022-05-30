@@ -47,6 +47,7 @@ const CreateUpdateTaskForm = ({
   readOnly,
 }: CreateUpdateTaskFormProps) => {
   const users = useAppSelector((state) => state.boardReducer.users);
+  const currentUserId = useAppSelector((state) => state.userReducer.user?.id);
   const usersOptions = users.map((user) => ({
     value: user.id,
     label: user.login,
@@ -148,7 +149,7 @@ const CreateUpdateTaskForm = ({
         <Controller
           name="userOption"
           control={control}
-          defaultValue={usersOptions.find((o) => o.value === userId)}
+          defaultValue={usersOptions.find((o) => o.value === (userId || currentUserId))}
           render={({ field }) => {
             return (
               <Select
