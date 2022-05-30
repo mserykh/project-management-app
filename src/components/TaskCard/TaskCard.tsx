@@ -80,7 +80,9 @@ function TaskCard(props: TaskInterface): JSX.Element {
           }
         }}
       >
-        <h3 className="task__title">{props.title}</h3>
+        <h3 className="task__title" title={props.title}>
+          {props.title}
+        </h3>
         <h5 className="task__description">{props.description}</h5>
         <div className="flex gap-2">
           <img src={user_image} alt="" />

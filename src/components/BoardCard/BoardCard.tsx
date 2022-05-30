@@ -34,8 +34,12 @@ function BoardCard(props: BoardCardProps): JSX.Element {
     <li className="board__item hover:shadow-md">
       <NavLink to={`/board/${props.id}`} onClick={handleOnClick} className="board__link">
         <div className="flex flex-col gap-4">
-          <h3 className="board__title">{props.title}</h3>
-          <p className="board__description">{props.description}</p>
+          <h3 className="board__title" title={props.title}>
+            {props.title}
+          </h3>
+          <p className="board__description" title={props.description}>
+            {props.description}
+          </p>
           <div className="flex gap-2 -ml-2">
             <button
               onClick={() => {
