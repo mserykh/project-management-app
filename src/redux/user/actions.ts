@@ -62,38 +62,41 @@ export const signIn =
     }
   };
 
-export const auth = () => async (dispatch: AppDispatch, getState: () => RootState) => {
-  const token = getState().globalStateReducer.token;
-  try {
-    const decoded = jwt_decode(token) as DecodedJWT;
-    const isExpired = checkIsTokenExpired(decoded.exp);
-    if (isExpired) {
+export const validateTokenExpiration =
+  () => async (dispatch: AppDispatch, getState: () => RootState) => {
+    const token = getState().globalStateReducer.token;
+    try {
+      const decoded = jwt_decode(token) as DecodedJWT;
+      const isExpired = checkIsTokenExpired(decoded.exp);
+      if (isExpired) {
+        dispatch(logoutUser());
+      }
+    } catch (err) {
+      if (errorHandler(err as Record<string, AxiosResponse>)) {
+        const error = i18n.t(errorHandler(err as Record<string, AxiosResponse>) as string, {
+          type: i18n.t('_TYPE_USER_'),
+        });
+        toast.error(error);
+      }
       dispatch(logoutUser());
-    } else {
-      dispatch(setUserData(decoded, token));
     }
-  } catch (err) {
-    if (errorHandler(err as Record<string, AxiosResponse>)) {
-      const error = i18n.t(errorHandler(err as Record<string, AxiosResponse>) as string, {
-        type: i18n.t('_TYPE_USER_'),
-      });
-      toast.error(error);
-    }
-    dispatch(logoutUser());
-  }
-};
+  };
 
 export const setUserData = (decoded: DecodedJWT, token: string) => (dispatch: AppDispatch) => {
   const userData = {
     id: decoded.userId,
     login: decoded.login,
   };
+
   dispatch(setToken(token));
+
   dispatch(setUser(userData, true));
+  localStorage.setItem('user', JSON.stringify(userData));
 };
 
 export const logoutUser = () => (dispatch: AppDispatch) => {
   dispatch(setToken(''));
   dispatch(setUser(null, false));
   localStorage.setItem('token', '');
+  localStorage.setItem('user', '');
 };

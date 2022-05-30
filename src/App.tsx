@@ -11,13 +11,13 @@ import ProfileEditPage from './pages/ProfileEditPage/ProfileEditPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 import SignInPage from './pages/SignInPage/SignInPage';
 import { useAppDispatch } from './redux/hooks';
-import { auth } from './redux/user/actions';
+import { validateTokenExpiration } from './redux/user/actions';
 
 const App = (): JSX.Element => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(auth());
+    dispatch(validateTokenExpiration());
   }, [dispatch]);
 
   return (
