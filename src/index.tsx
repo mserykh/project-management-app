@@ -1,0 +1,28 @@
+import React, { Suspense } from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.scss';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import './n18i';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import Loader from './components/Loader/Loader';
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+root.render(
+  // <React.StrictMode>
+  <Provider store={store}>
+    <Suspense fallback={<Loader text="Loading ..." />}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Suspense>
+  </Provider>
+  // </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
