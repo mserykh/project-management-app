@@ -66,10 +66,12 @@ export const validateTokenExpiration =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {
     const token = getState().globalStateReducer.token;
     try {
-      const decoded = jwt_decode(token) as DecodedJWT;
-      const isExpired = checkIsTokenExpired(decoded.exp);
-      if (isExpired) {
-        dispatch(logoutUser());
+      if (token) {
+        const decoded = jwt_decode(token) as DecodedJWT;
+        const isExpired = checkIsTokenExpired(decoded.exp);
+        if (isExpired) {
+          dispatch(logoutUser());
+        }
       }
     } catch (err) {
       if (errorHandler(err as Record<string, AxiosResponse>)) {
