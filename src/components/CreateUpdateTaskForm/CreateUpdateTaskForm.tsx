@@ -75,19 +75,21 @@ const CreateUpdateTaskForm = ({
     );
 
     const copyColumns = cloneDeep(boardData.columns);
+    const taskIndex = findIndex(copyColumns[columnIndex].tasks, (task) => task.id === id);
     const taskData: TaskInterface = {
       title: data.taskTitle,
       description: data.taskDescription,
       userId: get(data, 'userOption.value'),
       done: false,
-      order: getNewOrderNumber(boardData.columns[columnIndex].tasks),
+      order: id
+        ? boardData.columns[columnIndex].tasks[taskIndex].order
+        : getNewOrderNumber(boardData.columns[columnIndex].tasks),
     };
 
     if (!!id) {
       taskData.boardId = boardId;
       taskData.columnId = columnId;
       await updateTask(dispatch, taskData, boardId, columnId, id);
-      const taskIndex = findIndex(copyColumns[columnIndex].tasks, (task) => task.id === id);
       copyColumns[columnIndex].tasks[taskIndex].description = taskData.description;
       copyColumns[columnIndex].tasks[taskIndex].title = taskData.title;
       copyColumns[columnIndex].tasks[taskIndex].userId = get(data, 'userOption.value');

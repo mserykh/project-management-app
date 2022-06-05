@@ -62,14 +62,22 @@ export const signIn =
     }
   };
 
+<<<<<<< Updated upstream
 export const validateTokenExpiration =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {
     const token = getState().globalStateReducer.token;
     try {
+=======
+export const auth = () => async (dispatch: AppDispatch, getState: () => RootState) => {
+  const token = getState().globalStateReducer.token;
+  try {
+    if (token) {
+>>>>>>> Stashed changes
       const decoded = jwt_decode(token) as DecodedJWT;
       const isExpired = checkIsTokenExpired(decoded.exp);
       if (isExpired) {
         dispatch(logoutUser());
+<<<<<<< Updated upstream
       }
     } catch (err) {
       if (errorHandler(err as Record<string, AxiosResponse>)) {
@@ -79,6 +87,19 @@ export const validateTokenExpiration =
         toast.error(error);
       }
       dispatch(logoutUser());
+=======
+      } else {
+        dispatch(setUserData(decoded, token));
+      }
+    }
+  } catch (err) {
+    debugger;
+    if (errorHandler(err as Record<string, AxiosResponse>)) {
+      const error = i18n.t(errorHandler(err as Record<string, AxiosResponse>) as string, {
+        type: i18n.t('_TYPE_USER_'),
+      });
+      toast.error(error);
+>>>>>>> Stashed changes
     }
   };
 

@@ -23,6 +23,9 @@ function TaskCard(props: TaskInterface): JSX.Element {
       if (dragIndex === hoverIndex) {
         return;
       }
+      if (props.columnId !== item.columnId) {
+        return;
+      }
       const hoverBoundingRect = ref.current.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
@@ -39,7 +42,7 @@ function TaskCard(props: TaskInterface): JSX.Element {
   });
   const [, drag] = useDrag({
     type: 'task',
-    item: { index: props.order, id: props.id, name: props.title },
+    item: { index: props.order, id: props.id, name: props.title, columnId: props.columnId },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
